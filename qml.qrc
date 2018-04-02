@@ -1,5 +1,15 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/main.qml</file>
+        <file>qml/components/ToolBar.qml</file>
+        <file>qml/components/MenuBar.qml</file>
+        <file>qml/components/FileDialog.qml</file>
+        <file>qml/components/Buttons.qml</file>
+    </qresource>
+    <qresource prefix="/icons">
+        <file>icons/openVideo.png</file>
+        <file>icons/printScreen.png</file>
+        <file>icons/subtitles.png</file>
+        <file>icons/audioTrack.png</file>
     </qresource>
 </RCC>
