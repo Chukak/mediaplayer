@@ -5,43 +5,54 @@ import QtQuick.Extras 1.4
 import QtQuick.Layouts 1.3
 import QtMultimedia 5.5
 import QtGraphicalEffects.private 1.0
+import backend.VideoOutput 1.0
+import "./components" as Components
 
 ApplicationWindow {
     visible: true
     width: 1280
     height: 720
-    title: qsTr("Hello World")
+    title: ""
 
-    menuBar: MenuBar {
-        Menu {
-            title: qsTr("File")
-            MenuItem {
-                text: qsTr("&Open")
-                onTriggered: console.log("Open action triggered");
-            }
-            MenuItem {
-                text: qsTr("Exit")
-                onTriggered: Qt.quit();
-            }
-        }
+    Components.FileDialog {
+        id: fileDialog
+        videoOutputHandler: videoOutputHandler
+    }
+
+    menuBar: Components.MenuBar {
+        id: menuBar
+        idFileDialog: fileDialog
+        idVideoOutputHandler: videoOutputHandler
+    }
+
+
+    toolBar: Components.ToolBar {
+        id: toolBar
+        idFileDialog: fileDialog
     }
 
     Item {
-        anchors.fill: parent
+        id: mediaArea
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: playerButtons.top
 
         MediaPlayer {
             id: mediaplayer
-            source: "file:///home/chukak17/Загрузки/Astral.4.Posledniy.Kluch.2018.DUAL.BDRip.720p.-HELLYWOOD.mkv"
+            source: videoOutputHandler.videoUrl
+            volume: 1.0
         }
 
         VideoOutput {
+            id: videoOutput
             anchors.fill: parent
             source: mediaplayer
         }
 
         MouseArea {
             id: playArea
-            anchors.fill: parent
+            anchors.fill: videoOutput
             onPressed: {
                 mediaplayer.play()
                 console.log("da")
@@ -49,6 +60,20 @@ ApplicationWindow {
         }
     }
 
+    Components.Buttons {
+        id: playerButtons
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        width: parent.width
+        height: 50
 
+    }
+
+    VideoOutputHandler {
+        id: videoOutputHandler
+        targetOutput: videoOutput
+        targetPlayer: mediaplayer
+    }
 }
 
