@@ -138,6 +138,9 @@ Item {
             anchors.rightMargin: 10
             minimumValue: 0
             maximumValue: player.duration
+            onValueChanged: {
+                videoOutputHandler.duration = value
+            }
         }
     }
 
@@ -165,6 +168,7 @@ Item {
             onValueChanged: {
                 player.volume = value
             }
+
         }
     }
 
