@@ -9,10 +9,17 @@ import backend.VideoOutput 1.0
 import "./components" as Components
 
 ApplicationWindow {
+    id: mainWindow
     visible: true
-    width: 1280
+    width: 1270
     height: 720
-    title: ""
+    minimumWidth: 640
+    minimumHeight: 480
+    title: videoOutputHandler.videoTitle
+
+    onWindowStateChanged: {
+
+    }
 
     Components.FileDialog {
         id: fileDialog
@@ -21,6 +28,7 @@ ApplicationWindow {
 
     menuBar: Components.MenuBar {
         id: menuBar
+
         idFileDialog: fileDialog
         idVideoOutputHandler: videoOutputHandler
     }
@@ -32,16 +40,44 @@ ApplicationWindow {
     }
 
     Item {
+        parent: null
+        id: fullScreenMediaArea
+        y: mainWindow.y
+        x: mainWindow.x
+        width: Screen.width
+        height: Screen.height
+    }
+
+
+
+    Item {
         id: mediaArea
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: playerButtons.top
+        width: parent.width
 
         MediaPlayer {
             id: mediaplayer
             source: videoOutputHandler.videoUrl
             volume: 1.0
+            onPlaying: {
+                //mediaArea.parent = fullScreenMediaArea
+                //mediaArea.height = Screen.height
+                //mediaArea.x = 0
+                //mediaArea.height = Screen.width
+                //mediaArea.parent = null
+                playerButtons.playVideo()
+            }
+            onPaused: {
+                //videoOutput.anchors.top = parent.top
+                //videoOutput.parent = mediaArea
+                playerButtons.pauseVideo()
+            }
+            onStopped: {
+                playerButtons.stopVideo()
+            }
         }
 
         VideoOutput {
@@ -54,21 +90,23 @@ ApplicationWindow {
             id: playArea
             anchors.fill: videoOutput
             onPressed: {
-                mediaplayer.play()
+                mediaplayer.pause()
                 console.log("da")
             }
         }
     }
 
-    Components.Buttons {
+    Components.ControlsToolBar {
         id: playerButtons
+        player: mediaplayer
+        videoOutputHandler: videoOutputHandler
         anchors.left: parent.left
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         width: parent.width
         height: 50
-
     }
+
 
     VideoOutputHandler {
         id: videoOutputHandler
@@ -76,4 +114,6 @@ ApplicationWindow {
         targetPlayer: mediaplayer
     }
 }
+
+
 
