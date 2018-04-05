@@ -4,7 +4,7 @@ import QtQuick.Controls 1.4
 
 
 FileDialog {
-    property QtObject  videoOutputHandler
+    property QtObject mediaPlayerHandler
     id:fileDialog
     title: qsTr("Select file")
     nameFilters: [
@@ -14,7 +14,7 @@ FileDialog {
     ]
     onAccepted: {
         if (fileDialog.selectExisting)
-            videoOutputHandler.videoUrl = fileUrl
+            mediaPlayerHandler.videoUrl = fileUrl
     }
 }
 
