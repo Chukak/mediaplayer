@@ -1,9 +1,10 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2 as Controls2
 
 Item {
     property QtObject player
-    property QtObject videoOutputHandler
+    property QtObject mediaPlayerHandler
     property real valueSound
     signal playVideo
     signal pauseVideo
@@ -125,7 +126,7 @@ Item {
     Item {
         id: durationItem
         anchors.left: controlsItem.right
-        anchors.right: soundItem.left
+        anchors.right: durationLabelItem.left
         anchors.bottom: parent.bottom
         height: parent.height
 
@@ -137,10 +138,43 @@ Item {
             anchors.leftMargin: 10
             anchors.rightMargin: 10
             minimumValue: 0
-            maximumValue: player.duration
+            maximumValue: mediaPlayerHandler.duration
+            value: mediaPlayerHandler.position
             onValueChanged: {
-                videoOutputHandler.duration = value
+                console.log(value)
             }
+        }
+    }
+
+    Item {
+        id: durationLabelItem
+        anchors.right: soundItem.left
+        anchors.bottom: parent.bottom
+        width: 105
+        height: parent.height
+
+        Text {
+            id: textCurrentDuration
+            text: mediaPlayerHandler.durationInfo // "00:00:00"
+            anchors.left: parent.left
+            width: 45
+        }
+
+        Text {
+            id: textSeparatorDuration
+            text: " / "
+            anchors.left: textCurrentDuration.right
+            width: 10
+            anchors.right: textFullDuration.left
+
+        }
+
+        Text {
+            id: textFullDuration
+            text: mediaPlayerHandler.totalDuration
+            width: 45
+            anchors.right: parent.right
+            anchors.rightMargin: 5
         }
     }
 
