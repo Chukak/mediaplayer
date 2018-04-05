@@ -4,6 +4,7 @@ import QtQuick.Controls 1.4
 MenuBar {
     property QtObject idFileDialog
     property QtObject idVideoOutputHandler
+    property QtObject idMediaPlayerHandler
 
     Menu {
         title: qsTr("File")
