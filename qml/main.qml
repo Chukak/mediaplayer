@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.3
 import QtMultimedia 5.5
 import QtGraphicalEffects.private 1.0
 import backend.VideoOutput 1.0
+import backend.MediaPlayer 1.0
 import "./components" as Components
 
 ApplicationWindow {
@@ -15,7 +16,7 @@ ApplicationWindow {
     height: 720
     minimumWidth: 640
     minimumHeight: 480
-    title: videoOutputHandler.videoTitle
+    title: mediaPlayerHandler.videoTitle
 
     onWindowStateChanged: {
 
@@ -23,7 +24,7 @@ ApplicationWindow {
 
     Components.FileDialog {
         id: fileDialog
-        videoOutputHandler: videoOutputHandler
+        mediaPlayerHandler: mediaPlayerHandler
     }
 
     menuBar: Components.MenuBar {
@@ -31,6 +32,7 @@ ApplicationWindow {
 
         idFileDialog: fileDialog
         idVideoOutputHandler: videoOutputHandler
+        idMediaPlayerHandler: mediaPlayerHandler
     }
 
 
@@ -60,7 +62,7 @@ ApplicationWindow {
 
         MediaPlayer {
             id: mediaplayer
-            source: videoOutputHandler.videoUrl
+            source: mediaPlayerHandler.videoUrl
             volume: 1.0
             onPlaying: {
                 //mediaArea.parent = fullScreenMediaArea
@@ -99,7 +101,7 @@ ApplicationWindow {
     Components.ControlsToolBar {
         id: playerButtons
         player: mediaplayer
-        videoOutputHandler: videoOutputHandler
+        mediaPlayerHandler: mediaPlayerHandler
         anchors.left: parent.left
         anchors.bottom: parent.bottom
         anchors.right: parent.right
@@ -111,7 +113,11 @@ ApplicationWindow {
     VideoOutputHandler {
         id: videoOutputHandler
         targetOutput: videoOutput
-        targetPlayer: mediaplayer
+    }
+
+    MediaPlayerHandler {
+        id: mediaPlayerHandler
+        player: mediaplayer
     }
 }
 
