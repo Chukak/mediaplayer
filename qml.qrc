@@ -4,12 +4,20 @@
         <file>qml/components/ToolBar.qml</file>
         <file>qml/components/MenuBar.qml</file>
         <file>qml/components/FileDialog.qml</file>
-        <file>qml/components/Buttons.qml</file>
+        <file>qml/components/ControlsToolBar.qml</file>
     </qresource>
     <qresource prefix="/icons">
         <file>icons/openVideo.png</file>
         <file>icons/printScreen.png</file>
         <file>icons/subtitles.png</file>
         <file>icons/audioTrack.png</file>
+        <file>icons/stopVideo.png</file>
+        <file>icons/playVideo.png</file>
+        <file>icons/mutedSound.png</file>
+        <file>icons/fullScreen.png</file>
+        <file>icons/pauseVideo.png</file>
+        <file>icons/sound.png</file>
+        <file>icons/rewindRight.png</file>
+        <file>icons/rewindLeft.png</file>
     </qresource>
 </RCC>
