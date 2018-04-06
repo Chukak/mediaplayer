@@ -8,11 +8,12 @@ Rectangle {
     property QtObject player
     property QtObject mediaPlayerHandler
     property real valueSound
+    property int sizeButton: height - 10
     signal playVideo
     signal pauseVideo
     signal stopVideo
 
-    id: rowToolBar
+    id: controls
     anchors.leftMargin: 20
     anchors.rightMargin: 20
     gradient: Gradient {
@@ -108,7 +109,7 @@ Rectangle {
         id: controlsItem
         anchors.left: parent.left
         anchors.right: durationItem.left
-        width: 160
+        width: 180
         anchors.bottom: parent.bottom
         height: parent.height
 
@@ -116,24 +117,32 @@ Rectangle {
             anchors.left: parent.left
             id: playButton
             action: playVideo
+            width: sizeButton
+            height: sizeButton
         }
 
         Controls1.ToolButton {
             anchors.left: playButton.right
             id: stopButton
             action: stopVideo
+            width: sizeButton
+            height: sizeButton
         }
 
         Controls1.ToolButton {
             anchors.left: stopButton.right
             id: rewindLeftButton
             action: rewindLeft
+            width: sizeButton
+            height: sizeButton
        }
 
         Controls1.ToolButton {
             anchors.left: rewindLeftButton.right
             id: rewindRightButton
             action: rewindRight
+            width: sizeButton
+            height: sizeButton
         }
     }
 
@@ -183,7 +192,7 @@ Rectangle {
                 }
 
             }
-            height: 30
+            height: parent.height - 10
             anchors.leftMargin: 10
             anchors.rightMargin: 10
             from: 0
@@ -202,31 +211,55 @@ Rectangle {
         id: durationLabelItem
         anchors.right: soundItem.left
         anchors.bottom: parent.bottom
-        width: 105
+        width: 130
         height: parent.height
 
-        Text {
-            id: textCurrentDuration
-            text: mediaPlayerHandler.durationInfo // "00:00:00"
+        Item {
+            id: labelsDuration
             anchors.left: parent.left
-            width: 45
-        }
-
-        Text {
-            id: textSeparatorDuration
-            text: " / "
-            anchors.left: textCurrentDuration.right
-            width: 10
-            anchors.right: textFullDuration.left
-
-        }
-
-        Text {
-            id: textFullDuration
-            text: mediaPlayerHandler.totalDuration
-            width: 45
             anchors.right: parent.right
-            anchors.rightMargin: 5
+            anchors.bottom: parent.bottom
+            anchors.top: parent.top
+            anchors.topMargin: parent.height - (parent.height - 10)
+
+            Controls2.Label {
+                id: textCurrentDuration
+                text: mediaPlayerHandler.durationInfo // "00:00:00"
+                anchors.left: parent.left
+                anchors.leftMargin: 6
+                width: 50
+                font.bold: true
+                font.pointSize: 10
+                height: parent.height - 10
+                onTextChanged: {
+                    width = text.length * 6 + 2
+                }
+            }
+
+            Controls2.Label {
+                id: textSeparatorDuration
+                text: " / "
+                anchors.left: textCurrentDuration.right
+                anchors.leftMargin: 4
+                width: 10
+                font.bold: true
+                font.pointSize: 10
+                height: parent.height - 10
+            }
+
+            Controls2.Label {
+                id: textFullDuration
+                text: mediaPlayerHandler.totalDuration
+                width: 50
+                anchors.left: textSeparatorDuration.right
+                anchors.leftMargin: 4
+                font.bold: true
+                font.pointSize: 10
+                height: parent.height - 10
+                onTextChanged: {
+                    width = text.length * 6 + 2
+                }
+            }
         }
     }
 
@@ -234,19 +267,22 @@ Rectangle {
         id: soundItem
         anchors.right: fullScreenItem.left
         anchors.bottom: parent.bottom
-        width: 130
+        width: 160
         height: parent.height
 
         Controls1.ToolButton {
             anchors.left: parent.left
             id: soundButton
             action:sound
+            width: sizeButton
+            height: sizeButton
         }
 
         Controls2.Slider {
             id: sliderSound
             anchors.left: soundButton.right
             anchors.right: parent.right
+            anchors.margins: 2
             orientation: Qt.Horizontal
             handle: Rectangle {
                 x: sliderSound.visualPosition * (sliderSound.width - width)
@@ -281,7 +317,7 @@ Rectangle {
                     }
                 }
             }
-            height: 30
+            height: parent.height - 10
             from: 0.0
             to: 1.0
             value: player.volume
@@ -303,6 +339,8 @@ Rectangle {
         Controls1.ToolButton {
             id: fullScreenButton
             action: fullScreen
+            width: sizeButton
+            height: sizeButton
         }
     }
 
