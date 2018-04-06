@@ -90,7 +90,7 @@ void MediaPlayer::updateDurationInfo(qint64 info)
     if (video_duration) {
         QTime current_time((info / 3600) % 60, (info / 60) % 60,
                          (info % 60));
-        QString format = getFormatDuration(video_duration);
+        QString format = getFormatDuration(video_duration / 1000);
         duration_info = current_time.toString(format);
         emit durationInfoChanged();
     }
