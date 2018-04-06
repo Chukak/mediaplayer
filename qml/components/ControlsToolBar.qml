@@ -2,8 +2,9 @@ import QtQuick 2.9
 import QtQuick.Controls 1.4 as Controls1
 import QtQuick.Controls 2.2 as Controls2
 import QtQuick.Templates 2.0 as Templates2
+import QtGraphicalEffects 1.0
 
-Item {
+Rectangle {
     property QtObject player
     property QtObject mediaPlayerHandler
     property real valueSound
@@ -12,6 +13,18 @@ Item {
     signal stopVideo
 
     id: rowToolBar
+    anchors.leftMargin: 20
+    anchors.rightMargin: 20
+    gradient: Gradient {
+        GradientStop {
+            position: 0.0
+            color: "#f3f3f3"
+        }
+        GradientStop {
+            position: 1.0
+            color: "#c2c2c2"
+        }
+    }
 
     onPlayVideo: {
         playButton.action = pauseVideo
@@ -143,7 +156,7 @@ Item {
                 width: 16
                 height: 24
                 radius: 2
-                border.color: "#c1c1c1"
+                border.color: "#8f8f8f"
             }
             background: Rectangle {
                 y: (sliderDurationVideo.height - height) / 2
@@ -155,9 +168,18 @@ Item {
                 Rectangle {
                     width: sliderDurationVideo.visualPosition * parent.width
                     height: parent.height
-                    color: "#2997e5"
                     radius: 3
-                    border.color: "#c1c1c1"
+                    border.color: "#8f8f8f"
+                    gradient: Gradient {
+                        GradientStop {
+                            position: 0.0
+                            color: "#6DC3FF"
+                        }
+                        GradientStop {
+                            position: 1.0
+                            color: "#2997e5"
+                        }
+                    }
                 }
 
             }
@@ -233,23 +255,31 @@ Item {
                 width: 12
                 height: 20
                 radius: 2
-                border.color: "#c1c1c1"
+                border.color: "#8f8f8f"
             }
             background: Rectangle {
                 y: (sliderSound.height - height) / 2
                 height: 12
-                color: "#f2f2f2"
+                color: "#f1f1f1"
                 radius: 3
                 border.color: "#2997e5"
 
                 Rectangle {
                     width: sliderSound.visualPosition * parent.width
                     height: parent.height
-                    color: "#2997e5"
                     radius: 3
-                    border.color: "#c1c1c1"
+                    border.color: "#8f8f8f"
+                    gradient: Gradient {
+                        GradientStop {
+                            position: 0.0
+                            color: "#6DC3FF"
+                        }
+                        GradientStop {
+                            position: 1.0
+                            color: "#2997e5"
+                        }
+                    }
                 }
-
             }
             height: 30
             from: 0.0
