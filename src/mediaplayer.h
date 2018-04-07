@@ -35,6 +35,8 @@ public:
 
     QString totalDuration() { return total_duration; }
 
+    QString currentMediaStatus(QMediaPlayer::MediaStatus status);
+
 signals:
     void playerChanged();
 
@@ -51,9 +53,10 @@ signals:
     void totalDurationChanged();
 
 public slots:
-    void setMetaData();
+    void seek(qint64 position);
 
-    QString currentMediaStatus(QMediaPlayer::MediaStatus status);
+private slots:
+    void setMetaData();
 
 private:
     void updatePosition(qint64 position);

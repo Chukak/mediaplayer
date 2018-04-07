@@ -109,4 +109,8 @@ void MediaPlayer::updateTotalDuration()
     }
 }
 
+void MediaPlayer::seek(qint64 position)
+{
+    m_player->setPosition(position * 1000);
+}
 
