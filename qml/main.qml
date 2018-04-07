@@ -1,10 +1,7 @@
-import QtQuick 2.5
+import QtQuick 2.9
 import QtQuick.Controls 1.4
 import QtQuick.Window 2.3
-import QtQuick.Extras 1.4
-import QtQuick.Layouts 1.3
 import QtMultimedia 5.5
-import QtGraphicalEffects.private 1.0
 import backend.VideoOutput 1.0
 import backend.MediaPlayer 1.0
 import "./components" as Components
@@ -17,7 +14,7 @@ ApplicationWindow {
     minimumWidth: 640
     minimumHeight: 480
     title: mediaPlayerHandler.videoTitle
-
+    color: "black"
     onWindowStateChanged: {
 
     }
