@@ -198,11 +198,8 @@ Rectangle {
             from: 0
             to: mediaPlayerHandler.duration
             value: mediaPlayerHandler.position
-            onValueChanged: {
-                console.log(value)
-            }
             onMoved: {
-                console.log(value)
+                mediaPlayerHandler.seek(value)
             }
         }
     }
