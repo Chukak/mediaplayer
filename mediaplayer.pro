@@ -1,6 +1,8 @@
 TEMPLATE = app
 
 QT += qml quick widgets multimedia
+CONFIG += c++14
+QMAKE_CXXFLAGS += -Werror -Wall
 
 SOURCES += main.cpp \
     src/videooutput.cpp \
