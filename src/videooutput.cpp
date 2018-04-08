@@ -1,11 +1,9 @@
 #include "videooutput.h"
 #include <iostream>
-#include <QtGlobal>
-#include <QMediaMetaData>
 
-VideoOutput::VideoOutput()
+VideoOutput::VideoOutput(QObject *parent) :
+    QObject(parent)
 {
-    m_player = new MediaPlayer(this);
 }
 
 void VideoOutput::setTargetOutput(QQuickItem *output)
@@ -14,10 +12,62 @@ void VideoOutput::setTargetOutput(QQuickItem *output)
     emit targetOutputChanged();
 }
 
-void VideoOutput::setStatus(const QString &status)
+void VideoOutput::setMediaPlayer(QObject *player)
 {
-    if (m_status != status) {
-        m_status = status;
-        emit statusChanged();
+    m_player = static_cast<MediaPlayer *>(player);
+    m_player->setParent(this);
+    connect(qobject_cast<QMediaPlayer *>(m_player->player()), &QMediaPlayer::stateChanged,
+            this, &VideoOutput::updateState);
+    connect(qobject_cast<QMediaPlayer *>(m_player->player()), &QMediaPlayer::mediaStatusChanged,
+            this, &VideoOutput::updateStatus);
+    emit mediaPlayerChanged();
+}
+
+
+void VideoOutput::updateState(const QMediaPlayer::State& state)
+{
+    switch (state) {
+    case QMediaPlayer::PlayingState:
+        m_status = "Playing";
+        break;
+    case QMediaPlayer::PausedState:
+        m_status = "Paused";
+        break;
+    case QMediaPlayer::StoppedState:
+        m_status = "Stopped";
+        break;
     }
+    emit statusChanged();
+}
+
+void VideoOutput::updateStatus(const QMediaPlayer::MediaStatus& status)
+{
+    QMediaPlayer::State state = static_cast<QMediaPlayer *>(m_player->player())->state();
+    switch (status) {
+    case QMediaPlayer::NoMedia:
+        m_status = "No media";
+        break;
+    case QMediaPlayer::LoadingMedia:
+        m_status = "Loading media";
+        break;
+    case QMediaPlayer::LoadedMedia:
+        if (state != QMediaPlayer::StoppedState) {
+            m_status = "Media loaded";
+        }
+        break;
+    case QMediaPlayer::BufferingMedia:
+        if (state != QMediaPlayer::PlayingState ||
+                state != QMediaPlayer::PausedState) {
+            m_status = "Buffering";
+        }
+        break;
+    case QMediaPlayer::InvalidMedia:
+        if (state != QMediaPlayer::StoppedState) {
+            m_status = "Invalid media";
+        }
+        break;
+    default:
+        break;
+    }
+    emit statusChanged();
 }
