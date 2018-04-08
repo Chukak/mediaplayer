@@ -1,6 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 1.4 as Controls1
-import QtQuick.Controls 2.3 as Controls2
+import QtQuick.Controls 2.2 as Controls2
 import QtQuick.Layouts 1.1
 
 Controls1.StatusBar {
