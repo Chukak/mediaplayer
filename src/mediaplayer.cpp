@@ -14,7 +14,6 @@ QString getFormatDuration(const qint64 duration)
 MediaPlayer::MediaPlayer(QObject *parent) :
     QObject(parent)
 {
-    setParent(parent);
 }
 
 void MediaPlayer::setPlayer(const QObject *player)
@@ -23,7 +22,6 @@ void MediaPlayer::setPlayer(const QObject *player)
     if (variant.canConvert<QMediaPlayer *>()) {
         m_player = variant.value<QMediaPlayer *>();
         connect(m_player, &QMediaPlayer::metaDataAvailableChanged, this, &MediaPlayer::setMetaData);
-        connect(m_player, &QMediaPlayer::mediaStatusChanged, this, &MediaPlayer::currentMediaStatus);
         connect(m_player, &QMediaPlayer::positionChanged, this, &MediaPlayer::updatePosition);
         connect(m_player, &QMediaPlayer::durationChanged, this, &MediaPlayer::updateDuration);
     }
@@ -33,15 +31,6 @@ void MediaPlayer::setPlayer(const QObject *player)
 void MediaPlayer::setMetaData()
 {
     setVideoTitle(m_player->metaData(QMediaMetaData::Title).toString());
-}
-
-QString MediaPlayer::currentMediaStatus(QMediaPlayer::MediaStatus status)
-{
-    QString current_status;
-    if (status == QMediaPlayer::LoadedMedia) {
-        current_status = "Media loaded";
-    }
-    return current_status;
 }
 
 void MediaPlayer::setVideoUrl(const QUrl &url)

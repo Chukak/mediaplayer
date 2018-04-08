@@ -19,7 +19,7 @@ public:
     explicit MediaPlayer(QObject *parent = 0);
 
     QObject *player() { return m_player; }
-    void setPlayer(const QObject* player);
+    void setPlayer(const QObject *player);
 
     QUrl videoUrl() { return video_url; }
     void setVideoUrl(const QUrl& url);
@@ -34,8 +34,6 @@ public:
     QString durationInfo() { return duration_info; }
 
     QString totalDuration() { return total_duration; }
-
-    QString currentMediaStatus(QMediaPlayer::MediaStatus status);
 
 signals:
     void playerChanged();
