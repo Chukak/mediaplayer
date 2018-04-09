@@ -11,18 +11,18 @@ class VideoOutput : public QObject
     Q_OBJECT
     Q_PROPERTY(QQuickItem *targetOutput READ targetOutput WRITE setTargetOutput NOTIFY targetOutputChanged)
     Q_PROPERTY(QString status READ status NOTIFY statusChanged)
-    Q_PROPERTY(QObject *mediaPlayer READ mediaPlayer WRITE setMediaPlayer NOTIFY mediaPlayerChanged)
+    Q_PROPERTY(MediaPlayer *mediaPlayer READ mediaPlayer WRITE setMediaPlayer NOTIFY mediaPlayerChanged)
 
 public:
     explicit VideoOutput(QObject *parent = 0);
 
-    QQuickItem *targetOutput() { return m_output; }
+    QQuickItem *targetOutput() const { return m_output; }
     void setTargetOutput(QQuickItem *output);
 
-    QObject *mediaPlayer() { return m_player; }
-    void setMediaPlayer(QObject *player);
+    MediaPlayer *mediaPlayer() const { return m_player; }
+    void setMediaPlayer(MediaPlayer *player);
 
-    QString status() { return m_status; }
+    QString status() const { return m_status; }
 
 signals:
     void targetOutputChanged();
