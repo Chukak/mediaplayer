@@ -18,22 +18,22 @@ class MediaPlayer : public QObject
 public:
     explicit MediaPlayer(QObject *parent = 0);
 
-    QObject *player() { return m_player; }
+    QObject *player() const { return m_player; }
     void setPlayer(const QObject *player);
 
-    QUrl mediaUrl() { return media_url; }
+    QUrl mediaUrl() const { return media_url; }
     void setmediaUrl(const QUrl& url);
 
-    QString mediaTitle() { return media_title; }
+    QString mediaTitle() const { return media_title; }
     void setmediaTitle(const QString& title);
 
-    qint64 duration() { return media_duration / 1000; }
+    qint64 duration() const { return media_duration / 1000; }
 
-    qint64 position() { return m_current_position / 1000; }
+    qint64 position() const { return m_current_position / 1000; }
 
-    QString durationInfo() { return duration_info; }
+    QString durationInfo() const{ return duration_info; }
 
-    QString totalDuration() { return total_duration; }
+    QString totalDuration() const { return total_duration; }
 
 signals:
     void playerChanged();
