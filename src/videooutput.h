@@ -31,7 +31,7 @@ signals:
 
     void statusChanged();
 
-private slots:
+public slots:
     void updateState(const QMediaPlayer::State& state);
 
     void updateStatus(const QMediaPlayer::MediaStatus& status);
