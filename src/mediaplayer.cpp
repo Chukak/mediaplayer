@@ -30,10 +30,10 @@ void MediaPlayer::setPlayer(const QObject *player)
 
 void MediaPlayer::setMetaData()
 {
-    setmediaTitle(m_player->metaData(QMediaMetaData::Title).toString());
+    setMediaTitle(m_player->metaData(QMediaMetaData::Title).toString());
 }
 
-void MediaPlayer::setmediaUrl(const QUrl &url)
+void MediaPlayer::setMediaUrl(const QUrl &url)
 {
     if (media_url != url) {
         media_url = url;
@@ -42,7 +42,7 @@ void MediaPlayer::setmediaUrl(const QUrl &url)
     }
 }
 
-void MediaPlayer::setmediaTitle(const QString &title)
+void MediaPlayer::setMediaTitle(const QString &title)
 {
     QString new_title;
     if (!title.isEmpty()) {
