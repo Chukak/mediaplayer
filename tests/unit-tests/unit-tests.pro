@@ -29,9 +29,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         ../../src/videooutput.cpp \
+        ../../src/mediaplayer.cpp \
         tst_videooutputtest.cpp
 
 HEADERS += \
-         ../../src/videooutput.h
+        ../../src/videooutput.h \
+        ../../src/mediaplayer.h
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
