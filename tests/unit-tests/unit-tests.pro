@@ -4,13 +4,14 @@
 #
 #-------------------------------------------------
 
-QT       += testlib
+QT       += testlib qml quick multimedia
 
 QT       -= gui
 
 TARGET = tst_videooutputtest
 CONFIG   += console
 CONFIG   -= app_bundle
+QMAKE_CXXFLAGS += -Werror -Wall
 
 TEMPLATE = app
 
@@ -27,6 +28,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        tst_videooutputtest.cpp 
+        ../../src/videooutput.cpp \
+        tst_videooutputtest.cpp
+
+HEADERS += \
+         ../../src/videooutput.h
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
