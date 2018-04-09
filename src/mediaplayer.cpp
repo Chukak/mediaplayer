@@ -30,36 +30,36 @@ void MediaPlayer::setPlayer(const QObject *player)
 
 void MediaPlayer::setMetaData()
 {
-    setVideoTitle(m_player->metaData(QMediaMetaData::Title).toString());
+    setmediaTitle(m_player->metaData(QMediaMetaData::Title).toString());
 }
 
-void MediaPlayer::setVideoUrl(const QUrl &url)
+void MediaPlayer::setmediaUrl(const QUrl &url)
 {
-    if (video_url != url) {
-        video_url = url;
-        m_player->setMedia(video_url);
-        emit videoUrlChanged();
+    if (media_url != url) {
+        media_url = url;
+        m_player->setMedia(media_url);
+        emit mediaUrlChanged();
     }
 }
 
-void MediaPlayer::setVideoTitle(const QString &title)
+void MediaPlayer::setmediaTitle(const QString &title)
 {
     QString new_title;
     if (!title.isEmpty()) {
         new_title = title;
     } else {
-        new_title = video_url.fileName();
+        new_title = media_url.fileName();
     }
-    if (video_title != new_title) {
-        video_title = new_title;
-        emit videoTitleChanged();
+    if (media_title != new_title) {
+        media_title = new_title;
+        emit mediaTitleChanged();
     }
 }
 
 void MediaPlayer::updateDuration(qint64 duration)
 {
-    if (video_duration != duration) {
-        video_duration = duration;
+    if (media_duration != duration) {
+        media_duration = duration;
         emit durationChanged();
     }
     updateTotalDuration();
@@ -76,10 +76,10 @@ void MediaPlayer::updatePosition(qint64 position)
 
 void MediaPlayer::updateDurationInfo(qint64 info)
 {
-    if (video_duration) {
+    if (media_duration) {
         QTime current_time((info / 3600) % 60, (info / 60) % 60,
                          (info % 60));
-        QString format = getFormatDuration(video_duration / 1000);
+        QString format = getFormatDuration(media_duration / 1000);
         duration_info = current_time.toString(format);
         emit durationInfoChanged();
     }
@@ -87,8 +87,8 @@ void MediaPlayer::updateDurationInfo(qint64 info)
 
 void MediaPlayer::updateTotalDuration()
 {
-    if (video_duration) {
-        qint64 duration = video_duration / 1000;
+    if (media_duration) {
+        qint64 duration = media_duration / 1000;
 
         QTime total_time((duration / 3600) % 60, (duration / 60) % 60,
                          (duration % 60));
