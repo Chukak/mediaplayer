@@ -1,5 +1,7 @@
+#include "../../src/videooutput.h"
 #include <QString>
 #include <QtTest>
+#include <QQuickItem>
 
 class VideoOutputTest : public QObject
 {
@@ -9,16 +11,19 @@ public:
     VideoOutputTest();
 
 private Q_SLOTS:
-    void testCase1();
+    void testTargetOutput();
 };
 
 VideoOutputTest::VideoOutputTest()
 {
 }
 
-void VideoOutputTest::testCase1()
+void VideoOutputTest::testTargetOutput()
 {
-    QVERIFY2(true, "Failure");
+    VideoOutput output;
+    QQuickItem *target = new QQuickItem();
+    output.setTargetOutput(target);
+    QCOMPARE(output.targetOutput(), target);
 }
 
 QTEST_APPLESS_MAIN(VideoOutputTest)
