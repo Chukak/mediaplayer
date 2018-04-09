@@ -4,6 +4,7 @@
 VideoOutput::VideoOutput(QObject *parent) :
     QObject(parent)
 {
+
 }
 
 void VideoOutput::setTargetOutput(QQuickItem *output)
@@ -12,9 +13,9 @@ void VideoOutput::setTargetOutput(QQuickItem *output)
     emit targetOutputChanged();
 }
 
-void VideoOutput::setMediaPlayer(QObject *player)
+void VideoOutput::setMediaPlayer(MediaPlayer *player)
 {
-    m_player = static_cast<MediaPlayer *>(player);
+    m_player = player;
     m_player->setParent(this);
     connect(qobject_cast<QMediaPlayer *>(m_player->player()), &QMediaPlayer::stateChanged,
             this, &VideoOutput::updateState);
