@@ -1,7 +1,8 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    MediaPlayer \
-    VideoOutput
+    VideoOutput \
+    MediaPlayer
+
 CONFIG += c++14
 QMAKE_CXXFLAGS += -Werror -Wall
