@@ -13,7 +13,7 @@ ApplicationWindow {
     height: 720
     minimumWidth: 640
     minimumHeight: 480
-    title: mediaPlayerHandler.videoTitle
+    title: mediaPlayerHandler.mediaTitle
     color: "black"
     onWindowStateChanged: {
 
@@ -59,7 +59,7 @@ ApplicationWindow {
 
         MediaPlayer {
             id: mediaplayer
-            source: mediaPlayerHandler.videoUrl
+            source: mediaPlayerHandler.mediaUrl
             volume: 1.0
             onPlaying: {
                 //mediaArea.parent = fullScreenMediaArea
