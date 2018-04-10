@@ -12,6 +12,7 @@ TARGET = tst_videooutputtest
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG += testcase
+QMAKE_CXXFLAGS += -Werror -Wall
 
 TEMPLATE = app
 
