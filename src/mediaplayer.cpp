@@ -24,8 +24,8 @@ void MediaPlayer::setPlayer(const QObject *player)
         connect(m_player, &QMediaPlayer::metaDataAvailableChanged, this, &MediaPlayer::setMetaData);
         connect(m_player, &QMediaPlayer::positionChanged, this, &MediaPlayer::updatePosition);
         connect(m_player, &QMediaPlayer::durationChanged, this, &MediaPlayer::updateDuration);
+        emit playerChanged();
     }
-    emit playerChanged();
 }
 
 void MediaPlayer::setMetaData()
@@ -36,9 +36,12 @@ void MediaPlayer::setMetaData()
 void MediaPlayer::setMediaUrl(const QUrl &url)
 {
     if (media_url != url) {
-        media_url = url;
-        m_player->setMedia(media_url);
-        emit mediaUrlChanged();
+        QMediaContent content(url);
+        if (!content.isNull()) {
+            media_url = url;
+            m_player->setMedia(content);
+            emit mediaUrlChanged();
+        }
     }
 }
 
