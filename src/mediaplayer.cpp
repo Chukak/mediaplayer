@@ -70,10 +70,12 @@ void MediaPlayer::updateDuration(qint64 duration)
 
 void MediaPlayer::updatePosition(qint64 position)
 {
-    m_current_position = m_player->position();
-    emit _positionChanged();
-    updateDurationInfo(position / 1000);
-    emit durationInfoChanged();
+    if (position <= media_duration && position >= 0) {
+        m_current_position = position;
+        emit _positionChanged();
+        updateDurationInfo(m_current_position / 1000);
+        emit durationInfoChanged();
+    }
 }
 
 
@@ -103,6 +105,12 @@ void MediaPlayer::updateTotalDuration()
 
 void MediaPlayer::seek(qint64 position)
 {
-    m_player->setPosition(position * 1000);
+    if (position * 1000 > media_duration){
+        m_player->setPosition(media_duration);
+    } else if (position < 0) {
+        m_player->setPosition(0);
+    } else {
+        m_player->setPosition(position * 1000);
+    }
 }
 
