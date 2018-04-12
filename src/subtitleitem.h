@@ -1,0 +1,4 @@
+#ifndef SUBTITLEITEM_H
+#define SUBTITLEITEM_H
+
+#endif // SUBTITLEITEM_H
