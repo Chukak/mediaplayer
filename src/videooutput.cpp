@@ -43,7 +43,6 @@ void VideoOutput::updateState(const QMediaPlayer::State& state)
 
 void VideoOutput::updateStatus(const QMediaPlayer::MediaStatus& status)
 {
-    QMediaPlayer::State state = static_cast<QMediaPlayer *>(m_player->player())->state();
     switch (status) {
     case QMediaPlayer::NoMedia:
         m_status = "No media";
@@ -52,20 +51,13 @@ void VideoOutput::updateStatus(const QMediaPlayer::MediaStatus& status)
         m_status = "Loading media";
         break;
     case QMediaPlayer::LoadedMedia:
-        if (state != QMediaPlayer::StoppedState) {
-            m_status = "Media loaded";
-        }
+        m_status = "Media loaded";
         break;
     case QMediaPlayer::BufferingMedia:
-        if (state != QMediaPlayer::PlayingState ||
-                state != QMediaPlayer::PausedState) {
-            m_status = "Buffering";
-        }
+        m_status = "Buffering";
         break;
     case QMediaPlayer::InvalidMedia:
-        if (state != QMediaPlayer::StoppedState) {
-            m_status = "Invalid media";
-        }
+         m_status = "Invalid media";
         break;
     default:
         break;
