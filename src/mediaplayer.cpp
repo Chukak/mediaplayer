@@ -1,6 +1,7 @@
 #include "mediaplayer.h"
 #include <QMediaMetaData>
 #include <QTime>
+#include <QTimer>
 #include <iostream>
 
 QString getFormatDuration(const qint64 duration)
@@ -70,6 +71,7 @@ void MediaPlayer::updateDuration(qint64 duration)
 
 void MediaPlayer::updatePosition(qint64 position)
 {
+
     if (position <= media_duration && position >= 0) {
         m_current_position = position;
         emit _positionChanged();
@@ -105,12 +107,23 @@ void MediaPlayer::updateTotalDuration()
 
 void MediaPlayer::seek(qint64 position)
 {
-    if (position * 1000 > media_duration){
-        m_player->setPosition(media_duration);
-    } else if (position < 0) {
-        m_player->setPosition(0);
-    } else {
-        m_player->setPosition(position * 1000);
+    m_player->pause();
+    qint64 pos = position > 0 ? position * 1000 : 0;
+    if (position > 0 && position > media_duration){
+        pos = media_duration;
     }
+    subtitles_output->updateSubtitlesText(pos, true);
+    m_player->setPosition(pos);
+    m_player->play();
+}
+
+void MediaPlayer::setSubtitlesOutput(SubtitlesOutput *subs_out)
+{
+    subtitles_output = subs_out;
+    subtitles_output->setParent(this);
+    connect(m_player, &QMediaPlayer::positionChanged, this, [=](qint64 position) {
+        subtitles_output->updateSubtitlesText(position, false);
+    });
+    emit subtitlesOutputChanged();
 }
 
