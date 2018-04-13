@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QMediaPlayer>
+#include "subtitlesoutput.h"
 
 class MediaPlayer : public QObject
 {
@@ -14,6 +15,8 @@ class MediaPlayer : public QObject
     Q_PROPERTY(qint64 position READ position NOTIFY _positionChanged)
     Q_PROPERTY(QString durationInfo READ durationInfo NOTIFY durationInfoChanged)
     Q_PROPERTY(QString totalDuration READ totalDuration NOTIFY totalDurationChanged)
+
+    Q_PROPERTY(SubtitlesOutput *subtitlesOutput READ subtitlesOutput WRITE setSubtitlesOutput NOTIFY subtitlesOutputChanged)
 
 public:
     explicit MediaPlayer(QObject *parent = 0);
@@ -35,6 +38,9 @@ public:
 
     QString totalDuration() const { return total_duration; }
 
+    SubtitlesOutput *subtitlesOutput() const { return subtitles_output; }
+    void setSubtitlesOutput(SubtitlesOutput *subs_out);
+
 signals:
     void playerChanged();
 
@@ -50,6 +56,8 @@ signals:
 
     void totalDurationChanged();
 
+    void subtitlesOutputChanged();
+
 public slots:
     void seek(qint64 position);
 
@@ -62,6 +70,7 @@ private:
     void updateTotalDuration();
     void updateDuration(qint64 duration);
 
+    SubtitlesOutput *subtitles_output = nullptr;
     QMediaPlayer *m_player = nullptr;
     QUrl media_url = QString("");
     QString media_title = "";
