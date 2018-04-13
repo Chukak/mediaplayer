@@ -10,7 +10,7 @@ FileDialog {
     ]
     onAccepted: {
         if (fileDialog.selectExisting)
-            subtitlesHandler.subtitlesUrl = fileUrl
+            subtitlesHandler.addSubtitles(fileUrl)
     }
 }
 
