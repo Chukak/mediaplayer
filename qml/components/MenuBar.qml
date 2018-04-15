@@ -5,6 +5,7 @@ MenuBar {
     property QtObject idFileDialog
     property QtObject idVideoOutputHandler
     property QtObject idMediaPlayerHandler
+    property QtObject mediaPlayer
     property QtObject idSubtitlesFileDialog
 
     Menu {
@@ -24,10 +25,23 @@ MenuBar {
 
         MenuItem {
             text: qsTr("&Play")
+            onTriggered: {
+                mediaPlayer.play()
+            }
+        }
+
+        MenuItem {
+            text: qsTr("&Pause")
+            onTriggered: {
+                mediaPlayer.pause()
+            }
         }
 
         MenuItem {
             text: qsTr("&Stop")
+            onTriggered: {
+                mediaPlayer.stop()
+            }
         }
     }
 
@@ -75,6 +89,12 @@ MenuBar {
 
         MenuItem {
             text: qsTr("&Show subtitles")
+            checkable: true
+            checked: true
+            onCheckedChanged: {
+                console.log(checked)
+                idMediaPlayerHandler.showSubtitles(checked)
+            }
         }
     }
 
