@@ -5,6 +5,7 @@ MenuBar {
     property QtObject idFileDialog
     property QtObject idVideoOutputHandler
     property QtObject idMediaPlayerHandler
+    property QtObject idSubtitlesFileDialog
 
     Menu {
         title: qsTr("File")
@@ -61,10 +62,15 @@ MenuBar {
 
         MenuItem {
             text: qsTr("&Set subtitles")
+
         }
 
         MenuItem {
             text: qsTr("&Load from file")
+            onTriggered: {
+                idSubtitlesFileDialog.selectExisting = true
+                idSubtitlesFileDialog.open()
+            }
         }
 
         MenuItem {
