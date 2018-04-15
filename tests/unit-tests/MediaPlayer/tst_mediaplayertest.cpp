@@ -159,6 +159,8 @@ void MediaPlayerTest::testSeek()
     QMediaPlayer *m_player = getMediaPlayer(&player);
     media_player.setPlayer(&player);
     QCOMPARE(m_player, media_player.player());
+    SubtitlesOutput *subtitles = new SubtitlesOutput();
+    media_player.setSubtitlesOutput(subtitles);
     QSignalSpy spy(&media_player, &MediaPlayer::_positionChanged);
     QCOMPARE(true, spy.isValid());
     QSignalSpy valid_media_player(m_player, &QMediaPlayer::mediaStatusChanged);
@@ -208,29 +210,39 @@ void MediaPlayerTest::testDurationInfo()
     QCOMPARE(true, spy.isValid());
     QSignalSpy valid_media_player(m_player, &QMediaPlayer::mediaStatusChanged);
     QCOMPARE(true, valid_media_player.isValid());
+    QSignalSpy pos_signal(m_player, &QMediaPlayer::positionChanged);
+    QCOMPARE(true, pos_signal.isValid());
     QCOMPARE(QString("00:00:00"), media_player.durationInfo());
 
     QUrl media_url = QUrl::fromLocalFile(QFileInfo("../../resources/test1.avi").absoluteFilePath());
     media_player.setMediaUrl(media_url);
     QVERIFY(valid_media_player.wait());
+    QCOMPARE(1, pos_signal.count());
     media_player.seek(2);
     QCOMPARE(QString("00:02"), media_player.durationInfo());
     media_player.seek(5);
     QCOMPARE(QString("00:05"), media_player.durationInfo());
     media_player.seek(28);
+    QCOMPARE(4, pos_signal.count());
     QCOMPARE(QString("00:27"), media_player.durationInfo());
     media_player.seek(-1);
     QCOMPARE(QString("00:00"), media_player.durationInfo());
     media_player.seek(14);
+    QCOMPARE(6, pos_signal.count());
     QCOMPARE(QString("00:14"), media_player.durationInfo());
+
     m_player->setPosition(6000);
+    QCOMPARE(7, pos_signal.count());
     QCOMPARE(QString("00:06"), media_player.durationInfo());
     m_player->setPosition(24000);
+    QCOMPARE(8, pos_signal.count());
     QCOMPARE(QString("00:24"), media_player.durationInfo());
 
     QUrl other_media_url = QUrl::fromLocalFile(QFileInfo("../../resources/test2.avi").absoluteFilePath());
+    pos_signal.clear();
     media_player.setMediaUrl(other_media_url);
     QVERIFY(valid_media_player.wait());
+    QCOMPARE(1, pos_signal.count());
     media_player.seek(2);
     QCOMPARE(QString("00:02"), media_player.durationInfo());
     media_player.seek(5);
@@ -238,12 +250,16 @@ void MediaPlayerTest::testDurationInfo()
     media_player.seek(28);
     QCOMPARE(QString("00:05"), media_player.durationInfo());
     media_player.seek(-1);
+    QCOMPARE(5, pos_signal.count());
     QCOMPARE(QString("00:00"), media_player.durationInfo());
     media_player.seek(14);
     QCOMPARE(QString("00:05"), media_player.durationInfo());
+
     m_player->setPosition(-6000);
+    QCOMPARE(7, pos_signal.count());
     QCOMPARE(QString("00:00"), media_player.durationInfo());
     m_player->setPosition(4000);
+    QCOMPARE(8, pos_signal.count());
     QCOMPARE(QString("00:04"), media_player.durationInfo());
 }
 
