@@ -70,7 +70,6 @@ private:
     void updateTotalDuration();
     void updateDuration(qint64 duration);
 
-    SubtitlesOutput *subtitles_output = nullptr;
     QMediaPlayer *m_player = nullptr;
     QUrl media_url = QString("");
     QString media_title = "";
@@ -78,6 +77,8 @@ private:
     qint64 m_current_position = 0;
     QString duration_info = "00:00:00";
     QString total_duration = "00:00:00";
+    SubtitlesOutput *subtitles_output = nullptr;
+    bool subtitles_addded = false;
 };
 
 #endif // MEDIAPLAYER_H

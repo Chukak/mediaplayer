@@ -74,8 +74,8 @@ void MediaPlayer::updatePosition(qint64 position)
 
     if (position <= media_duration && position >= 0) {
         m_current_position = position;
-        emit _positionChanged();
         updateDurationInfo(m_current_position / 1000);
+        emit _positionChanged();
         emit durationInfoChanged();
     }
 }
@@ -107,14 +107,16 @@ void MediaPlayer::updateTotalDuration()
 
 void MediaPlayer::seek(qint64 position)
 {
-    m_player->pause();
     qint64 pos = position > 0 ? position * 1000 : 0;
-    if (position > 0 && position > media_duration){
+    if (pos > 0 && pos > media_duration){
         pos = media_duration;
     }
-    subtitles_output->updateSubtitlesText(pos, true);
+    if (subtitles_addded && subtitles_output) {
+        if (subtitles_output->selected()) {
+            subtitles_output->updateSubtitlesText(pos, true);
+        }
+    }
     m_player->setPosition(pos);
-    m_player->play();
 }
 
 void MediaPlayer::setSubtitlesOutput(SubtitlesOutput *subs_out)
