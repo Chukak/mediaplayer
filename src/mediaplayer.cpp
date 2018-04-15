@@ -126,6 +126,7 @@ void MediaPlayer::setSubtitlesOutput(SubtitlesOutput *subs_out)
     connect(m_player, &QMediaPlayer::positionChanged, this, [=](qint64 position) {
         subtitles_output->updateSubtitlesText(position, false);
     });
+    subtitles_addded = true;
     emit subtitlesOutputChanged();
 }
 
