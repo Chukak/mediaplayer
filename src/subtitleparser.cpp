@@ -12,8 +12,9 @@ std::vector<SubtitleItem> SubtitleParser::parseFile(QFile *file)
     QTextStream stream(file);
     stream.setCodec("UTF-8");
     QString content = stream.readAll();
-    QRegularExpression pattern(
-                "(\\d{1}).*?\n(\\d{2}):(\\d{2}):(\\d{2}),(\\d{3}) --> (\\d{2}):(\\d{2}):(\\d{2}),(\\d{3}).*?\n([\\s\\S]*?)\r\n");
+    QString string_pattern("(\\d{1}).*?\n(\\d{2}):(\\d{2}):(\\d{2}),(\\d{3}) --> "
+                           "(\\d{2}):(\\d{2}):(\\d{2}),(\\d{3}).*?\n([\\s\\S]*?\r\n\r\n)");
+    QRegularExpression pattern(string_pattern);
     QRegularExpressionMatchIterator iterator = pattern.globalMatch(content);
     while (iterator.hasNext()) {
         QRegularExpressionMatch match = iterator.next();
