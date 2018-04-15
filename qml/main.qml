@@ -4,6 +4,7 @@ import QtQuick.Window 2.3
 import QtMultimedia 5.5
 import backend.VideoOutput 1.0
 import backend.MediaPlayer 1.0
+import backend.SubtitlesOutput 1.0
 import "./components" as Components
 
 ApplicationWindow {
@@ -24,12 +25,18 @@ ApplicationWindow {
         mediaPlayerHandler: mediaPlayerHandler
     }
 
+    Components.SubtitlesFileDialog {
+        id: subtitlesDialog
+        subtitlesHandler: subtitlesHandler
+    }
+
     menuBar: Components.MenuBar {
         id: menuBar
-
         idFileDialog: fileDialog
         idVideoOutputHandler: videoOutputHandler
+        mediaPlayer: mediaplayer
         idMediaPlayerHandler: mediaPlayerHandler
+        idSubtitlesFileDialog: subtitlesDialog
     }
 
 
@@ -57,32 +64,17 @@ ApplicationWindow {
         anchors.bottom: playerButtons.top
         width: parent.width
 
-        MediaPlayer {
+        Components.MediaPlayer {
+            idMediaPlayerHandler: mediaPlayerHandler
+            playerButtons: playerButtons
             id: mediaplayer
-            source: mediaPlayerHandler.mediaUrl
-            volume: 1.0
-            onPlaying: {
-                //mediaArea.parent = fullScreenMediaArea
-                //mediaArea.height = Screen.height
-                //mediaArea.x = 0
-                //mediaArea.height = Screen.width
-                //mediaArea.parent = null
-                playerButtons.playVideo()
-            }
-            onPaused: {
-                //videoOutput.anchors.top = parent.top
-                //videoOutput.parent = mediaArea
-                playerButtons.pauseVideo()
-            }
-            onStopped: {
-                playerButtons.stopVideo()
-            }
         }
 
-        VideoOutput {
+        Components.VideoOutput {
             id: videoOutput
             anchors.fill: parent
             source: mediaplayer
+            subtitlesHandler: subtitlesHandler
         }
 
         MouseArea {
@@ -115,6 +107,12 @@ ApplicationWindow {
     MediaPlayerHandler {
         id: mediaPlayerHandler
         player: mediaplayer
+        subtitlesOutput: subtitlesHandler
+    }
+
+    SubtitlesHandler {
+        id: subtitlesHandler
+
     }
 }
 
