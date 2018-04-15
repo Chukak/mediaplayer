@@ -41,6 +41,8 @@ public:
     SubtitlesOutput *subtitlesOutput() const { return subtitles_output; }
     void setSubtitlesOutput(SubtitlesOutput *subs_out);
 
+    Q_INVOKABLE void showSubtitles(bool show);
+
 signals:
     void playerChanged();
 
@@ -78,7 +80,7 @@ private:
     QString duration_info = "00:00:00";
     QString total_duration = "00:00:00";
     SubtitlesOutput *subtitles_output = nullptr;
-    bool subtitles_addded = false;
+    bool subtitles_added = false;
 };
 
 #endif // MEDIAPLAYER_H
