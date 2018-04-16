@@ -4,7 +4,6 @@ import QtQuick.Controls 1.4
 
 
 FileDialog {
-    property QtObject mediaPlayerHandler
     id:fileDialog
     title: qsTr("Select file")
     nameFilters: [
