@@ -4,9 +4,12 @@ QT += qml quick widgets multimedia
 CONFIG += c++14
 QMAKE_CXXFLAGS += -Werror -Wall
 
-SOURCES += main.cpp \
+SOURCES += \
+    src/main.cpp \
     src/videooutput.cpp \
-    src/mediaplayer.cpp
+    src/mediaplayer.cpp \
+    src/subtitleparser.cpp \
+    src/subtitlesoutput.cpp
 
 RESOURCES += qml.qrc
 
@@ -18,5 +21,8 @@ include(deployment.pri)
 
 HEADERS += \
     src/videooutput.h \
-    src/mediaplayer.h
+    src/mediaplayer.h \
+    src/subtitleitem.h \
+    src/subtitleparser.h \
+    src/subtitlesoutput.h
 

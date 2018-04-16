@@ -5,6 +5,10 @@
         <file>qml/components/MenuBar.qml</file>
         <file>qml/components/FileDialog.qml</file>
         <file>qml/components/ControlsToolBar.qml</file>
+        <file>qml/components/MediaPlayer.qml</file>
+        <file>qml/components/StatusBar.qml</file>
+        <file>qml/components/SubtitlesFileDialog.qml</file>
+        <file>qml/components/VideoOutput.qml</file>
     </qresource>
     <qresource prefix="/icons">
         <file>icons/openVideo.png</file>
