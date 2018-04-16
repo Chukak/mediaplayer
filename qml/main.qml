@@ -10,8 +10,8 @@ import "./components" as Components
 ApplicationWindow {
     id: mainWindow
     visible: true
-    width: 1270
-    height: 720
+    //width: 1270
+    //height: 720
     minimumWidth: 640
     minimumHeight: 480
     title: mediaPlayerHandler.mediaTitle
@@ -22,27 +22,19 @@ ApplicationWindow {
 
     Components.FileDialog {
         id: fileDialog
-        mediaPlayerHandler: mediaPlayerHandler
     }
 
     Components.SubtitlesFileDialog {
         id: subtitlesDialog
-        subtitlesHandler: subtitlesHandler
     }
 
     menuBar: Components.MenuBar {
         id: menuBar
-        idFileDialog: fileDialog
-        idVideoOutputHandler: videoOutputHandler
-        mediaPlayer: mediaplayer
-        idMediaPlayerHandler: mediaPlayerHandler
-        idSubtitlesFileDialog: subtitlesDialog
-    }
+   }
 
 
     toolBar: Components.ToolBar {
         id: toolBar
-        idFileDialog: fileDialog
     }
 
     Item {
@@ -65,8 +57,6 @@ ApplicationWindow {
         width: parent.width
 
         Components.MediaPlayer {
-            idMediaPlayerHandler: mediaPlayerHandler
-            playerButtons: playerButtons
             id: mediaplayer
         }
 
@@ -74,7 +64,6 @@ ApplicationWindow {
             id: videoOutput
             anchors.fill: parent
             source: mediaplayer
-            subtitlesHandler: subtitlesHandler
         }
 
         MouseArea {
@@ -89,8 +78,6 @@ ApplicationWindow {
 
     Components.ControlsToolBar {
         id: playerButtons
-        player: mediaplayer
-        mediaPlayerHandler: mediaPlayerHandler
         anchors.left: parent.left
         anchors.bottom: parent.bottom
         anchors.right: parent.right
@@ -98,10 +85,10 @@ ApplicationWindow {
         height: 50
     }
 
-
     VideoOutputHandler {
         id: videoOutputHandler
         targetOutput: videoOutput
+        mediaPlayer: mediaPlayerHandler
     }
 
     MediaPlayerHandler {
@@ -112,7 +99,14 @@ ApplicationWindow {
 
     SubtitlesHandler {
         id: subtitlesHandler
+        onListSubtitlesChanged: {
+            console.log(listSubtitles)
+        }
+    }
 
+    statusBar: Components.StatusBar {
+        id: statusBar
+        status: videoOutputHandler.status
     }
 }
 
