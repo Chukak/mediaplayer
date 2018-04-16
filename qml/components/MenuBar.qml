@@ -1,21 +1,17 @@
-import QtQuick 2.5
+import QtQuick 2.9
 import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2 as Controls2
+import QtQml 2.2
 
 MenuBar {
-    property QtObject idFileDialog
-    property QtObject idVideoOutputHandler
-    property QtObject idMediaPlayerHandler
-    property QtObject mediaPlayer
-    property QtObject idSubtitlesFileDialog
-
     Menu {
-        title: qsTr("File")
+        title: qsTr("Open")
 
         MenuItem {
-            text: qsTr("&Open")
+            text: qsTr("&File")
             onTriggered: {
-                idFileDialog.selectExisting = true
-                idFileDialog.open()
+                fileDialog.selectExisting = true
+                fileDialog.open()
             }
         }
     }
@@ -26,21 +22,21 @@ MenuBar {
         MenuItem {
             text: qsTr("&Play")
             onTriggered: {
-                mediaPlayer.play()
+                mediaplayer.play()
             }
         }
 
         MenuItem {
             text: qsTr("&Pause")
             onTriggered: {
-                mediaPlayer.pause()
+                mediaplayer.pause()
             }
         }
 
         MenuItem {
             text: qsTr("&Stop")
             onTriggered: {
-                mediaPlayer.stop()
+                mediaplayer.stop()
             }
         }
     }
@@ -58,8 +54,10 @@ MenuBar {
         title: qsTr("Audio")
 
         MenuItem {
-            text: qsTr("&Set Audio track")
+            text: qsTr("&Main track")
         }
+
+        MenuSeparator {}
 
         MenuItem {
             text: qsTr("&Load from file")
@@ -69,31 +67,79 @@ MenuBar {
             text: qsTr("&Mute sound")
         }
 
-    }
-
-    Menu {
-        title: qsTr("Subtitles")
+        MenuSeparator {}
 
         MenuItem {
-            text: qsTr("&Set subtitles")
-
-        }
-
-        MenuItem {
-            text: qsTr("&Load from file")
+            text: qsTr("Volume +")
             onTriggered: {
-                idSubtitlesFileDialog.selectExisting = true
-                idSubtitlesFileDialog.open()
+                if (mediaplayer.volume < 1.0) {
+                    if (mediaplayer.volume <= 0.95) {
+                        mediaplayer.volume = mediaplayer.volume + 0.05
+                    } else {
+                        mediaplayer.volume = 1.0
+                    }
+                }
             }
         }
 
         MenuItem {
-            text: qsTr("&Show subtitles")
+            text: qsTr("Volume -")
+            onTriggered: {
+                if (mediaplayer.volume > 0) {
+                    if (mediaplayer.volume >= 0.05) {
+                        mediaplayer.volume = mediaplayer.volume - 0.05
+                    } else {
+                        mediaplayer.volume = 0
+                    }
+                }
+            }
+        }
+
+    }
+
+
+
+    Menu {
+        title: qsTr("Subtitles")
+
+        Menu {
+            title: qsTr("&Main track")
+            id: allSubtitles
+
+            MenuItem {
+                text: qsTr("Nothing")
+            }
+
+            Instantiator {
+                model: subtitlesHandler.listSubtitles
+                delegate: MenuItem {
+                    text: modelData
+                    onTriggered: {
+                        subtitlesHandler.setSubtitles(index + 1)
+                    }
+                }
+                onObjectAdded: allSubtitles.insertItem(index, object)
+                onObjectRemoved: allSubtitles.removeItem(object)
+            }
+        }
+
+        MenuSeparator {}
+
+        MenuItem {
+            text: qsTr("&Load from file")
+            onTriggered: {
+                subtitlesDialog.selectExisting = true
+                subtitlesDialog.open()
+            }
+        }
+
+        MenuItem {
+            text: qsTr("&Display subtitles")
             checkable: true
             checked: true
             onCheckedChanged: {
                 console.log(checked)
-                idMediaPlayerHandler.showSubtitles(checked)
+                mediaPlayerHandler.showSubtitles(checked)
             }
         }
     }
@@ -104,6 +150,8 @@ MenuBar {
         MenuItem {
             text: qsTr("Settings")
         }
+
+        MenuSeparator {}
 
         MenuItem {
             text: qsTr("Exit")
