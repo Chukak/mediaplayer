@@ -5,8 +5,6 @@ import QtQuick.Templates 2.0 as Templates2
 import QtGraphicalEffects 1.0
 
 Rectangle {
-    property QtObject player
-    property QtObject mediaPlayerHandler
     property real valueSound
     property int sizeButton: height - 10
     signal playVideo
@@ -43,7 +41,7 @@ Rectangle {
             iconSource: "qrc:/icons/icons/playVideo.png"
             iconName: qsTr("Play")
             onTriggered: {
-                player.play()
+                mediaplayer.play()
             }
         }
 
@@ -52,7 +50,7 @@ Rectangle {
             iconSource: "qrc:/icons/icons/pauseVideo.png"
             iconName: qsTr("Pause")
             onTriggered: {
-                player.pause()
+                mediaplayer.pause()
             }
         }
 
@@ -73,7 +71,7 @@ Rectangle {
             iconSource: "qrc:/icons/icons/stopVideo.png"
             iconName: qsTr("Stop")
             onTriggered: {
-                player.stop()
+                mediaplayer.stop()
             }
         }
 
@@ -317,9 +315,16 @@ Rectangle {
             height: parent.height - 10
             from: 0.0
             to: 1.0
-            value: player.volume
+            value: mediaplayer.volume
+            onMoved: {
+                mediaplayer.volume = value
+            }
             onValueChanged: {
-                player.volume = value
+                if (value == 0 && soundButton.action == sound) {
+                    soundButton.action = mutedSound
+                } else {
+                    soundButton.action = sound
+                }
             }
 
 
