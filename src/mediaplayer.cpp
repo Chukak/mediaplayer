@@ -17,6 +17,7 @@ MediaPlayer::MediaPlayer(QObject *parent) :
 {
 }
 
+
 void MediaPlayer::setPlayer(const QObject *player)
 {
     QVariant variant = player->property("mediaObject");
@@ -136,5 +137,13 @@ void MediaPlayer::showSubtitles(bool show)
 {
     subtitles_added = show;
     subtitles_output->empty();
+}
+
+void MediaPlayer::setPlaybackRate(double rate)
+{
+    if (rate >= -10.0 && rate <= 10.0 &&
+            m_player->playbackRate() != rate) {
+        m_player->setPlaybackRate(rate);
+    }
 }
 

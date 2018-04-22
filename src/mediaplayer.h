@@ -43,6 +43,8 @@ public:
 
     Q_INVOKABLE void showSubtitles(bool show);
 
+    Q_INVOKABLE void setPlaybackRate(double rate);
+
 signals:
     void playerChanged();
 
