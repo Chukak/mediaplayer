@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 1.4 as Controls1
 import QtQuick.Controls 2.2 as Controls2
 import QtQuick.Templates 2.0 as Templates2
+import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 
 Rectangle {
@@ -55,24 +56,18 @@ Rectangle {
         }
 
         Controls1.Action {
-            id: rewindLeft
-            iconSource: "qrc:/icons/icons/rewindLeft.png"
-            iconName: qsTr("Left")
-        }
-
-        Controls1.Action {
-            id: rewindRight
-            iconSource: "qrc:/icons/icons/rewindRight.png"
-            iconName: qsTr("Right")
-        }
-
-        Controls1.Action {
             id: stopVideo
             iconSource: "qrc:/icons/icons/stopVideo.png"
             iconName: qsTr("Stop")
             onTriggered: {
                 mediaplayer.stop()
             }
+        }
+
+        Controls1.Action {
+            id: playbackRate
+            iconSource: "qrc:/icons/icons/playbackRate.png"
+            iconName: qsTr("Playback")
         }
 
         Controls1.Action {
@@ -107,7 +102,7 @@ Rectangle {
         id: controlsItem
         anchors.left: parent.left
         anchors.right: durationItem.left
-        width: 180
+        width: 170
         anchors.bottom: parent.bottom
         height: parent.height
 
@@ -127,20 +122,123 @@ Rectangle {
             height: sizeButton
         }
 
-        Controls1.ToolButton {
+        Controls1.ComboBox {
             anchors.left: stopButton.right
-            id: rewindLeftButton
-            action: rewindLeft
+            id: cbRewind
             width: sizeButton
             height: sizeButton
-       }
+            //hovered: false
+            currentIndex: 1
+            model: ListModel {
+                id: comboPositions
+                ListElement {
+                    text: qsTr("-10 minute");
+                    value: 600
+                }
+                ListElement {
+                    text: qsTr("-5 minute");
+                    value: 300
+                }
+                ListElement {
+                    text: qsTr("-2 minute");
+                    value: 120
+                }
+                ListElement {
+                    text: qsTr("-1 second");
+                    value: 60
+                }
+                ListElement {
+                    text: qsTr("-30 second");
+                    value: 30
+                }
+                ListElement {
+                    text: qsTr("+30 second");
+                    value: 30
+                }
+                ListElement {
+                    text: qsTr("+1 minute");
+                    value: 60
+                }
+                ListElement {
+                    text: qsTr("+2 minute");
+                    value: 120
+                }
+                ListElement {
+                    text: qsTr("+5 minute");
+                    value: 300
+                }
+                ListElement {
+                    text: qsTr("+10 minute");
+                    value: 600
+                }
+            }
+            onCurrentIndexChanged: {
+                mediaPlayerHandler.seek(mediaPlayerHandler.position + comboPositions.get(currentIndex).value)
+            }
+            style: ComboBoxStyle {
+                id: comboItemsStyle
+                label: Item {
+                    Image {
+                        anchors.fill: parent
+                        fillMode: Image.PreserveAspectFit
+                        source: "qrc:/icons/icons/playbackRate.png"
+                        mipmap: true
+                        smooth: true
+                    }
+                }
+            }
+        }
 
-        Controls1.ToolButton {
-            anchors.left: rewindLeftButton.right
-            id: rewindRightButton
-            action: rewindRight
-            width: sizeButton
+        Controls1.ComboBox {
+            anchors.left: cbRewind.right
+            id: cbPlaybackRate
+            width: sizeButton + 10
             height: sizeButton
+            //hovered: false
+            currentIndex: 1
+            model: ListModel {
+                id: comboItems
+                ListElement {
+                    text: "x0.5";
+                    value: 0.5
+                }
+                ListElement {
+                    text: "x1";
+                    value: 1.0
+                }
+                ListElement {
+                    text: "x2";
+                    value: 2.0
+                }
+                ListElement {
+                    text: "x4";
+                    value: 4.0
+                }
+                ListElement {
+                    text: "x8";
+                    value: 8.0
+                }
+                ListElement {
+                    text: "x10";
+                    value: 10.0
+                }
+            }
+            onCurrentIndexChanged: {
+                console.log(currentIndex)
+                mediaPlayerHandler.setPlaybackRate(comboItems.get(currentIndex).value)
+            }
+            style: ComboBoxStyle {
+                id: comboItemsStyle
+                /*label: Item {
+                    Image {
+                        anchors.fill: parent
+                        fillMode: Image.PreserveAspectFit
+                        source: "qrc:/icons/icons/playbackRate.png"
+                        mipmap: true
+                        smooth: true
+                    }
+                }*/
+            }
         }
     }
 
