@@ -23,5 +23,6 @@
         <file>icons/sound.png</file>
         <file>icons/rewindRight.png</file>
         <file>icons/rewindLeft.png</file>
+        <file>icons/playbackRate.png</file>
     </qresource>
 </RCC>
