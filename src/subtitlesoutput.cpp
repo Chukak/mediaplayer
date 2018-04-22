@@ -11,8 +11,6 @@ void SubtitlesOutput::addSubtitles(const QUrl &url)
     urls.push_back(url);
     names.push_back(url.fileName());
     emit listSubtitlesChanged();
-    qDebug() << url;
-    //setSubtitles(url);
 }
 
 void SubtitlesOutput::setSubtitles(qint32 key)
