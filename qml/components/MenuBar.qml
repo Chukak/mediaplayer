@@ -26,12 +26,16 @@ MenuBar {
             }
         }
 
+        MenuSeparator {}
+
         MenuItem {
             text: qsTr("&Pause")
             onTriggered: {
                 mediaplayer.pause()
             }
         }
+
+        MenuSeparator {}
 
         MenuItem {
             text: qsTr("&Stop")
@@ -52,16 +56,6 @@ MenuBar {
 
     Menu {
         title: qsTr("Audio")
-
-        MenuItem {
-            text: qsTr("&Main track")
-        }
-
-        MenuSeparator {}
-
-        MenuItem {
-            text: qsTr("&Load from file")
-        }
 
         MenuItem {
             text: qsTr("&Mute sound")
@@ -108,6 +102,9 @@ MenuBar {
 
             MenuItem {
                 text: qsTr("Nothing")
+                onTriggered: {
+                    subtitlesHandler.setSubtitles(0)
+                }
             }
 
             Instantiator {
