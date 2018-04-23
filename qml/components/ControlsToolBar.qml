@@ -6,7 +6,7 @@ import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 
 Rectangle {
-    property real valueSound
+    property real valueSound: 0.0
     property int sizeButton: height - 10
     signal playVideo
     signal pauseVideo
@@ -27,13 +27,13 @@ Rectangle {
     }
 
     onPlayVideo: {
-        playButton.action = pauseVideo
+        playButton.playing = true
     }
     onPauseVideo: {
-        playButton.action = playVideo
+        playButton.playing = false
     }
     onStopVideo: {
-        playButton.action = playVideo
+        playButton.playing = false
     }
 
     Item {
@@ -106,50 +106,125 @@ Rectangle {
         anchors.bottom: parent.bottom
         height: parent.height
 
-        Controls1.ToolButton {
+        Controls2.ToolButton {
+            property bool playing: false
             anchors.left: parent.left
             id: playButton
-            action: playVideo
             width: sizeButton
             height: sizeButton
+            background: Item {
+                Rectangle {
+                    id: playButtonBckg
+                    anchors.fill: parent
+                    color: "transparent"
+                    border.color: "transparent"
+                }
+
+                MouseArea {
+                    anchors.fill: playButtonBckg
+                    hoverEnabled: true
+                    onEntered: {
+                        playButtonBckg.color = "#f2f2f2"
+                        playButtonBckg.border.color = "#8f8f8f"
+                        playButtonBckg.radius = 2
+                    }
+                    onExited: {
+                        playButtonBckg.color = "transparent"
+                        playButtonBckg.border.color = "transparent"
+                        playButtonBckg.radius = 0
+                    }
+                    onClicked: {
+                        mediaplayer.play()
+                        if (playButton.playing) {
+                            playButtonImage.source = "qrc:/icons/icons/pauseVideo.png"
+                        } else {
+                            playButtonImage.source = "qrc:/icons/icons/playVideo.png"
+                        }
+                    }
+                }
+            }
+
+            Image {
+                id: playButtonImage
+                anchors.fill: parent
+                fillMode: Image.PreserveAspectFit
+                source: "qrc:/icons/icons/playVideo.png"
+                mipmap: true
+                smooth: true
+                anchors.margins: 8
+            }
         }
 
-        Controls1.ToolButton {
+        Controls2.ToolButton {
             anchors.left: playButton.right
             id: stopButton
-            action: stopVideo
             width: sizeButton
             height: sizeButton
+            background: Item {
+                Rectangle {
+                    id: stopButtonBckg
+                    anchors.fill: parent
+                    color: "transparent"
+                    border.color: "transparent"
+                }
+
+                MouseArea {
+                    anchors.fill: stopButtonBckg
+                    hoverEnabled: true
+                    onEntered: {
+                        stopButtonBckg.color = "#f2f2f2"
+                        stopButtonBckg.border.color = "#8f8f8f"
+                        stopButtonBckg.radius = 2
+                    }
+                    onExited: {
+                        stopButtonBckg.color = "transparent"
+                        stopButtonBckg.border.color = "transparent"
+                        stopButtonBckg.radius = 0
+                    }
+                    onClicked: {
+                        mediaplayer.stop()
+                    }
+                }
+            }
+
+            Image {
+                anchors.fill: parent
+                fillMode: Image.PreserveAspectFit
+                source: "qrc:/icons/icons/stopVideo.png"
+                mipmap: true
+                smooth: true
+                anchors.margins: 8
+            }
         }
 
-        Controls1.ComboBox {
+        Controls2.ComboBox {
+            property real currentValue: 0
             anchors.left: stopButton.right
             id: cbRewind
             width: sizeButton
             height: sizeButton
-            //hovered: false
-            currentIndex: 1
+
             model: ListModel {
                 id: comboPositions
                 ListElement {
                     text: qsTr("-10 minute");
-                    value: 600
+                    value: -600
                 }
                 ListElement {
                     text: qsTr("-5 minute");
-                    value: 300
+                    value: -300
                 }
                 ListElement {
                     text: qsTr("-2 minute");
-                    value: 120
+                    value: -120
                 }
                 ListElement {
-                    text: qsTr("-1 second");
-                    value: 60
+                    text: qsTr("-1 minute");
+                    value: -60
                 }
                 ListElement {
                     text: qsTr("-30 second");
-                    value: 30
+                    value: -30
                 }
                 ListElement {
                     text: qsTr("+30 second");
@@ -172,29 +247,93 @@ Rectangle {
                     value: 600
                 }
             }
+            textRole: "text"
             onCurrentIndexChanged: {
-                mediaPlayerHandler.seek(mediaPlayerHandler.position + comboPositions.get(currentIndex).value)
+                currentValue = comboPositions.get(currentIndex).value
+                mediaPlayerHandler.seek(mediaPlayerHandler.position + currentValue)
+                currentIndex = -1
             }
-            style: ComboBoxStyle {
-                id: comboItemsStyle
-                label: Item {
+            indicator: Rectangle {}
+            background: Item {
+                Rectangle {
+                    id: cbBackground
+                    anchors.fill: parent
+                    color: "transparent"
+
                     Image {
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectFit
                         source: "qrc:/icons/icons/playbackRate.png"
                         mipmap: true
                         smooth: true
+                        anchors.margins: 8
                     }
+                }
+
+                MouseArea {
+                    anchors.fill: cbBackground
+                    hoverEnabled: true
+                    onEntered: {
+                        cbBackground.color = "#f2f2f2"
+                        cbBackground.border.color = "#8f8f8f"
+                        cbBackground.radius = 2
+                    }
+                    onExited: {
+                        cbBackground.color = "transparent"
+                        cbBackground.border.color = "transparent"
+                        cbBackground.radius = 0
+                    }
+                    onPressed: {
+                        if (cbRewind.popup.visible) {
+                            cbRewind.popup.close()
+                        } else {
+                            cbRewind.popup.open()
+                        }
+                    }
+                }
+            }
+            delegate: Controls2.ItemDelegate {
+                id:cbRewindDlg
+                width: parent.width + 20
+                height:25
+
+                contentItem: Text {
+                    id:cbRewindDlgTextItem
+                    text: comboPositions.get(index).text
+                    color: hovered ? "white" : "black"
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                }
+
+                background: Rectangle{
+                    //anchors.left: parent.left
+                    //anchors.leftMargin: 0
+                    width:parent.width
+                    color:cbRewindDlg.hovered ? "#2997e5" : "white";
+                }
+            }
+            popup: Controls2.Popup {
+                id: cbRewindPopup
+                y: parent.width
+                width: parent.width + 20
+                height: contentItem.implicitHeight
+                Component.onCompleted: {
+                    console.log(height)
+                }
+
+                contentItem: ListView {
+                    implicitHeight: contentHeight
+                    anchors.fill: parent
+                    model: cbRewind.popup.visible ? cbRewind.delegateModel : null
                 }
             }
         }
 
-        Controls1.ComboBox {
+        Controls2.ComboBox {
             anchors.left: cbRewind.right
             id: cbPlaybackRate
-            width: sizeButton + 10
+            width: sizeButton
             height: sizeButton
-            //hovered: false
             currentIndex: 1
             model: ListModel {
                 id: comboItems
@@ -223,21 +362,85 @@ Rectangle {
                     value: 10.0
                 }
             }
+            textRole: "text"
             onCurrentIndexChanged: {
                 console.log(currentIndex)
                 mediaPlayerHandler.setPlaybackRate(comboItems.get(currentIndex).value)
             }
-            style: ComboBoxStyle {
-                id: comboItemsStyle
-                /*label: Item {
-                    Image {
-                        anchors.fill: parent
-                        fillMode: Image.PreserveAspectFit
-                        source: "qrc:/icons/icons/playbackRate.png"
-                        mipmap: true
-                        smooth: true
+            indicator: Rectangle {}
+            background: Item {
+                Rectangle {
+                    id: cbPRBackground
+                    anchors.fill: parent
+                    color: "#f7f7f7"
+                    border.color: "#8f8f8f"
+                    radius: 5
+
+                    /*Text {
+                        font.pointSize: 14
+                        text: cbPlaybackRate.displayText
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        //elide: Text.ElideRight
+                    } */
+                }
+
+                MouseArea {
+                    anchors.fill: cbPRBackground
+                    hoverEnabled: true
+                    onEntered: {
+                        cbPRBackground.color = "#ffffff"
+                        cbPRBackground.border.color = "#2997e5" //"#8f8f8f"
+                        cbPRBackground.radius = 5
                     }
-                }*/
+                    onExited: {
+                        cbPRBackground.color = "#f7f7f7"
+                        cbPRBackground.border.color = "#8f8f8f"
+                        cbPRBackground.radius = 5
+                    }
+                    onPressed: {
+                        if (cbPlaybackRate.popup.visible) {
+                            cbPlaybackRate.popup.close()
+                        } else {
+                            cbPlaybackRate.popup.open()
+                        }
+                    }
+                }
+            }
+            delegate: Controls2.ItemDelegate {
+                id:cbPRDlg
+                width: parent.width + 20
+                height:25
+
+                contentItem: Text {
+                    id:cbPRDlgTextItem
+                    text: comboItems.get(index).text
+                    color: hovered ? "white" : "black"
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignLeft
+                }
+
+                background: Rectangle{
+                    //anchors.left: parent.left
+                    //anchors.leftMargin: 0
+                    width:parent.width
+                    color:cbPRDlg.hovered ? "#2997e5" : "white";
+                }
+            }
+            popup: Controls2.Popup {
+                id: cbPRPopup
+                y: parent.width
+                width: parent.width + 20
+                height: contentItem.implicitHeight
+                Component.onCompleted: {
+                    console.log(height)
+                }
+
+                contentItem: ListView {
+                    implicitHeight: contentHeight
+                    anchors.fill: parent
+                    model: cbPlaybackRate.popup.visible ? cbPlaybackRate.delegateModel : null
+                }
             }
         }
     }
@@ -363,12 +566,63 @@ Rectangle {
         width: 160
         height: parent.height
 
-        Controls1.ToolButton {
+        Controls2.ToolButton {
+            property real soundValue: 0.0
+            signal mutedSound
+            signal unmutedSound
             anchors.left: parent.left
             id: soundButton
-            action:sound
             width: sizeButton
             height: sizeButton
+            onMutedSound: {
+                soundButtonImage.source = "qrc:/icons/icons/mutedSound.png"
+            }
+            onUnmutedSound: {
+                soundButtonImage.source = "qrc:/icons/icons/sound.png"
+            }
+            background: Item {
+                Rectangle {
+                    id: soundButtonBckg
+                    anchors.fill: parent
+                    color: "transparent"
+                    border.color: "transparent"
+                }
+
+                MouseArea {
+                    id: soundButtonArea
+                    anchors.fill: soundButtonBckg
+                    hoverEnabled: true
+                    onEntered: {
+                        soundButtonBckg.color = "#f2f2f2"
+                        soundButtonBckg.border.color = "#8f8f8f"
+                    }
+                    onExited: {
+                        soundButtonBckg.color = "transparent"
+                        soundButtonBckg.border.color = "transparent"
+                    }
+                    onClicked: {
+                        if (valueSound === 0.0) {
+                            valueSound = sliderSound.value
+                            sliderSound.value = 0.0
+                            soundButtonImage.source = "qrc:/icons/icons/mutedSound.png"
+                        } else {
+                            sliderSound.value = valueSound
+                            soundButtonImage.source = "qrc:/icons/icons/sound.png"
+                            valueSound = 0.0
+                        }
+                    }
+                }
+            }
+
+            Image {
+                id: soundButtonImage
+                anchors.fill: parent
+                fillMode: Image.PreserveAspectFit
+                source: "qrc:/icons/icons/sound.png"
+                mipmap: true
+                smooth: true
+                anchors.margins: 8
+            }
         }
 
         Controls2.Slider {
@@ -418,10 +672,11 @@ Rectangle {
                 mediaplayer.volume = value
             }
             onValueChanged: {
-                if (value == 0 && soundButton.action == sound) {
-                    soundButton.action = mutedSound
+                if (value == 0 && soundButton.soundValue > 0.0) {
+                    soundButton.mutedSound()
                 } else {
-                    soundButton.action = sound
+                    soundButton.unmutedSound()
+                    soundButton.soundValue = value
                 }
             }
 
