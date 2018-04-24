@@ -1,9 +1,5 @@
 import QtQuick 2.9
-import QtQuick.Controls 1.4 as Controls1
-import QtQuick.Controls 2.2 as Controls2
-import QtQuick.Templates 2.0 as Templates2
-import QtQuick.Controls.Styles 1.4
-import QtGraphicalEffects 1.0
+import QtQuick.Controls 2.2
 
 Rectangle {
     property real valueSound: 0.0
@@ -37,68 +33,6 @@ Rectangle {
     }
 
     Item {
-        Controls1.Action {
-            id: playVideo
-            iconSource: "qrc:/icons/icons/playVideo.png"
-            iconName: qsTr("Play")
-            onTriggered: {
-                mediaplayer.play()
-            }
-        }
-
-        Controls1.Action {
-            id: pauseVideo
-            iconSource: "qrc:/icons/icons/pauseVideo.png"
-            iconName: qsTr("Pause")
-            onTriggered: {
-                mediaplayer.pause()
-            }
-        }
-
-        Controls1.Action {
-            id: stopVideo
-            iconSource: "qrc:/icons/icons/stopVideo.png"
-            iconName: qsTr("Stop")
-            onTriggered: {
-                mediaplayer.stop()
-            }
-        }
-
-        Controls1.Action {
-            id: playbackRate
-            iconSource: "qrc:/icons/icons/playbackRate.png"
-            iconName: qsTr("Playback")
-        }
-
-        Controls1.Action {
-            id: fullScreen
-            iconSource: "qrc:/icons/icons/fullScreen.png"
-            iconName: qsTr("Full screen")
-        }
-
-        Controls1.Action {
-            id: sound
-            iconSource: "qrc:/icons/icons/sound.png"
-            iconName: qsTr("Muted sound")
-            onTriggered: {
-                valueSound = sliderSound.value
-                sliderSound.value = 0.0
-                soundButton.action = mutedSound
-            }
-        }
-
-        Controls1.Action {
-            id: mutedSound
-            iconSource: "qrc:/icons/icons/mutedSound.png"
-            iconName: qsTr("Unmuted sound")
-            onTriggered: {
-                sliderSound.value = valueSound
-                soundButton.action = sound
-            }
-        }
-    }
-
-    Item {
         id: controlsItem
         anchors.left: parent.left
         anchors.right: durationItem.left
@@ -106,7 +40,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         height: parent.height
 
-        Controls2.ToolButton {
+        ToolButton {
             property bool playing: false
             anchors.left: parent.left
             id: playButton
@@ -126,7 +60,7 @@ Rectangle {
                     onEntered: {
                         playButtonBckg.color = "#f2f2f2"
                         playButtonBckg.border.color = "#8f8f8f"
-                        playButtonBckg.radius = 2
+                        playButtonBckg.radius = 5
                     }
                     onExited: {
                         playButtonBckg.color = "transparent"
@@ -155,7 +89,7 @@ Rectangle {
             }
         }
 
-        Controls2.ToolButton {
+        ToolButton {
             anchors.left: playButton.right
             id: stopButton
             width: sizeButton
@@ -174,7 +108,7 @@ Rectangle {
                     onEntered: {
                         stopButtonBckg.color = "#f2f2f2"
                         stopButtonBckg.border.color = "#8f8f8f"
-                        stopButtonBckg.radius = 2
+                        stopButtonBckg.radius = 5
                     }
                     onExited: {
                         stopButtonBckg.color = "transparent"
@@ -197,25 +131,25 @@ Rectangle {
             }
         }
 
-        Controls2.ComboBox {
+        ComboBox {
             property real currentValue: 0
             anchors.left: stopButton.right
             id: cbRewind
             width: sizeButton
             height: sizeButton
-
+            currentIndex: 3
             model: ListModel {
                 id: comboPositions
                 ListElement {
-                    text: qsTr("-10 minute");
+                    text: qsTr("-10 minutes");
                     value: -600
                 }
                 ListElement {
-                    text: qsTr("-5 minute");
+                    text: qsTr("-5 minutes");
                     value: -300
                 }
                 ListElement {
-                    text: qsTr("-2 minute");
+                    text: qsTr("-2 minutes");
                     value: -120
                 }
                 ListElement {
@@ -223,11 +157,11 @@ Rectangle {
                     value: -60
                 }
                 ListElement {
-                    text: qsTr("-30 second");
+                    text: qsTr("-30 seconds");
                     value: -30
                 }
                 ListElement {
-                    text: qsTr("+30 second");
+                    text: qsTr("+30 seconds");
                     value: 30
                 }
                 ListElement {
@@ -235,15 +169,15 @@ Rectangle {
                     value: 60
                 }
                 ListElement {
-                    text: qsTr("+2 minute");
+                    text: qsTr("+2 minutes");
                     value: 120
                 }
                 ListElement {
-                    text: qsTr("+5 minute");
+                    text: qsTr("+5 minutes");
                     value: 300
                 }
                 ListElement {
-                    text: qsTr("+10 minute");
+                    text: qsTr("+10 minutes");
                     value: 600
                 }
             }
@@ -251,14 +185,15 @@ Rectangle {
             onCurrentIndexChanged: {
                 currentValue = comboPositions.get(currentIndex).value
                 mediaPlayerHandler.seek(mediaPlayerHandler.position + currentValue)
-                currentIndex = -1
             }
+            contentItem: Item {}
             indicator: Rectangle {}
             background: Item {
                 Rectangle {
                     id: cbBackground
                     anchors.fill: parent
                     color: "transparent"
+                    radius: 5
 
                     Image {
                         anchors.fill: parent
@@ -276,7 +211,7 @@ Rectangle {
                     onEntered: {
                         cbBackground.color = "#f2f2f2"
                         cbBackground.border.color = "#8f8f8f"
-                        cbBackground.radius = 2
+                        cbBackground.radius = 5
                     }
                     onExited: {
                         cbBackground.color = "transparent"
@@ -292,7 +227,7 @@ Rectangle {
                     }
                 }
             }
-            delegate: Controls2.ItemDelegate {
+            delegate: ItemDelegate {
                 id:cbRewindDlg
                 width: parent.width + 20
                 height:25
@@ -306,30 +241,24 @@ Rectangle {
                 }
 
                 background: Rectangle{
-                    //anchors.left: parent.left
-                    //anchors.leftMargin: 0
                     width:parent.width
-                    color:cbRewindDlg.hovered ? "#2997e5" : "white";
+                    color:cbRewindDlg.hovered ? "#2997e5" : "white"
                 }
             }
-            popup: Controls2.Popup {
+            popup: Popup {
                 id: cbRewindPopup
                 y: parent.width
                 width: parent.width + 20
                 height: contentItem.implicitHeight
-                Component.onCompleted: {
-                    console.log(height)
-                }
-
                 contentItem: ListView {
                     implicitHeight: contentHeight
-                    anchors.fill: parent
+                    //anchors.fill: parent
                     model: cbRewind.popup.visible ? cbRewind.delegateModel : null
                 }
             }
         }
 
-        Controls2.ComboBox {
+        ComboBox {
             anchors.left: cbRewind.right
             id: cbPlaybackRate
             width: sizeButton
@@ -364,7 +293,6 @@ Rectangle {
             }
             textRole: "text"
             onCurrentIndexChanged: {
-                console.log(currentIndex)
                 mediaPlayerHandler.setPlaybackRate(comboItems.get(currentIndex).value)
             }
             indicator: Rectangle {}
@@ -375,28 +303,18 @@ Rectangle {
                     color: "#f7f7f7"
                     border.color: "#8f8f8f"
                     radius: 5
-
-                    /*Text {
-                        font.pointSize: 14
-                        text: cbPlaybackRate.displayText
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        //elide: Text.ElideRight
-                    } */
                 }
 
-                MouseArea {
+                /*MouseArea {
                     anchors.fill: cbPRBackground
                     hoverEnabled: true
                     onEntered: {
                         cbPRBackground.color = "#ffffff"
                         cbPRBackground.border.color = "#2997e5" //"#8f8f8f"
-                        cbPRBackground.radius = 5
                     }
                     onExited: {
                         cbPRBackground.color = "#f7f7f7"
                         cbPRBackground.border.color = "#8f8f8f"
-                        cbPRBackground.radius = 5
                     }
                     onPressed: {
                         if (cbPlaybackRate.popup.visible) {
@@ -405,11 +323,14 @@ Rectangle {
                             cbPlaybackRate.popup.open()
                         }
                     }
-                }
+                }*/
             }
-            delegate: Controls2.ItemDelegate {
+            delegate: ItemDelegate {
+                y: parent.height
+                x: -12
+                //anchors.bottom: parent.top
                 id:cbPRDlg
-                width: parent.width + 20
+                width: sizeButton
                 height:25
 
                 contentItem: Text {
@@ -421,24 +342,19 @@ Rectangle {
                 }
 
                 background: Rectangle{
-                    //anchors.left: parent.left
-                    //anchors.leftMargin: 0
                     width:parent.width
-                    color:cbPRDlg.hovered ? "#2997e5" : "white";
+                    color:cbPRDlg.hovered ? "#2997e5" : "white"
                 }
             }
-            popup: Controls2.Popup {
+            popup: Popup {
                 id: cbPRPopup
-                y: parent.width
-                width: parent.width + 20
+                y: parent.width -1
+                width: parent.width
                 height: contentItem.implicitHeight
-                Component.onCompleted: {
-                    console.log(height)
-                }
-
                 contentItem: ListView {
                     implicitHeight: contentHeight
-                    anchors.fill: parent
+                    anchors.bottom: cbPlaybackRate.top
+                    //anchors.fill: parent
                     model: cbPlaybackRate.popup.visible ? cbPlaybackRate.delegateModel : null
                 }
             }
@@ -452,7 +368,7 @@ Rectangle {
         anchors.bottom: parent.bottom
         height: parent.height
 
-        Controls2.Slider {
+        Slider {
             id: sliderDurationVideo
             orientation: Qt.Horizontal
             anchors.left: parent.left
@@ -518,7 +434,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.topMargin: parent.height - (parent.height - 10)
 
-            Controls2.Label {
+            Label {
                 id: textCurrentDuration
                 text: mediaPlayerHandler.durationInfo // "00:00:00"
                 anchors.left: parent.left
@@ -532,7 +448,7 @@ Rectangle {
                 }
             }
 
-            Controls2.Label {
+            Label {
                 id: textSeparatorDuration
                 text: " / "
                 anchors.left: textCurrentDuration.right
@@ -543,7 +459,7 @@ Rectangle {
                 height: parent.height - 10
             }
 
-            Controls2.Label {
+            Label {
                 id: textFullDuration
                 text: mediaPlayerHandler.totalDuration
                 width: 50
@@ -566,7 +482,7 @@ Rectangle {
         width: 160
         height: parent.height
 
-        Controls2.ToolButton {
+        ToolButton {
             property real soundValue: 0.0
             signal mutedSound
             signal unmutedSound
@@ -595,10 +511,12 @@ Rectangle {
                     onEntered: {
                         soundButtonBckg.color = "#f2f2f2"
                         soundButtonBckg.border.color = "#8f8f8f"
+                        soundButtonBckg.radius = 5
                     }
                     onExited: {
                         soundButtonBckg.color = "transparent"
                         soundButtonBckg.border.color = "transparent"
+                        soundButtonBckg.radius = 0
                     }
                     onClicked: {
                         if (valueSound === 0.0) {
@@ -625,7 +543,7 @@ Rectangle {
             }
         }
 
-        Controls2.Slider {
+        Slider {
             id: sliderSound
             anchors.left: soundButton.right
             anchors.right: parent.right
@@ -691,11 +609,48 @@ Rectangle {
         width: 40
         height: parent.height
 
-        Controls1.ToolButton {
+        ToolButton {
+            anchors.left: parent.left
             id: fullScreenButton
-            action: fullScreen
             width: sizeButton
             height: sizeButton
+            background: Item {
+                Rectangle {
+                    id: fullScreenButtonBckg
+                    anchors.fill: parent
+                    color: "transparent"
+                    border.color: "transparent"
+                }
+
+                MouseArea {
+                    id: fullScreenButtonArea
+                    anchors.fill: fullScreenButtonBckg
+                    hoverEnabled: true
+                    onEntered: {
+                        fullScreenButtonBckg.color = "#f2f2f2"
+                        fullScreenButtonBckg.border.color = "#8f8f8f"
+                        fullScreenButtonBckg.radius = 5
+                    }
+                    onExited: {
+                        fullScreenButtonBckg.color = "transparent"
+                        fullScreenButtonBckg.border.color = "transparent"
+                        fullScreenButtonBckg.radius = 0
+                    }
+                    onClicked: {
+
+                    }
+                }
+            }
+
+            Image {
+                id: fullScreenButtonImage
+                anchors.fill: parent
+                fillMode: Image.PreserveAspectFit
+                source: "qrc:/icons/icons/fullScreen.png"
+                mipmap: true
+                smooth: true
+                anchors.margins: 8
+            }
         }
     }
 
