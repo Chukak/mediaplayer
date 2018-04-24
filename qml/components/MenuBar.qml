@@ -26,8 +26,6 @@ MenuBar {
             }
         }
 
-        MenuSeparator {}
-
         MenuItem {
             text: qsTr("&Pause")
             onTriggered: {
@@ -35,12 +33,140 @@ MenuBar {
             }
         }
 
-        MenuSeparator {}
-
         MenuItem {
             text: qsTr("&Stop")
             onTriggered: {
                 mediaplayer.stop()
+            }
+        }
+
+        MenuSeparator {}
+
+        Menu {
+            title: qsTr("&Playback rate")
+
+            MenuItem {
+                text: qsTr("Normal")
+                onTriggered: {
+                    mediaPlayerHandler.setPlaybackRate(1.0)
+                }
+            }
+
+            MenuSeparator {}
+
+            MenuItem {
+                text: qsTr("Half")
+                onTriggered: {
+                    mediaPlayerHandler.setPlaybackRate(0.5)
+                }
+            }
+
+            MenuSeparator {}
+
+            MenuItem {
+                text: qsTr("Double")
+                onTriggered: {
+                    mediaPlayerHandler.setPlaybackRate(2.0)
+                }
+            }
+
+            MenuSeparator {}
+
+            MenuItem {
+                text: qsTr("4.0x")
+                onTriggered: {
+                    mediaPlayerHandler.setPlaybackRate(4.0)
+                }
+            }
+
+            MenuItem {
+                text: qsTr("8.0x")
+                onTriggered: {
+                    mediaPlayerHandler.setPlaybackRate(8.0)
+                }
+            }
+
+            MenuItem {
+                text: qsTr("10.0x")
+                onTriggered: {
+                    mediaPlayerHandler.setPlaybackRate(10.0)
+                }
+            }
+        }
+
+        MenuSeparator {}
+
+        Menu {
+            title: qsTr("Rewind")
+
+            MenuItem {
+                text: qsTr("-10 minutes")
+                onTriggered: {
+                    mediaPlayerHandler.seek(mediaPlayerHandler.position - 600)
+                }
+            }
+
+            MenuItem {
+                text: qsTr("-5 minutes")
+                onTriggered: {
+                    mediaPlayerHandler.seek(mediaPlayerHandler.position - 300)
+                }
+            }
+
+            MenuItem {
+                text: qsTr("-2 minutes")
+                onTriggered: {
+                    mediaPlayerHandler.seek(mediaPlayerHandler.position - 120)
+                }
+            }
+
+            MenuItem {
+                text: qsTr("-1 minute")
+                onTriggered: {
+                    mediaPlayerHandler.seek(mediaPlayerHandler.position - 60)
+                }
+            }
+
+            MenuItem {
+                text: qsTr("-30 seconds")
+                onTriggered: {
+                    mediaPlayerHandler.seek(mediaPlayerHandler.position - 30)
+                }
+            }
+
+            MenuItem {
+                text: qsTr("+30 seconds")
+                onTriggered: {
+                    mediaPlayerHandler.seek(mediaPlayerHandler.position + 30)
+                }
+            }
+
+            MenuItem {
+                text: qsTr("+1 minute")
+                onTriggered: {
+                    mediaPlayerHandler.seek(mediaPlayerHandler.position + 60)
+                }
+            }
+
+            MenuItem {
+                text: qsTr("+2 minutes")
+                onTriggered: {
+                    mediaPlayerHandler.seek(mediaPlayerHandler.position + 120)
+                }
+            }
+
+            MenuItem {
+                text: qsTr("+5 minutes")
+                onTriggered: {
+                    mediaPlayerHandler.seek(mediaPlayerHandler.position + 300)
+                }
+            }
+
+            MenuItem {
+                text: qsTr("+10 minutes")
+                onTriggered: {
+                    mediaPlayerHandler.seek(mediaPlayerHandler.position + 600)
+                }
             }
         }
     }
@@ -88,10 +214,7 @@ MenuBar {
                 }
             }
         }
-
     }
-
-
 
     Menu {
         title: qsTr("Subtitles")
@@ -135,7 +258,6 @@ MenuBar {
             checkable: true
             checked: true
             onCheckedChanged: {
-                console.log(checked)
                 mediaPlayerHandler.showSubtitles(checked)
             }
         }
