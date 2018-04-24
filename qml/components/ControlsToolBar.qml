@@ -68,11 +68,12 @@ Rectangle {
                         playButtonBckg.radius = 0
                     }
                     onClicked: {
-                        mediaplayer.play()
                         if (playButton.playing) {
-                            playButtonImage.source = "qrc:/icons/icons/pauseVideo.png"
-                        } else {
+                             mediaplayer.pause()
                             playButtonImage.source = "qrc:/icons/icons/playVideo.png"
+                        } else {
+                             mediaplayer.play()
+                            playButtonImage.source = "qrc:/icons/icons/pauseVideo.png"
                         }
                     }
                 }
@@ -305,7 +306,7 @@ Rectangle {
                     radius: 5
                 }
 
-                /*MouseArea {
+                MouseArea {
                     anchors.fill: cbPRBackground
                     hoverEnabled: true
                     onEntered: {
@@ -323,7 +324,7 @@ Rectangle {
                             cbPlaybackRate.popup.open()
                         }
                     }
-                }*/
+                }
             }
             delegate: ItemDelegate {
                 y: parent.height
@@ -353,8 +354,6 @@ Rectangle {
                 height: contentItem.implicitHeight
                 contentItem: ListView {
                     implicitHeight: contentHeight
-                    anchors.bottom: cbPlaybackRate.top
-                    //anchors.fill: parent
                     model: cbPlaybackRate.popup.visible ? cbPlaybackRate.delegateModel : null
                 }
             }
