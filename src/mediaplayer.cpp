@@ -12,9 +12,9 @@ QString getFormatDuration(const qint64 duration)
 
 
 
-MediaPlayer::MediaPlayer(QObject *parent) :
-    QObject(parent)
+MediaPlayer::MediaPlayer(QObject *parent)
 {
+    setParent(parent);
 }
 
 
