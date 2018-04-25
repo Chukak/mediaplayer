@@ -1,41 +1,50 @@
 #include "subtitlesoutput.h"
-#include <QDebug>
 
 SubtitlesOutput::SubtitlesOutput(QObject *parent) :
     QObject(parent)
 {
 }
 
+/*
+ * Adds a new file from url.
+ */
 void SubtitlesOutput::addSubtitles(const QUrl &url)
 {
-    urls.push_back(url);
-    names.push_back(url.fileName());
+    urls.push_back(url); // The list of urls.
+    names.push_back(url.fileName()); // The list of file names.
     emit listSubtitlesChanged();
 }
 
+/*
+ * Sets the current subtitles from the list of an available subtitles by key.
+ */
 void SubtitlesOutput::setSubtitles(qint32 key)
 {
     QUrl url("");
     if (urls.size()) {
-        url = urls[key];
+        url = urls[key]; // Get url from the list by key.
     }
     if (!url.isEmpty()) {
         QFile file(url.toLocalFile());
         if (file.exists()) {
             file.open(QIODevice::ReadOnly);
             if (file.isReadable()) {
-                current_subtitles = SubtitleParser::parseFile(&file);
-                selected_subs = true;
+                current_subtitles = SubtitleParser::parseFile(&file); // Analyze an open file.
+                _selected = true;
             }
         }
     } else {
-        empty();
+        empty(); // Clear.
     }
 }
 
+/*
+ * Returns the subtitles at the time point.
+ */
 QString SubtitlesOutput::getCurrentSubtitles(qint64 time)
 {
-    for (qint32 i = last_index; i < static_cast<qint32>(current_subtitles.size()); ++i) {
+    uint size= current_subtitles.size();
+    for (uint i = last_index; i < size; ++i) {
         if (current_subtitles.at(i).timeStart() <= time
                 && current_subtitles.at(i).timeEnd() >= time) {
             last_index = i;
@@ -45,6 +54,10 @@ QString SubtitlesOutput::getCurrentSubtitles(qint64 time)
     return "";
 }
 
+/*
+ * Binary search for the subtitles.
+ * Finds the subtitles and set the index of these subtitles.
+ */
 void SubtitlesOutput::binarySearch(qint64 time)
 {
     int start = 0, middle = 0;
@@ -64,6 +77,9 @@ void SubtitlesOutput::binarySearch(qint64 time)
     }
 }
 
+/*
+ * Updates the current text.
+ */
 void SubtitlesOutput::updateSubtitlesText(qint64 time, bool seekable)
 {
     if (current_subtitles.size() > 0) {
@@ -77,9 +93,11 @@ void SubtitlesOutput::updateSubtitlesText(qint64 time, bool seekable)
     }
 }
 
+/*
+ * Clears the current text of the subtitles.
+ */
 void SubtitlesOutput::empty()
 {
     current_text.clear();
     emit textChanged();
 }
-
