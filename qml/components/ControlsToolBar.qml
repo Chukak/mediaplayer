@@ -188,7 +188,7 @@ Rectangle {
                 mediaPlayerHandler.seek(mediaPlayerHandler.position + currentValue)
             }
             contentItem: Item {}
-            indicator: Rectangle {}
+            indicator: Canvas {}
             background: Item {
                 Rectangle {
                     id: cbBackground
@@ -230,8 +230,9 @@ Rectangle {
             }
             delegate: ItemDelegate {
                 id:cbRewindDlg
-                width: parent.width + 20
+                width: implicitWidth
                 height:25
+
 
                 contentItem: Text {
                     id:cbRewindDlgTextItem
@@ -248,13 +249,18 @@ Rectangle {
             }
             popup: Popup {
                 id: cbRewindPopup
-                y: parent.width
+                y: parent.height
                 width: parent.width + 20
-                height: contentItem.implicitHeight
+                //height: contentItem.implicitHeight
                 contentItem: ListView {
                     implicitHeight: contentHeight
+                    //implicitWidth: contentWidth
                     //anchors.fill: parent
                     model: cbRewind.popup.visible ? cbRewind.delegateModel : null
+                }
+                background: Rectangle {
+                    border.color: "#2997e5"
+                    color: "white"
                 }
             }
         }
