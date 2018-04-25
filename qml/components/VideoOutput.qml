@@ -15,9 +15,6 @@ VideoOutput {
         Label {
             anchors.centerIn: parent
             text: subtitlesHandler.text
-            onTextChanged: {
-                console.log(text)
-            }
             color: "yellow"
             font.pointSize: 15
         }
