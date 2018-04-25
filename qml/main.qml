@@ -1,3 +1,4 @@
+import "./components" as Components
 import QtQuick 2.9
 import QtQuick.Controls 1.4
 import QtQuick.Window 2.3
@@ -5,13 +6,11 @@ import QtMultimedia 5.5
 import backend.VideoOutput 1.0
 import backend.MediaPlayer 1.0
 import backend.SubtitlesOutput 1.0
-import "./components" as Components
+
 
 ApplicationWindow {
     id: mainWindow
     visible: true
-    //width: 1270
-    //height: 720
     minimumWidth: 640
     minimumHeight: 480
     title: mediaPlayerHandler.mediaTitle
@@ -30,8 +29,7 @@ ApplicationWindow {
 
     menuBar: Components.MenuBar {
         id: menuBar
-   }
-
+    }
 
     toolBar: Components.ToolBar {
         id: toolBar
@@ -99,9 +97,6 @@ ApplicationWindow {
 
     SubtitlesHandler {
         id: subtitlesHandler
-        onListSubtitlesChanged: {
-            console.log(listSubtitles)
-        }
     }
 
     statusBar: Components.StatusBar {

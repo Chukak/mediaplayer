@@ -98,7 +98,7 @@ ToolBar {
                         printScreenBckg.radius = 0
                     }
                     onClicked: {
-
+                        videoOutputHandler.snapshot()
                     }
                 }
             }
