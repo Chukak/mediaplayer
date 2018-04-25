@@ -4,6 +4,7 @@
 #include "mediaplayer.h"
 #include <QObject>
 #include <QQuickItem>
+#include <QVideoProbe>
 
 
 class VideoOutput : public QObject
@@ -24,6 +25,8 @@ public:
 
     QString status() const { return m_status; }
 
+    Q_INVOKABLE void snapshot();
+
 signals:
     void targetOutputChanged();
 
@@ -32,6 +35,8 @@ signals:
     void statusChanged();
 
 public slots:
+    void updateCurrentFrame(const QVideoFrame& frame);
+
     void updateState(const QMediaPlayer::State& state);
 
     void updateStatus(const QMediaPlayer::MediaStatus& status);
@@ -39,7 +44,10 @@ public slots:
 private:
     QQuickItem *m_output = nullptr;
     MediaPlayer *m_player = nullptr;
+    QAbstractVideoSurface *surface = nullptr;
     QString m_status = "No media";
+    QVideoProbe *probe = nullptr;
+    QVideoFrame current_frame;
 };
 
 #endif // VIDEOOUTPUT_H
