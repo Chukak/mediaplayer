@@ -30,6 +30,7 @@ Rectangle {
     }
     onStopVideo: {
         playButton.playing = false
+        playButton.stoped()
     }
 
     Item {
@@ -42,10 +43,14 @@ Rectangle {
 
         ToolButton {
             property bool playing: false
+            signal stoped
             anchors.left: parent.left
             id: playButton
             width: sizeButton
             height: sizeButton
+            onStoped: {
+                playButtonImage.source = "qrc:/icons/icons/playVideo.png"
+            }
             background: Item {
                 Rectangle {
                     id: playButtonBckg
