@@ -86,6 +86,11 @@ public:
      */
     bool selected() const { return _selected; }
 
+    /*
+     * Display subtitles or not.
+     */
+    void setSelected(bool display);
+
 public slots:
 
     /*
@@ -95,6 +100,11 @@ public slots:
      * @param seekable - if the slider is moved by the user.
      */
     void updateSubtitlesText(qint64 time, bool seekable);
+
+    /*
+     * Clears all loaded subtitles.
+     */
+     Q_INVOKABLE void clearLoadedSubtitles();
 
 signals:
 
@@ -111,7 +121,12 @@ signals:
     /*
      * Emitted when the subtitles were added.
      */
-    //void subtitlesAdded();
+    void subtitlesAdded(QString name);
+
+    /*
+     * Emitted when all loaded subtitles are deleted.
+     */
+    void subtitlesCleared();
 
 private:
 

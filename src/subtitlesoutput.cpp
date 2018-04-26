@@ -13,6 +13,7 @@ void SubtitlesOutput::addSubtitles(const QUrl &url)
     urls.push_back(url); // The list of urls.
     names.push_back(url.fileName()); // The list of file names.
     emit listSubtitlesChanged();
+    emit subtitlesAdded(url.fileName());
 }
 
 /*
@@ -35,6 +36,7 @@ void SubtitlesOutput::setSubtitles(qint32 key)
         }
     } else {
         empty(); // Clear.
+        _selected = false;
     }
 }
 
@@ -94,10 +96,33 @@ void SubtitlesOutput::updateSubtitlesText(qint64 time, bool seekable)
 }
 
 /*
+ * Display subtitles.
+ */
+void SubtitlesOutput::setSelected(bool display)
+{
+    _selected = display;
+}
+
+/*
  * Clears the current text of the subtitles.
  */
 void SubtitlesOutput::empty()
 {
     current_text.clear();
     emit textChanged();
+}
+
+/*
+ * Clears all loaded subtitles.
+ */
+void SubtitlesOutput::clearLoadedSubtitles()
+{
+    urls.clear();
+    urls.append(QUrl(""));
+    names.clear();
+    current_subtitles.clear();
+    empty();
+    _selected = false;
+    last_index = 0;
+    emit subtitlesCleared();
 }
