@@ -11,6 +11,7 @@ Rectangle {
     id: controls
     anchors.leftMargin: 20
     anchors.rightMargin: 20
+
     gradient: Gradient {
         GradientStop {
             position: 0.0
@@ -235,9 +236,8 @@ Rectangle {
             }
             delegate: ItemDelegate {
                 id:cbRewindDlg
-                width: implicitWidth
+                width: sizeButton + 50
                 height:25
-
 
                 contentItem: Text {
                     id:cbRewindDlgTextItem
@@ -254,17 +254,16 @@ Rectangle {
             }
             popup: Popup {
                 id: cbRewindPopup
-                y: parent.height
-                width: parent.width + 20
-                //height: contentItem.implicitHeight
+                y: parent.width + 1
+                width: sizeButton + 50 + 2
+                height: 25 * comboPositions.count + 2
                 contentItem: ListView {
+                    id: cbRewindPopupList
                     implicitHeight: contentHeight
-                    //implicitWidth: contentWidth
-                    //anchors.fill: parent
+                    anchors.fill: parent
                     model: cbRewind.popup.visible ? cbRewind.delegateModel : null
                 }
                 background: Rectangle {
-                    border.color: "#2997e5"
                     color: "white"
                 }
             }
@@ -322,7 +321,7 @@ Rectangle {
                     hoverEnabled: true
                     onEntered: {
                         cbPRBackground.color = "#ffffff"
-                        cbPRBackground.border.color = "#2997e5" //"#8f8f8f"
+                        cbPRBackground.border.color = "#2997e5"
                     }
                     onExited: {
                         cbPRBackground.color = "#f7f7f7"
@@ -338,9 +337,6 @@ Rectangle {
                 }
             }
             delegate: ItemDelegate {
-                y: parent.height
-                x: -12
-                //anchors.bottom: parent.top
                 id:cbPRDlg
                 width: sizeButton
                 height:25
@@ -360,12 +356,17 @@ Rectangle {
             }
             popup: Popup {
                 id: cbPRPopup
-                y: parent.width -1
+                y: parent.width + 1
                 width: parent.width
-                height: contentItem.implicitHeight
+                height: 25 * comboItems.count
                 contentItem: ListView {
+                    anchors.fill: parent
                     implicitHeight: contentHeight
                     model: cbPlaybackRate.popup.visible ? cbPlaybackRate.delegateModel : null
+                }
+                background: Rectangle {
+                    anchors.fill: parent
+                    border.color: "#8f8f8f"
                 }
             }
         }
