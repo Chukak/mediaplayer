@@ -69,7 +69,6 @@ ApplicationWindow {
             anchors.fill: videoOutput
             onPressed: {
                 mediaplayer.pause()
-                console.log("da")
             }
         }
     }
@@ -97,6 +96,12 @@ ApplicationWindow {
 
     SubtitlesHandler {
         id: subtitlesHandler
+        onSubtitlesCleared: {
+            toolBar.subtitlesModel.clearSubs()
+        }
+        onSubtitlesAdded: {
+            toolBar.subtitlesModel.appendSubtitles(name)
+        }
     }
 
     statusBar: Components.StatusBar {
