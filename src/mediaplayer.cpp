@@ -112,10 +112,8 @@ void MediaPlayer::seek(qint64 position)
     if (pos > 0 && pos > media_duration){
         pos = media_duration;
     }
-    if (subtitles_added && subtitles_output) {
-        if (subtitles_output->selected()) {
-            subtitles_output->updateSubtitlesText(pos, true);
-        }
+    if (subtitles_output && subtitles_output->selected()) {
+        subtitles_output->updateSubtitlesText(pos, true);
     }
     m_player->setPosition(pos);
 }
@@ -125,17 +123,16 @@ void MediaPlayer::setSubtitlesOutput(SubtitlesOutput *subs_out)
     subtitles_output = subs_out;
     subtitles_output->setParent(this);
     connect(m_player, &QMediaPlayer::positionChanged, this, [=](qint64 position) {
-        if (subtitles_added) {
+        if (subtitles_output->selected()) {
             subtitles_output->updateSubtitlesText(position, false);
         }
     });
-    subtitles_added = true;
     emit subtitlesOutputChanged();
 }
 
 void MediaPlayer::showSubtitles(bool show)
 {
-    subtitles_added = show;
+    subtitles_output->setSelected(show);
     subtitles_output->empty();
 }
 

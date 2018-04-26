@@ -82,7 +82,6 @@ private:
     QString duration_info = "00:00:00";
     QString total_duration = "00:00:00";
     SubtitlesOutput *subtitles_output = nullptr;
-    bool subtitles_added = false;
 };
 
 #endif // MEDIAPLAYER_H
