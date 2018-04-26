@@ -97,9 +97,11 @@ ApplicationWindow {
     SubtitlesHandler {
         id: subtitlesHandler
         onSubtitlesCleared: {
+            menuBar.subtitlesModel.clearSubs()
             toolBar.subtitlesModel.clearSubs()
         }
         onSubtitlesAdded: {
+            menuBar.subtitlesModel.appendSubtitles(name)
             toolBar.subtitlesModel.appendSubtitles(name)
         }
     }
