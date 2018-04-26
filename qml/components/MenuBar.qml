@@ -4,6 +4,8 @@ import QtQuick.Controls 2.2 as Controls2
 import QtQml 2.2
 
 MenuBar {
+    property QtObject subtitlesModel: menuListSubtitlesModel
+
     Menu {
         title: qsTr("Open")
 
@@ -219,27 +221,51 @@ MenuBar {
     Menu {
         title: qsTr("Subtitles")
 
+        ListModel {
+            id: menuListSubtitlesModel
+            signal appendSubtitles(string name)
+            signal clearSubs
+
+            ListElement {
+                text: qsTr("Nothing")
+            }
+            onAppendSubtitles: {
+                menuListSubtitlesModel.append({"text": name})
+            }
+            onClearSubs: {
+                menuListSubtitlesModel.clear()
+                menuListSubtitlesModel.append({"text": qsTr("Nothing")})
+            }
+        }
+
         Menu {
             title: qsTr("&Main track")
             id: allSubtitles
 
-            MenuItem {
-                text: qsTr("Nothing")
-                onTriggered: {
-                    subtitlesHandler.setSubtitles(0)
-                }
-            }
-
             Instantiator {
-                model: subtitlesHandler.listSubtitles
+                id:menuListSubtitles
+                model: menuListSubtitlesModel
                 delegate: MenuItem {
                     text: modelData
                     onTriggered: {
-                        subtitlesHandler.setSubtitles(index + 1)
+                        subtitlesHandler.setSubtitles(index)
                     }
                 }
-                onObjectAdded: allSubtitles.insertItem(index, object)
-                onObjectRemoved: allSubtitles.removeItem(object)
+                onObjectAdded: {
+                    allSubtitles.insertItem(index, object)
+                }
+                onObjectRemoved: {
+                    allSubtitles.removeItem(object)
+                }
+            }
+        }
+
+        MenuSeparator {}
+
+        MenuItem {
+            text: qsTr("&Clear all subtitles")
+            onTriggered: {
+                subtitlesHandler.clearLoadedSubtitles()
             }
         }
 
