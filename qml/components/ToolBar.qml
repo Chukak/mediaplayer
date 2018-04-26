@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.4
 ToolBar {
     id: toolBar
     property int sizeButton: height
+    property QtObject subtitlesModel: listSubtitles
     width: parent.width
     height: 40
     background: Rectangle {
@@ -22,8 +23,18 @@ ToolBar {
 
     ListModel {
         id: listSubtitles
+        signal appendSubtitles(string name)
+        signal clearSubs
+
         ListElement {
             text: qsTr("Nothing")
+        }
+        onAppendSubtitles: {
+            listSubtitles.append({"text": name})
+        }
+        onClearSubs: {
+            listSubtitles.clear()
+            listSubtitles.append({"text": qsTr("Nothing")})
         }
     }
 
@@ -121,7 +132,9 @@ ToolBar {
             model: listSubtitles
             textRole: "text"
             onCurrentIndexChanged: {
-
+                if (cbSubtitlesList.popup.visible) {
+                    subtitlesHandler.setSubtitles(currentIndex)
+                }
             }
             contentItem: Item {}
             indicator: Rectangle {}
@@ -175,6 +188,7 @@ ToolBar {
                     color: hovered ? "white" : "black"
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignLeft
+                    elide: Text.ElideRight
                 }
 
                 background: Rectangle{
