@@ -31,7 +31,9 @@ void SubtitlesOutput::setSubtitles(qint32 key)
             file.open(QIODevice::ReadOnly);
             if (file.isReadable()) {
                 current_subtitles = SubtitleParser::parseFile(&file); // Analyze an open file.
-                _selected = true;
+                if (current_subtitles.size() > 0) {
+                    _selected = true;
+                }
             }
         }
     } else {
