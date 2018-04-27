@@ -140,6 +140,7 @@ Rectangle {
 
         ComboBox {
             property real currentValue: 0
+            property int modelWidth: 0
             anchors.left: stopButton.right
             id: cbRewind
             width: sizeButton
@@ -193,6 +194,7 @@ Rectangle {
                 currentValue = comboPositions.get(currentIndex).value
                 mediaPlayerHandler.seek(mediaPlayerHandler.position + currentValue)
             }
+
             contentItem: Item {}
             indicator: Canvas {}
             background: Item {
@@ -236,7 +238,6 @@ Rectangle {
             }
             delegate: ItemDelegate {
                 id:cbRewindDlg
-                width: sizeButton + 50
                 height:25
 
                 contentItem: Text {
@@ -248,17 +249,19 @@ Rectangle {
                 }
 
                 background: Rectangle{
-                    width:parent.width
+                    width:cbRewind.modelWidth //parent.width
                     color:cbRewindDlg.hovered ? "#2997e5" : "white"
+                }
+                Component.onCompleted: {
+                    cbRewind.modelWidth = Math.max(width, cbRewind.modelWidth)
                 }
             }
             popup: Popup {
                 id: cbRewindPopup
                 y: parent.width + 1
-                width: sizeButton + 50 + 2
-                height: 25 * comboPositions.count + 2
+                width: cbRewind.modelWidth
+                height: contentHeight
                 contentItem: ListView {
-                    id: cbRewindPopupList
                     implicitHeight: contentHeight
                     anchors.fill: parent
                     model: cbRewind.popup.visible ? cbRewind.delegateModel : null
@@ -270,6 +273,7 @@ Rectangle {
         }
 
         ComboBox {
+            property int modelWidth: 0
             anchors.left: cbRewind.right
             id: cbPlaybackRate
             width: sizeButton
@@ -338,7 +342,6 @@ Rectangle {
             }
             delegate: ItemDelegate {
                 id:cbPRDlg
-                width: sizeButton
                 height:25
 
                 contentItem: Text {
@@ -350,22 +353,24 @@ Rectangle {
                 }
 
                 background: Rectangle{
-                    width:parent.width
-                    color:cbPRDlg.hovered ? "#2997e5" : "white"
+                    width: cbPlaybackRate.modelWidth
+                    color: cbPRDlg.hovered ? "#2997e5" : "white"
+                }
+                Component.onCompleted: {
+                    cbPlaybackRate.modelWidth = Math.max(width, cbPlaybackRate.modelWidth)
                 }
             }
             popup: Popup {
                 id: cbPRPopup
                 y: parent.width + 1
-                width: parent.width
-                height: 25 * comboItems.count
+                width: cbPlaybackRate.modelWidth
+                height: contentHeight
                 contentItem: ListView {
                     anchors.fill: parent
                     implicitHeight: contentHeight
                     model: cbPlaybackRate.popup.visible ? cbPlaybackRate.delegateModel : null
                 }
                 background: Rectangle {
-                    anchors.fill: parent
                     border.color: "#8f8f8f"
                 }
             }
@@ -434,7 +439,7 @@ Rectangle {
         id: durationLabelItem
         anchors.right: soundItem.left
         anchors.bottom: parent.bottom
-        width: 130
+        width: 140
         height: parent.height
 
         Item {
@@ -443,17 +448,18 @@ Rectangle {
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             anchors.top: parent.top
-            anchors.topMargin: parent.height - (parent.height - 10)
+            anchors.topMargin: sizeButton / 2 - 7
 
             Label {
                 id: textCurrentDuration
                 text: mediaPlayerHandler.durationInfo // "00:00:00"
                 anchors.left: parent.left
-                anchors.leftMargin: 6
+                anchors.leftMargin: 10
                 width: 50
                 font.bold: true
                 font.pointSize: 10
-                height: parent.height - 10
+                horizontalAlignment: Text.AlignRight
+                height: 10 //parent.height - 10
                 onTextChanged: {
                     width = text.length * 6 + 2
                 }
@@ -463,11 +469,12 @@ Rectangle {
                 id: textSeparatorDuration
                 text: " / "
                 anchors.left: textCurrentDuration.right
-                anchors.leftMargin: 4
+                anchors.leftMargin: 6
                 width: 10
                 font.bold: true
                 font.pointSize: 10
-                height: parent.height - 10
+                horizontalAlignment: Text.AlignRight
+                height: 10 //parent.height - 10
             }
 
             Label {
@@ -475,10 +482,13 @@ Rectangle {
                 text: mediaPlayerHandler.totalDuration
                 width: 50
                 anchors.left: textSeparatorDuration.right
-                anchors.leftMargin: 4
+                anchors.leftMargin: 13
+                anchors.right: soundItem.left
+                anchors.rightMargin: 10
                 font.bold: true
                 font.pointSize: 10
-                height: parent.height - 10
+                height: 10 //parent.height - 10
+                horizontalAlignment: Text.AlignRight
                 onTextChanged: {
                     width = text.length * 6 + 2
                 }

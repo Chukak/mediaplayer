@@ -125,6 +125,7 @@ ToolBar {
         }
 
         ComboBox {
+            property int modelWidth: 0
             id: cbSubtitlesList
             width: sizeButton
             height: sizeButton
@@ -179,7 +180,6 @@ ToolBar {
             }
             delegate: ItemDelegate {
                 id: cbSubsDlg
-                width: parent.width + 20
                 height: 25
 
                 contentItem: Text {
@@ -192,15 +192,18 @@ ToolBar {
                 }
 
                 background: Rectangle{
-                    width: parent.width
+                    width: cbSubtitlesList.modelWidth
                     color: cbSubsDlg.hovered ? "#2997e5" : "white"
+                }
+                Component.onCompleted: {
+                    cbSubtitlesList.modelWidth = Math.max(width, cbSubtitlesList.modelWidth)
                 }
             }
             popup: Popup {
                 id: cbSubsPopup
-                y: parent.width
-                width: parent.width + 20
-                height: contentItem.implicitHeight
+                y: parent.width - 1
+                width: cbSubtitlesList
+                height: contentHeight
                 contentItem: ListView {
                     implicitHeight: contentHeight
                     anchors.fill: parent
