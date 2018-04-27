@@ -202,7 +202,7 @@ ToolBar {
             popup: Popup {
                 id: cbSubsPopup
                 y: parent.width - 1
-                width: cbSubtitlesList
+                width: cbSubtitlesList.modelWidth
                 height: contentHeight
                 contentItem: ListView {
                     implicitHeight: contentHeight
