@@ -85,9 +85,14 @@ signals:
     void mediaPlayerChanged();
 
     /*
-     * Emitted the media status changed.
+     * Emitted when the media status changed.
      */
     void statusChanged();
+
+    /*
+     * Emitted if snapshot errors are exist.
+     */
+    void snapshotError(QString message);
 
 public slots:
 

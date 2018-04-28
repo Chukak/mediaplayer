@@ -149,6 +149,7 @@ void VideoOutput::snapshot()
     QVideoFrame frame(current_frame);
     // Map the content of a video frame to system memory.
     if (!frame.map(QAbstractVideoBuffer::ReadOnly)) {
+        emit snapshotError("Impossible load the content of video frame into the system memory.");
         return ;
     }
     // Convert the video frame to the image.
@@ -158,6 +159,7 @@ void VideoOutput::snapshot()
     // Continue to play.
     qobject_cast<QMediaPlayer *>(m_player->player())->play();
     if (image.isNull()) {
+        emit snapshotError("The image is empty.");
         return ;
     }
     QPixmap screenshot = QPixmap::fromImage(image);
@@ -172,9 +174,11 @@ void VideoOutput::snapshot()
     QString filename = getUniqueName(directory.path());
     QFile file(filename + ".png");
     if (!file.open(QIODevice::WriteOnly)) {
+        emit snapshotError("Can not create image. Maybe you don`t have enough rights.");
         return ;
     }
     if (!screenshot.save(&file, "png", 100)) {
+        emit snapshotError("The image can not be saved.");
         return ;
     }
 }
