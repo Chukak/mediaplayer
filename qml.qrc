@@ -9,6 +9,7 @@
         <file>qml/components/StatusBar.qml</file>
         <file>qml/components/SubtitlesFileDialog.qml</file>
         <file>qml/components/VideoOutput.qml</file>
+        <file>qml/components/ErrorMessage.qml</file>
     </qresource>
     <qresource prefix="/icons">
         <file>icons/openVideo.png</file>
