@@ -128,6 +128,11 @@ signals:
      */
     void subtitlesCleared();
 
+    /*
+     * Emitted if the subtitles file can`t be parsed.
+     */
+    void subtitlesNotFoundError();
+
 private:
 
     QStringList names;

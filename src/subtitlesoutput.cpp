@@ -33,6 +33,8 @@ void SubtitlesOutput::setSubtitles(qint32 key)
                 current_subtitles = SubtitleParser::parseFile(&file); // Analyze an open file.
                 if (current_subtitles.size() > 0) {
                     _selected = true;
+                } else {
+                    emit subtitlesNotFoundError();
                 }
             }
         }
