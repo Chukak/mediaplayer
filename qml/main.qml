@@ -19,6 +19,10 @@ ApplicationWindow {
 
     }
 
+    Components.ErrorMessage {
+        id: errorMessage
+    }
+
     Components.FileDialog {
         id: fileDialog
     }
@@ -86,6 +90,10 @@ ApplicationWindow {
         id: videoOutputHandler
         targetOutput: videoOutput
         mediaPlayer: mediaPlayerHandler
+        onSnapshotError: {
+            errorMessage.message = message
+            errorMessage.visible = true
+        }
     }
 
     MediaPlayerHandler {
@@ -103,6 +111,10 @@ ApplicationWindow {
         onSubtitlesAdded: {
             menuBar.subtitlesModel.appendSubtitles(name)
             toolBar.subtitlesModel.appendSubtitles(name)
+        }
+        onSubtitlesNotFoundError: {
+            errorMessage.message = "Subtitles not found!"
+            errorMessage.visible = true
         }
     }
 
