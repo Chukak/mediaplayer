@@ -7,6 +7,7 @@ Rectangle {
     signal playVideo
     signal pauseVideo
     signal stopVideo
+    signal fullScreen
 
     id: controls
     anchors.leftMargin: 20
@@ -32,6 +33,11 @@ Rectangle {
     onStopVideo: {
         playButton.playing = false
         playButton.stoped()
+    }
+    onFullScreen: {
+        fullScreenButton.signalEmmited = true
+        fullScreenButtonArea.clicked(Qt.LeftButton)
+        fullScreenButton.signalEmmited = false
     }
 
     Item {
@@ -630,6 +636,7 @@ Rectangle {
 
         ToolButton {
             property bool fullScreen: false
+            property bool signalEmmited: false
             anchors.left: parent.left
             id: fullScreenButton
             width: sizeButton
@@ -658,11 +665,15 @@ Rectangle {
                     }
                     onClicked: {
                         if (!fullScreenButton.fullScreen) {
-                            setFullscreen(true)
+                            if (!fullScreenButton.signalEmmited){
+                                setFullscreen(true)
+                            }
                             fullScreenButton.fullScreen = true
                             fullScreenButtonImage.source = "qrc:/icons/resources/icons/fullScreenReverse.png"
                         } else {
-                            setFullscreen(false)
+                            if (!fullScreenButton.signalEmmited){
+                                setFullscreen(false)
+                            }
                             fullScreenButton.fullScreen = false
                             fullScreenButtonImage.source = "qrc:/icons/resources/icons/fullScreen.png"
                         }

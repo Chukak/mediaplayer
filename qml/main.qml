@@ -171,8 +171,10 @@ ApplicationWindow {
     function setAnchorsPlayerButtons(name) {
         if (name === "fullscreen") {
             playerButtons.parent = fullScreenMediaArea
+            playerButtons.fullScreen()
        } else if (name === "windowed") {
             playerButtons.parent = playerButtonsParent
+            playerButtons.fullScreen()
         } else {
             console.log("Unknown option.")
         }
