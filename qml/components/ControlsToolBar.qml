@@ -50,7 +50,7 @@ Rectangle {
             width: sizeButton
             height: sizeButton
             onStoped: {
-                playButtonImage.source = "qrc:/icons/icons/playVideo.png"
+                playButtonImage.source = "qrc:/icons/resources/icons/play.png"
             }
             background: Item {
                 Rectangle {
@@ -76,10 +76,10 @@ Rectangle {
                     onClicked: {
                         if (playButton.playing) {
                              mediaplayer.pause()
-                            playButtonImage.source = "qrc:/icons/icons/playVideo.png"
+                            playButtonImage.source = "qrc:/icons/resources/icons/play.png"
                         } else {
                              mediaplayer.play()
-                            playButtonImage.source = "qrc:/icons/icons/pauseVideo.png"
+                            playButtonImage.source = "qrc:/icons/resources/icons/pause.png"
                         }
                     }
                 }
@@ -89,7 +89,7 @@ Rectangle {
                 id: playButtonImage
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
-                source: "qrc:/icons/icons/playVideo.png"
+                source: "qrc:/icons/resources/icons/play.png"
                 mipmap: true
                 smooth: true
                 anchors.margins: 8
@@ -131,7 +131,7 @@ Rectangle {
             Image {
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
-                source: "qrc:/icons/icons/stopVideo.png"
+                source: "qrc:/icons/resources/icons/stop.png"
                 mipmap: true
                 smooth: true
                 anchors.margins: 8
@@ -207,7 +207,7 @@ Rectangle {
                     Image {
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectFit
-                        source: "qrc:/icons/icons/playbackRate.png"
+                        source: "qrc:/icons/resources/icons/rewind.png"
                         mipmap: true
                         smooth: true
                         anchors.margins: 8
@@ -660,9 +660,11 @@ Rectangle {
                         if (!fullScreenButton.fullScreen) {
                             setFullscreen(true)
                             fullScreenButton.fullScreen = true
+                            fullScreenButtonImage.source = "qrc:/icons/resources/icons/fullScreenReverse.png"
                         } else {
                             setFullscreen(false)
                             fullScreenButton.fullScreen = false
+                            fullScreenButtonImage.source = "qrc:/icons/resources/icons/fullScreen.png"
                         }
                     }
                 }
@@ -672,7 +674,7 @@ Rectangle {
                 id: fullScreenButtonImage
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
-                source: "qrc:/icons/icons/fullScreen.png"
+                source: "qrc:/icons/resources/icons/fullScreen.png"
                 mipmap: true
                 smooth: true
                 anchors.margins: 8

@@ -17,13 +17,16 @@
         <file>icons/subtitles.png</file>
         <file>icons/audioTrack.png</file>
         <file>icons/stopVideo.png</file>
-        <file>icons/playVideo.png</file>
         <file>icons/mutedSound.png</file>
-        <file>icons/fullScreen.png</file>
-        <file>icons/pauseVideo.png</file>
         <file>icons/sound.png</file>
         <file>icons/rewindRight.png</file>
         <file>icons/rewindLeft.png</file>
-        <file>icons/playbackRate.png</file>
+        <file>resources/icons/fullScreen.png</file>
+        <file>resources/icons/fullScreenReverse.png</file>
+        <file>resources/icons/pause.png</file>
+        <file>resources/icons/play.png</file>
+        <file>resources/icons/rewind.png</file>
+        <file>resources/icons/soundMuted.png</file>
+        <file>resources/icons/stop.png</file>
     </qresource>
 </RCC>
