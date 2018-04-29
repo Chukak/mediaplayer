@@ -132,14 +132,17 @@ void MediaPlayer::setSubtitlesOutput(SubtitlesOutput *subs_out)
 
 void MediaPlayer::showSubtitles(bool show)
 {
-    subtitles_output->setSelected(show);
-    subtitles_output->empty();
+    if (subtitles_output->selected()) {
+        subtitles_output->setSelected(show);
+        subtitles_output->empty();
+    }
 }
 
 void MediaPlayer::setPlaybackRate(double rate)
 {
     if (rate >= -10.0 && rate <= 10.0 &&
-            m_player->playbackRate() != rate) {
+            m_player->playbackRate() != rate &&
+            m_player->duration() != -1) {
         m_player->setPlaybackRate(rate);
     }
 }
