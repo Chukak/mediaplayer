@@ -40,50 +40,83 @@ ApplicationWindow {
     }
 
     Item {
-        parent: null
-        id: fullScreenMediaArea
-        y: mainWindow.y
-        x: mainWindow.x
-        width: Screen.width
-        height: Screen.height
-    }
-
-
-
-    Item {
         id: mediaArea
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.bottom: playerButtons.top
+        anchors.bottom: playerButtonsParent.top
         width: parent.width
+    }
 
-        Components.MediaPlayer {
-            id: mediaplayer
-        }
+    Window {
+        id: fullScreenWindow
+        y: 0
+        x: 0
+        width: Screen.width
+        height: Screen.height
+        visible: false
+        flags: Qt.Window | Qt.FramelessWindowHint
+        color: "black"
 
-        Components.VideoOutput {
-            id: videoOutput
+        Item {
+            id: fullScreenMediaArea
             anchors.fill: parent
-            source: mediaplayer
-        }
+            parent: parent
 
-        MouseArea {
-            id: playArea
-            anchors.fill: videoOutput
-            onPressed: {
-                mediaplayer.pause()
+            MouseArea {
+                anchors.fill: parent
+                parent: parent
+                onDoubleClicked: {
+                    setFullscreen(false)
+                }
+            }
+
+            Item {
+                id: playerButtonsFullScreen
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                height: 52
             }
         }
     }
 
-    Components.ControlsToolBar {
-        id: playerButtons
+    Components.MediaPlayer {
+        id: mediaplayer
+    }
+
+    Components.VideoOutput {
+        id: videoOutput
+        anchors.fill: parent
+        source: mediaplayer
+        parent: mediaArea
+    }
+
+    MouseArea {
+        id: playArea
+        anchors.fill: videoOutput
+        parent: mediaArea
+        onDoubleClicked: {
+            setFullscreen(true)
+        }
+    }
+
+    Item {
+        id: playerButtonsParent
         anchors.left: parent.left
         anchors.bottom: parent.bottom
         anchors.right: parent.right
-        width: parent.width
         height: 50
+        width: parent.width
+
+        Components.ControlsToolBar {
+            id: playerButtons
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            width: parent.width
+            height: parent.height > 50 ? 50 : parent.height
+        }
     }
 
     VideoOutputHandler {
@@ -121,6 +154,28 @@ ApplicationWindow {
     statusBar: Components.StatusBar {
         id: statusBar
         status: videoOutputHandler.status
+    }
+
+    function setFullscreen(fullscreen) {
+        if (!fullscreen) {
+            videoOutput.parent = mediaArea
+            fullScreenWindow.visible = false
+            setAnchorsPlayerButtons("windowed")
+        } else {
+            videoOutput.parent = fullScreenMediaArea
+            fullScreenWindow.visible = Window.FullScreen
+            setAnchorsPlayerButtons("fullscreen")
+        }
+    }
+
+    function setAnchorsPlayerButtons(name) {
+        if (name === "fullscreen") {
+            playerButtons.parent = fullScreenMediaArea
+       } else if (name === "windowed") {
+            playerButtons.parent = playerButtonsParent
+        } else {
+            console.log("Unknown option.")
+        }
     }
 }
 

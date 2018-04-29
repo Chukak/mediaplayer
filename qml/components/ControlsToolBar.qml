@@ -483,8 +483,6 @@ Rectangle {
                 width: 50
                 anchors.left: textSeparatorDuration.right
                 anchors.leftMargin: 13
-                anchors.right: soundItem.left
-                anchors.rightMargin: 10
                 font.bold: true
                 font.pointSize: 10
                 height: 10 //parent.height - 10
@@ -631,6 +629,7 @@ Rectangle {
         height: parent.height
 
         ToolButton {
+            property bool fullScreen: false
             anchors.left: parent.left
             id: fullScreenButton
             width: sizeButton
@@ -658,7 +657,13 @@ Rectangle {
                         fullScreenButtonBckg.radius = 0
                     }
                     onClicked: {
-
+                        if (!fullScreenButton.fullScreen) {
+                            setFullscreen(true)
+                            fullScreenButton.fullScreen = true
+                        } else {
+                            setFullscreen(false)
+                            fullScreenButton.fullScreen = false
+                        }
                     }
                 }
             }
