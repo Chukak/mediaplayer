@@ -7,7 +7,4 @@ MessageDialog {
     id: errorMessage
     icon: StandardIcon.Warning
     text: message
-    //Component.onCompleted: {
-    //    visible = true
-    //}
 }
