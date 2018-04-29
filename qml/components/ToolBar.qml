@@ -149,7 +149,7 @@ ToolBar {
                     Image {
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectFit
-                        source: "qrc:/icons/icons/subtitles.png"
+                        source: "qrc:/icons/resources/icons/subtitles.png"
                         mipmap: true
                         smooth: true
                         anchors.margins: 8
@@ -201,7 +201,7 @@ ToolBar {
             }
             popup: Popup {
                 id: cbSubsPopup
-                y: parent.width - 1
+                y: parent.width + 1
                 width: cbSubtitlesList.modelWidth
                 height: contentHeight
                 contentItem: ListView {

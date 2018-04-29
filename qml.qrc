@@ -28,5 +28,6 @@
         <file>resources/icons/rewind.png</file>
         <file>resources/icons/soundMuted.png</file>
         <file>resources/icons/stop.png</file>
+        <file>resources/icons/subtitles.png</file>
     </qresource>
 </RCC>

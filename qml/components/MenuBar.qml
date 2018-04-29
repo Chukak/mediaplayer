@@ -178,6 +178,9 @@ MenuBar {
 
         MenuItem {
             text: qsTr("&Full screen")
+            onTriggered: {
+                setFullscreen("fullscreen")
+            }
         }
 
     }
