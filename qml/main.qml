@@ -64,19 +64,27 @@ ApplicationWindow {
             parent: parent
 
             MouseArea {
+                id: fullScreenMouseArea
                 anchors.fill: parent
                 parent: parent
+                hoverEnabled: true
                 onDoubleClicked: {
                     setFullscreen(false)
                 }
+                onPositionChanged: {
+                    fullScreenTimer.stop()
+                    playerButtons.opacity = 1.0
+                    fullScreenTimer.start()
+                }
             }
 
-            Item {
-                id: playerButtonsFullScreen
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                height: 52
+            Timer {
+                id: fullScreenTimer
+                interval: 3000
+                onTriggered: {
+                    playerButtons.opacity = 0
+                    stop()
+                }
             }
         }
     }
@@ -172,9 +180,12 @@ ApplicationWindow {
         if (name === "fullscreen") {
             playerButtons.parent = fullScreenMediaArea
             playerButtons.fullScreen()
+            fullScreenTimer.start()
        } else if (name === "windowed") {
             playerButtons.parent = playerButtonsParent
             playerButtons.fullScreen()
+            fullScreenTimer.stop()
+            playerButtons.opacity = 1.0
         } else {
             console.log("Unknown option.")
         }
