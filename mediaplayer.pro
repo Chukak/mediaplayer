@@ -26,3 +26,6 @@ HEADERS += \
     src/subtitleparser.h \
     src/subtitlesoutput.h
 
+DISTFILES += \
+    .gitignore
+
