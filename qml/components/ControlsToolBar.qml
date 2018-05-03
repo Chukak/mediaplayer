@@ -516,10 +516,10 @@ Rectangle {
             width: sizeButton
             height: sizeButton
             onMutedSound: {
-                soundButtonImage.source = "qrc:/icons/icons/mutedSound.png"
+                soundButtonImage.source = "qrc:/icons/resources/icons/mutedSound.png"
             }
             onUnmutedSound: {
-                soundButtonImage.source = "qrc:/icons/icons/sound.png"
+                soundButtonImage.source = "qrc:/icons/resources/icons/sound.png"
             }
             background: Item {
                 Rectangle {
@@ -547,10 +547,10 @@ Rectangle {
                         if (valueSound === 0.0) {
                             valueSound = sliderSound.value
                             sliderSound.value = 0.0
-                            soundButtonImage.source = "qrc:/icons/icons/mutedSound.png"
+                            soundButtonImage.source = "qrc:/icons/resources/icons/mutedSound.png"
                         } else {
                             sliderSound.value = valueSound
-                            soundButtonImage.source = "qrc:/icons/icons/sound.png"
+                            soundButtonImage.source = "qrc:/icons/resources/icons/sound.png"
                             valueSound = 0.0
                         }
                     }
@@ -561,7 +561,7 @@ Rectangle {
                 id: soundButtonImage
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
-                source: "qrc:/icons/icons/sound.png"
+                source: "qrc:/icons/resources/icons/sound.png"
                 mipmap: true
                 smooth: true
                 anchors.margins: 8

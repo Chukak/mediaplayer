@@ -76,7 +76,7 @@ ToolBar {
             Image {
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
-                source: "qrc:/icons/icons/openVideo.png"
+                source: "qrc:/icons/resources/icons/openFile.png"
                 mipmap: true
                 smooth: true
                 anchors.margins: 8
@@ -117,7 +117,7 @@ ToolBar {
             Image {
                 anchors.fill: parent
                 fillMode: Image.PreserveAspectFit
-                source: "qrc:/icons/icons/printScreen.png"
+                source: "qrc:/icons/resources/icons/snapshot.png"
                 mipmap: true
                 smooth: true
                 anchors.margins: 8
