@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
+#include <QIcon>
 #include "src/videooutput.h"
 #include "src/mediaplayer.h"
 #include "src/subtitlesoutput.h"
@@ -15,6 +16,7 @@ int main(int argc, char *argv[])
     engine.addImportPath(QStringLiteral("qrc:/icons"));
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
 
+    app.setWindowIcon(QIcon(":/icons/resources/icons/playerIcon.png"));
+
     return app.exec();
 }
-
