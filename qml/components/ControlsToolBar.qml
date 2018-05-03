@@ -316,6 +316,15 @@ Rectangle {
             onCurrentIndexChanged: {
                 mediaPlayerHandler.setPlaybackRate(comboItems.get(currentIndex).value)
             }
+            contentItem: Item {
+                Text {
+                    anchors.fill: parent
+                    font.italic: true
+                    text: comboItems.get(cbPlaybackRate.currentIndex).text
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                }
+            }
             indicator: Rectangle {}
             background: Item {
                 Rectangle {

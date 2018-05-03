@@ -189,7 +189,19 @@ MenuBar {
         title: qsTr("Audio")
 
         MenuItem {
+            property real soundValue: 0.0
             text: qsTr("&Mute sound")
+            checkable: true
+            checked: false
+            onCheckedChanged: {
+                if (checked) {
+                    soundValue = mediaplayer.volume
+                    mediaplayer.volume = 0.0
+                } else {
+                    mediaplayer.volume = soundValue
+                    soundValue = 0.0
+                }
+            }
         }
 
         MenuSeparator {}
