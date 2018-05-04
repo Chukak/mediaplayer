@@ -76,7 +76,6 @@ void VideoOutput::setMediaPlayer(MediaPlayer *player)
     QMediaPlayer *p_player = qobject_cast<QMediaPlayer *>(m_player->player());
     connect(p_player, &QMediaPlayer::stateChanged, this, &VideoOutput::updateState);
     connect(p_player, &QMediaPlayer::mediaStatusChanged, this, &VideoOutput::updateStatus);
-    connect(p_player, &QMediaPlayer::playbackRateChanged, this, &VideoOutput::snapshot);
     // Object for update the current video frame.
     probe = new QVideoProbe();
     probe->setSource(p_player);
