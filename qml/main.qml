@@ -74,7 +74,14 @@ ApplicationWindow {
                 onPositionChanged: {
                     fullScreenTimer.stop()
                     playerButtons.opacity = 1.0
-                    fullScreenTimer.start()
+                    if (!(playerButtons.y < fullScreenMouseArea.mouseY)) {
+                        fullScreenTimer.start()
+                    } else {
+                        if(!(playerButtons.x < fullScreenMouseArea.mouseX &&
+                             playerButtons.x + playerButtons.width > fullScreenMouseArea.mouseX)) {
+                            fullScreenTimer.start()
+                        }
+                    }
                 }
             }
 
