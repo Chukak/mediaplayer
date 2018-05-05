@@ -20,12 +20,12 @@ class VideoOutput : public QObject
      */
     Q_PROPERTY(QQuickItem *targetOutput READ targetOutput WRITE setTargetOutput NOTIFY targetOutputChanged)
     /*
-     * Property for displaying media status.
+     * A property for displaying media status.
      * Read-only, has signal `statusChanged`.
      */
     Q_PROPERTY(QString status READ status NOTIFY statusChanged)
     /*
-     * Property for getting the `MediaPlayer` object.
+     * A property for getting the `MediaPlayer` object.
      * Readable, can be changed, has signal `mediaPlayerChanged`.
      */
     Q_PROPERTY(MediaPlayer *mediaPlayer READ mediaPlayer WRITE setMediaPlayer NOTIFY mediaPlayerChanged)
@@ -45,7 +45,7 @@ public:
     /*
      * Gets the `VideoOutput` object from qml and save this object.
      * Emits `targetOutputChanged` signal.
-     * @param output - object from qml
+     * @param output - a pointer to the object from qml.
      */
     void setTargetOutput(QQuickItem *output);
 
@@ -57,7 +57,7 @@ public:
     /*
      * Gets the `MediaPlayer` object from qml and save this object.
      * Emits `mediaPlayerChanged` signal.
-     * @param player - the `MediaPlayer` object.
+     * @param player - a pointer to the `MediaPlayer` object.
      */
     void setMediaPlayer(MediaPlayer *player);
 
