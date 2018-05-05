@@ -73,6 +73,7 @@ ApplicationWindow {
                 }
                 onPositionChanged: {
                     fullScreenTimer.stop()
+                    cursorShape = Qt.ArrowCursor
                     playerButtons.opacity = 1.0
                     if (!(playerButtons.y < fullScreenMouseArea.mouseY)) {
                         fullScreenTimer.start()
@@ -90,6 +91,7 @@ ApplicationWindow {
                 interval: 3000
                 onTriggered: {
                     playerButtons.opacity = 0
+                    fullScreenMouseArea.cursorShape = Qt.BlankCursor
                     stop()
                 }
             }
