@@ -20,11 +20,16 @@ private Q_SLOTS:
 
 private:
     QMediaPlayer *player_value;
+    QFileInfo test_file_one;
 };
 
 VideoOutputTest::VideoOutputTest() :
     player_value(new QMediaPlayer())
 {
+    test_file_one.setFile("../resources/test1.avi");
+    if (!test_file_one.exists()) {
+        test_file_one.setFile("../../resources/test1.avi");
+    }
 }
 
 QMediaPlayer *VideoOutputTest::getMediaPlayer(QObject *object)
@@ -88,7 +93,7 @@ void VideoOutputTest::testStatus()
     QCOMPARE(true, media_state.isValid());
     QCOMPARE(QString("No media"), output.status());
 
-    QUrl media_url = QUrl::fromLocalFile(QFileInfo("../../resources/test1.avi").absoluteFilePath());
+    QUrl media_url = QUrl::fromLocalFile(test_file_one.absoluteFilePath());
     media_player.setMediaUrl(media_url);
     QCOMPARE(QString("Loading media"), output.status());
     QCOMPARE(1, spy.count());

@@ -23,11 +23,21 @@ private Q_SLOTS:
 
 private:
     QMediaPlayer *player_value;
+    QFileInfo test_file_one;
+    QFileInfo test_file_two;
 };
 
 MediaPlayerTest::MediaPlayerTest() :
     player_value(new QMediaPlayer())
 {
+    test_file_one.setFile("../resources/test1.avi");
+    if (!test_file_one.exists()) {
+        test_file_one.setFile("../../resources/test1.avi");
+    }
+    test_file_two.setFile("../resources/test2.avi");
+    if (!test_file_two.exists()) {
+        test_file_two.setFile("../../resources/test2.avi");
+    }
 }
 
 QMediaPlayer *MediaPlayerTest::getMediaPlayer(QObject *object)
@@ -64,12 +74,12 @@ void MediaPlayerTest::testMediaUrl()
     QSignalSpy spy(&media_player, &MediaPlayer::mediaUrlChanged);
     QCOMPARE(true, spy.isValid());
 
-    QUrl media_url = QUrl::fromLocalFile(QFileInfo("../../resources/test1.avi").absoluteFilePath());;
+    QUrl media_url = QUrl::fromLocalFile(test_file_one.absoluteFilePath());;
     media_player.setMediaUrl(media_url);
     QCOMPARE(media_player.mediaUrl(), media_url);
     QCOMPARE(1, spy.count());
 
-    QUrl other_media_url = QUrl::fromLocalFile(QFileInfo("../../resources/test2.avi").absoluteFilePath());;
+    QUrl other_media_url = QUrl::fromLocalFile(test_file_two.absoluteFilePath());;
     media_player.setMediaUrl(other_media_url);
     QCOMPARE(media_player.mediaUrl(), other_media_url);
     QCOMPARE(2, spy.count());
@@ -81,12 +91,12 @@ void MediaPlayerTest::testMediaTitle()
     QSignalSpy spy(&media_player, &MediaPlayer::mediaTitleChanged);
     QCOMPARE(true, spy.isValid());
 
-    QUrl media_url = QUrl::fromLocalFile(QFileInfo("../../resources/test1.avi").absoluteFilePath());;
+    QUrl media_url = QUrl::fromLocalFile(test_file_one.absoluteFilePath());;
     media_player.setMediaTitle(media_url.fileName());
     QCOMPARE(media_player.mediaTitle(), media_url.fileName());
     QCOMPARE(1, spy.count());
 
-    QUrl other_media_url = QUrl::fromLocalFile(QFileInfo("../../resources/test2.avi").absoluteFilePath());;
+    QUrl other_media_url = QUrl::fromLocalFile(test_file_two.absoluteFilePath());;
     media_player.setMediaTitle(other_media_url.fileName());
     QCOMPARE(media_player.mediaTitle(), other_media_url.fileName());
     QCOMPARE(2, spy.count());
@@ -104,13 +114,13 @@ void MediaPlayerTest::testDuration()
     QSignalSpy valid_media_player(m_player, &QMediaPlayer::mediaStatusChanged);
     QCOMPARE(true, valid_media_player.isValid());
 
-    QUrl media_url = QUrl::fromLocalFile(QFileInfo("../../resources/test1.avi").absoluteFilePath());
+    QUrl media_url = QUrl::fromLocalFile(test_file_one.absoluteFilePath());
     media_player.setMediaUrl(media_url);
     QVERIFY(valid_media_player.wait());
     QCOMPARE(1, spy.count());
     QCOMPARE(m_player->duration() / 1000, media_player.duration());
 
-    QUrl other_media_url = QUrl::fromLocalFile(QFileInfo("../../resources/test2.avi").absoluteFilePath());
+    QUrl other_media_url = QUrl::fromLocalFile(test_file_two.absoluteFilePath());
     media_player.setMediaUrl(other_media_url);
     QVERIFY(valid_media_player.wait());
     QCOMPARE(2, spy.count());
@@ -129,7 +139,7 @@ void MediaPlayerTest::testPosition()
     QSignalSpy valid_media_player(m_player, &QMediaPlayer::mediaStatusChanged);
     QCOMPARE(true, valid_media_player.isValid());
 
-    QUrl media_url = QUrl::fromLocalFile(QFileInfo("../../resources/test1.avi").absoluteFilePath());
+    QUrl media_url = QUrl::fromLocalFile(test_file_one.absoluteFilePath());
     media_player.setMediaUrl(media_url);
     QVERIFY(valid_media_player.wait());
     QCOMPARE(0, media_player.position());
@@ -166,7 +176,7 @@ void MediaPlayerTest::testSeek()
     QSignalSpy valid_media_player(m_player, &QMediaPlayer::mediaStatusChanged);
     QCOMPARE(true, valid_media_player.isValid());
 
-    QUrl media_url = QUrl::fromLocalFile(QFileInfo("../../resources/test1.avi").absoluteFilePath());
+    QUrl media_url = QUrl::fromLocalFile(test_file_one.absoluteFilePath());
     media_player.setMediaUrl(media_url);
     QVERIFY(valid_media_player.wait());
     media_player.seek(14);
@@ -214,7 +224,7 @@ void MediaPlayerTest::testDurationInfo()
     QCOMPARE(true, pos_signal.isValid());
     QCOMPARE(QString("00:00:00"), media_player.durationInfo());
 
-    QUrl media_url = QUrl::fromLocalFile(QFileInfo("../../resources/test1.avi").absoluteFilePath());
+    QUrl media_url = QUrl::fromLocalFile(test_file_one.absoluteFilePath());
     media_player.setMediaUrl(media_url);
     QVERIFY(valid_media_player.wait());
     QCOMPARE(1, pos_signal.count());
@@ -238,7 +248,7 @@ void MediaPlayerTest::testDurationInfo()
     QCOMPARE(8, pos_signal.count());
     QCOMPARE(QString("00:24"), media_player.durationInfo());
 
-    QUrl other_media_url = QUrl::fromLocalFile(QFileInfo("../../resources/test2.avi").absoluteFilePath());
+    QUrl other_media_url = QUrl::fromLocalFile(test_file_two.absoluteFilePath());
     pos_signal.clear();
     media_player.setMediaUrl(other_media_url);
     QVERIFY(valid_media_player.wait());
@@ -276,14 +286,14 @@ void MediaPlayerTest::testTotalDuration()
     QCOMPARE(true, valid_media_player.isValid());
     QCOMPARE(QString("00:00:00"), media_player.totalDuration());
 
-    QUrl media_url = QUrl::fromLocalFile(QFileInfo("../../resources/test1.avi").absoluteFilePath());
+    QUrl media_url = QUrl::fromLocalFile(test_file_one.absoluteFilePath());
     media_player.setMediaUrl(media_url);
     QVERIFY(valid_media_player.wait());
     QString test1_duration("00:27");
     QCOMPARE(test1_duration, media_player.totalDuration());
     QCOMPARE(1, spy.count());
 
-    QUrl other_media_url = QUrl::fromLocalFile(QFileInfo("../../resources/test2.avi").absoluteFilePath());
+    QUrl other_media_url = QUrl::fromLocalFile(test_file_two.absoluteFilePath());
     media_player.setMediaUrl(other_media_url);
     QVERIFY(valid_media_player.wait());
     QString test2_duration("00:05");
