@@ -112,7 +112,7 @@ build_project() {
             echo "Not clean."
         fi
         unset clean
-        unset make
+        unset make_command
         unset qmake_command
     else
         echo "Unknown error." 
