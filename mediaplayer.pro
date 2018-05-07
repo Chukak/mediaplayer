@@ -28,5 +28,6 @@ HEADERS += \
     src/subtitlesoutput.h
 
 DISTFILES += \
-    .gitignore
+    .gitignore \
+    build.sh
 
