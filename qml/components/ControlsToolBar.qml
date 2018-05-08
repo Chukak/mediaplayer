@@ -81,12 +81,14 @@ Rectangle {
                         playButtonBckg.radius = 0
                     }
                     onClicked: {
-                        if (playButton.playing) {
-                             mediaplayer.pause()
-                            playButtonImage.source = "qrc:/icons/resources/icons/play.png"
-                        } else {
-                             mediaplayer.play()
-                            playButtonImage.source = "qrc:/icons/resources/icons/pause.png"
+                        if (mediaplayer.hasAudio || mediaplayer.hasVideo) {
+                            if (playButton.playing) {
+                                 mediaplayer.pause()
+                                playButtonImage.source = "qrc:/icons/resources/icons/play.png"
+                            } else {
+                                 mediaplayer.play()
+                                playButtonImage.source = "qrc:/icons/resources/icons/pause.png"
+                            }
                         }
                     }
                 }
@@ -130,7 +132,9 @@ Rectangle {
                         stopButtonBckg.radius = 0
                     }
                     onClicked: {
-                        mediaplayer.stop()
+                        if (mediaplayer.hasAudio || mediaplayer.hasVideo) {
+                            mediaplayer.stop()
+                        }
                     }
                 }
             }
@@ -238,10 +242,12 @@ Rectangle {
                         cbBackground.radius = 0
                     }
                     onPressed: {
-                        if (cbRewind.popup.visible) {
-                            cbRewind.popup.close()
-                        } else {
-                            cbRewind.popup.open()
+                        if (mediaplayer.hasAudio || mediaplayer.hasVideo) {
+                            if (cbRewind.popup.visible) {
+                                cbRewind.popup.close()
+                            } else {
+                                cbRewind.popup.open()
+                            }
                         }
                     }
                 }
@@ -351,10 +357,12 @@ Rectangle {
                         cbPRBackground.border.color = "#8f8f8f"
                     }
                     onPressed: {
-                        if (cbPlaybackRate.popup.visible) {
-                            cbPlaybackRate.popup.close()
-                        } else {
-                            cbPlaybackRate.popup.open()
+                        if (mediaplayer.hasAudio || mediaplayer.hasVideo) {
+                            if (cbPlaybackRate.popup.visible) {
+                                cbPlaybackRate.popup.close()
+                            } else {
+                                cbPlaybackRate.popup.open()
+                            }
                         }
                     }
                 }
