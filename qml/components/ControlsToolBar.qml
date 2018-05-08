@@ -67,6 +67,7 @@ Rectangle {
                 }
 
                 MouseArea {
+                    id: playButtonArea
                     anchors.fill: playButtonBckg
                     hoverEnabled: true
                     onEntered: {
@@ -197,8 +198,11 @@ Rectangle {
             }
             textRole: "text"
             onCurrentIndexChanged: {
-                currentValue = comboPositions.get(currentIndex).value
-                mediaPlayerHandler.seek(mediaPlayerHandler.position + currentValue)
+                if (currentIndex > -1) {
+                    currentValue = comboPositions.get(currentIndex).value
+                    mediaPlayerHandler.seek(mediaPlayerHandler.position + currentValue)
+                    currentIndex = -1
+                }
             }
 
             contentItem: Item {}
@@ -390,6 +394,30 @@ Rectangle {
                 }
             }
         }
+
+        Shortcut {
+            id: playShortcut
+            sequence: "Space"
+            onActivated: {
+                playButtonArea.clicked(Qt.LeftButton)
+            }
+        }
+
+        Shortcut {
+            id: rewindShortcutLeft
+            sequence: "Left"
+            onActivated: {
+                cbRewind.currentIndex = 4
+            }
+        }
+
+        Shortcut {
+            id: rewindShortcutRight
+            sequence: "Right"
+            onActivated: {
+                cbRewind.currentIndex = 5
+            }
+        }
     }
 
     Item {
@@ -577,6 +605,14 @@ Rectangle {
             }
         }
 
+        Shortcut {
+            id: soundShortcut
+            sequence: "M"
+            onActivated: {
+                soundButtonArea.clicked(Qt.LeftButton)
+            }
+        }
+
         Slider {
             id: sliderSound
             anchors.left: soundButton.right
@@ -631,8 +667,6 @@ Rectangle {
                     soundButton.soundValue = value
                 }
             }
-
-
         }
     }
 
@@ -700,7 +734,13 @@ Rectangle {
                 anchors.margins: 8
             }
         }
+
+        Shortcut {
+            id: fullScreenShortcut
+            sequence: "F"
+            onActivated: {
+                fullScreenButtonArea.clicked(Qt.LeftButton)
+            }
+        }
     }
-
 }
-
