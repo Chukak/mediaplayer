@@ -30,5 +30,5 @@ For testing check this [page](https://github.com/Chukak/mediaplayer/blob/master/
 
 ## Resources
 * C++ 
-* [Qt5](http://doc.qt.io/qt-5/index.html) - version 5.9.4
+* [Qt5](http://doc.qt.io/qt-5.9/index.html) - version 5.9.4
 
