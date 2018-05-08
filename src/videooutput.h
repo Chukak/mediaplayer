@@ -94,6 +94,16 @@ signals:
      */
     void snapshotError(QString message);
 
+    /*
+     * Emitted if the media is invalid.
+     */
+    void invalidMedia();
+
+    /*
+     * Emitted if the media loaded.
+     */
+    void loadedMedia();
+
 public slots:
 
     /*

@@ -82,6 +82,7 @@ void VideoOutput::setMediaPlayer(MediaPlayer *player)
     probe->setSource(p_player);
     connect(probe, &QVideoProbe::videoFrameProbed, this, &VideoOutput::updateCurrentFrame);
     emit mediaPlayerChanged();
+    emit invalidMedia();
 }
 
 /*
@@ -119,18 +120,21 @@ void VideoOutput::updateStatus(const QMediaPlayer::MediaStatus& status)
     switch (status) {
     case QMediaPlayer::NoMedia:
         m_status = "No media";
+        emit invalidMedia();
         break;
     case QMediaPlayer::LoadingMedia:
         m_status = "Loading media";
         break;
     case QMediaPlayer::LoadedMedia:
         m_status = "Media loaded";
+        emit loadedMedia();
         break;
     case QMediaPlayer::BufferingMedia:
         m_status = "Buffering";
         break;
     case QMediaPlayer::InvalidMedia:
-         m_status = "Invalid media";
+        m_status = "Invalid media";
+        emit invalidMedia();
         break;
     default:
         break;
