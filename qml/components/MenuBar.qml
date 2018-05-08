@@ -5,11 +5,29 @@ import QtQml 2.2
 
 MenuBar {
     property QtObject subtitlesModel: menuListSubtitlesModel
+    signal loadedMedia
+    signal invalidMedia
+
+    onLoadedMedia: {
+        playMenu.enabled = true
+        pauseMenu.enabled = true
+        stopMenu.enabled = true
+        playbackRateMenu.enabled = true
+        rewindMenu.enabled = true
+    }
+    onInvalidMedia: {
+        playMenu.enabled = false
+        pauseMenu.enabled = false
+        stopMenu.enabled = false
+        playbackRateMenu.enabled = false
+        rewindMenu.enabled = false
+    }
 
     Menu {
         title: qsTr("Open")
 
         MenuItem {
+            iconSource: "qrc:/icons/resources/icons/openFile.png"
             text: qsTr("&File")
             onTriggered: {
                 fileDialog.selectExisting = true
@@ -22,6 +40,8 @@ MenuBar {
         title: qsTr("Play")
 
         MenuItem {
+            id: playMenu
+            iconSource: "qrc:/icons/resources/icons/play.png"
             text: qsTr("&Play")
             onTriggered: {
                 mediaplayer.play()
@@ -29,6 +49,8 @@ MenuBar {
         }
 
         MenuItem {
+            id: pauseMenu
+            iconSource: "qrc:/icons/resources/icons/pause.png"
             text: qsTr("&Pause")
             onTriggered: {
                 mediaplayer.pause()
@@ -36,6 +58,8 @@ MenuBar {
         }
 
         MenuItem {
+            id: stopMenu
+            iconSource: "qrc:/icons/resources/icons/stop.png"
             text: qsTr("&Stop")
             onTriggered: {
                 mediaplayer.stop()
@@ -45,6 +69,7 @@ MenuBar {
         MenuSeparator {}
 
         Menu {
+            id: playbackRateMenu
             title: qsTr("&Playback rate")
 
             MenuItem {
@@ -99,6 +124,8 @@ MenuBar {
         MenuSeparator {}
 
         Menu {
+            id: rewindMenu
+            iconSource: "qrc:/icons/resources/icons/rewind.png"
             title: qsTr("Rewind")
 
             MenuItem {
@@ -178,6 +205,7 @@ MenuBar {
 
         MenuItem {
             text: qsTr("&Full screen")
+            iconSource: "qrc:/icons/resources/icons/fullScreen.png"
             onTriggered: {
                 setFullscreen("fullscreen")
             }
@@ -190,11 +218,10 @@ MenuBar {
 
         MenuItem {
             property real soundValue: 0.0
+            iconSource: "qrc:/icons/resources/icons/mutedSound.png"
             text: qsTr("&Mute sound")
-            checkable: true
-            checked: false
-            onCheckedChanged: {
-                if (checked) {
+            onTriggered: {
+                if (mediaplayer.volume > 0.0) {
                     soundValue = mediaplayer.volume
                     mediaplayer.volume = 0.0
                 } else {
@@ -287,6 +314,7 @@ MenuBar {
         MenuSeparator {}
 
         MenuItem {
+            iconSource: "qrc:/icons/resources/icons/subtitles.png"
             text: qsTr("&Load from file")
             onTriggered: {
                 subtitlesDialog.selectExisting = true
