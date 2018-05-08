@@ -206,7 +206,8 @@ else
     echo ""
 fi
 
-
-
-
-
+unset CC
+unset CXX
+unset MAKE
+unset QMAKE
+unset PROJECT
