@@ -38,6 +38,8 @@ chmod +x run_tests.sh
 mkdir testing && cd testing && cp -R /path/to/project/tests/resources resources/ && /path/to/qmake /path/to/project/tests/unit-tests/unit-tests.pro -spec linux-g++ && make && cp /path/to/project/tests/unit-tests/run_tests.sh run_tests.sh && chmod +x run_tests.sh && ./run_tests.sh
 ```
 
+Replace `/path/to/qmake` with your qmake path, `/path/to/project/` with your project path. 
+
 ## IDE
 To running tests from IDE:
 
