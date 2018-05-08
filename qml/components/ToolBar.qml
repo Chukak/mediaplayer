@@ -55,6 +55,7 @@ ToolBar {
                 }
 
                 MouseArea {
+                    id: openMediaArea
                     anchors.fill: openMediaBckg
                     hoverEnabled: true
                     onEntered: {
@@ -83,6 +84,14 @@ ToolBar {
             }
         }
 
+        Shortcut {
+            id: openMediaShortcut
+            sequence: "Ctrl+F"
+            onActivated: {
+                openMediaArea.clicked(Qt.LeftButton)
+            }
+        }
+
         ToolButton {
             id: printScreen
             width: sizeButton
@@ -96,6 +105,7 @@ ToolBar {
                 }
 
                 MouseArea {
+                    id: printScreenArea
                     anchors.fill: printScreenBckg
                     hoverEnabled: true
                     onEntered: {
@@ -121,6 +131,14 @@ ToolBar {
                 mipmap: true
                 smooth: true
                 anchors.margins: 8
+            }
+        }
+
+        Shortcut {
+            id: snapshotShortcut
+            sequence: "S"
+            onActivated: {
+                printScreenArea.clicked(Qt.LeftButton)
             }
         }
 
