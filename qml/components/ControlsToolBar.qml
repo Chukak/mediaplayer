@@ -410,22 +410,6 @@ Rectangle {
                 playButtonArea.clicked(Qt.LeftButton)
             }
         }
-
-        Shortcut {
-            id: rewindShortcutLeft
-            sequence: "Left"
-            onActivated: {
-                cbRewind.currentIndex = 4
-            }
-        }
-
-        Shortcut {
-            id: rewindShortcutRight
-            sequence: "Right"
-            onActivated: {
-                cbRewind.currentIndex = 5
-            }
-        }
     }
 
     Item {
