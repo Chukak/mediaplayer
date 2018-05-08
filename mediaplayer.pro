@@ -29,5 +29,6 @@ HEADERS += \
 
 DISTFILES += \
     .gitignore \
-    build.sh
+    build.sh \
+    mediaplayer.png
 
