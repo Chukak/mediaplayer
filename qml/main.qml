@@ -144,6 +144,12 @@ ApplicationWindow {
             errorMessage.message = message
             errorMessage.visible = true
         }
+        onInvalidMedia: {
+            invalidMediaSignal()
+        }
+        onLoadedMedia: {
+            loadedMediaSignal()
+        }
     }
 
     MediaPlayerHandler {
@@ -198,6 +204,14 @@ ApplicationWindow {
         } else {
             console.log("Unknown option.")
         }
+    }
+
+    function loadedMediaSignal() {
+        menuBar.loadedMedia()
+    }
+
+    function invalidMediaSignal() {
+        menuBar.invalidMedia()
     }
 }
 
