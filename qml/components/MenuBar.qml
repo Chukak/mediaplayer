@@ -29,6 +29,7 @@ MenuBar {
         MenuItem {
             iconSource: "qrc:/icons/resources/icons/openFile.png"
             text: qsTr("&File")
+            shortcut: "Ctrl+F"
             onTriggered: {
                 fileDialog.selectExisting = true
                 fileDialog.open()
@@ -52,6 +53,7 @@ MenuBar {
             id: pauseMenu
             iconSource: "qrc:/icons/resources/icons/pause.png"
             text: qsTr("&Pause")
+            shortcut: "Space"
             onTriggered: {
                 mediaplayer.pause()
             }
@@ -158,6 +160,7 @@ MenuBar {
 
             MenuItem {
                 text: qsTr("-30 seconds")
+                shortcut: "Left"
                 onTriggered: {
                     mediaPlayerHandler.seek(mediaPlayerHandler.position - 30)
                 }
@@ -165,6 +168,7 @@ MenuBar {
 
             MenuItem {
                 text: qsTr("+30 seconds")
+                shortcut: "Right"
                 onTriggered: {
                     mediaPlayerHandler.seek(mediaPlayerHandler.position + 30)
                 }
@@ -205,6 +209,7 @@ MenuBar {
 
         MenuItem {
             text: qsTr("&Full screen")
+            shortcut: "F"
             iconSource: "qrc:/icons/resources/icons/fullScreen.png"
             onTriggered: {
                 setFullscreen("fullscreen")
@@ -220,6 +225,7 @@ MenuBar {
             property real soundValue: 0.0
             iconSource: "qrc:/icons/resources/icons/mutedSound.png"
             text: qsTr("&Mute sound")
+            shortcut: "M"
             onTriggered: {
                 if (mediaplayer.volume > 0.0) {
                     soundValue = mediaplayer.volume
@@ -235,6 +241,7 @@ MenuBar {
 
         MenuItem {
             text: qsTr("Volume +")
+            shortcut: "Up"
             onTriggered: {
                 if (mediaplayer.volume < 1.0) {
                     if (mediaplayer.volume <= 0.95) {
@@ -248,6 +255,7 @@ MenuBar {
 
         MenuItem {
             text: qsTr("Volume -")
+            shortcut: "Down"
             onTriggered: {
                 if (mediaplayer.volume > 0) {
                     if (mediaplayer.volume >= 0.05) {
@@ -324,6 +332,7 @@ MenuBar {
 
         MenuItem {
             text: qsTr("&Display subtitles")
+            shortcut: "V"
             checkable: true
             checked: true
             onCheckedChanged: {
@@ -336,6 +345,7 @@ MenuBar {
         title: qsTr("Window")
 
         MenuItem {
+            enabled: false
             text: qsTr("Settings")
         }
 
