@@ -30,13 +30,13 @@ private:
 MediaPlayerTest::MediaPlayerTest() :
     player_value(new QMediaPlayer())
 {
-    test_file_one.setFile("../resources/test1.avi");
+    test_file_one.setFile("../resources/videos/test1.avi");
     if (!test_file_one.exists()) {
-        test_file_one.setFile("../../resources/test1.avi");
+        test_file_one.setFile("../../resources/videos/test1.avi");
     }
-    test_file_two.setFile("../resources/test2.avi");
+    test_file_two.setFile("../resources/videos/test2.avi");
     if (!test_file_two.exists()) {
-        test_file_two.setFile("../../resources/test2.avi");
+        test_file_two.setFile("../../resources/videos/test2.avi");
     }
 }
 
