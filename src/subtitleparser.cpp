@@ -21,7 +21,7 @@ std::vector<SubtitleItem> SubtitleParser::parseFile(QFile *file)
      * `section number \n start time --> end time \n subtitle text \r\n\r\n`
      */
     QString string_pattern("(\\d{1}).*?\n(\\d{2}):(\\d{2}):(\\d{2}),(\\d{3}) --> "
-                           "(\\d{2}):(\\d{2}):(\\d{2}),(\\d{3}).*?\n([\\s\\S]*?\r\n\r\n)");
+                           "(\\d{2}):(\\d{2}):(\\d{2}),(\\d{3}).*?\n([\\s\\S]*?\n.?(\n|$))");
     QRegularExpression pattern(string_pattern);
     QRegularExpressionMatchIterator iterator = pattern.globalMatch(content);
     while (iterator.hasNext()) {
