@@ -22,6 +22,7 @@ void SubtitlesOutput::addSubtitles(const QUrl &url)
 void SubtitlesOutput::setSubtitles(qint32 key)
 {
     QUrl url("");
+    uint error = 0;
     if (urls.size()) {
         url = urls[key]; // Get url from the list by key.
     }
@@ -33,16 +34,27 @@ void SubtitlesOutput::setSubtitles(qint32 key)
                 current_subtitles = SubtitleParser::parseFile(&file); // Analyze an open file.
                 if (current_subtitles.size() > 0) {
                     _selected = true;
-                    return ;
+                } else {
+                    error++;
                 }
+            } else {
+                error++;
             }
+        } else {
+            error++;
         }
+    } else {
+        empty(); // Clear.
         _selected = false;
-        emit subtitlesNotFoundError();
-        return ;
     }
-    empty(); // Clear.
-    _selected = false;
+
+    if (error > 0) {
+        empty(); // Clear.
+        _selected = false;
+        if (key != 0) {
+            emit subtitlesNotFoundError();
+        }
+    }
 }
 
 /*
@@ -50,7 +62,7 @@ void SubtitlesOutput::setSubtitles(qint32 key)
  */
 QString SubtitlesOutput::getCurrentSubtitles(qint64 time)
 {
-    uint size= current_subtitles.size();
+    uint size = current_subtitles.size();
     for (uint i = last_index; i < size; ++i) {
         if (current_subtitles.at(i).timeStart() <= time
                 && current_subtitles.at(i).timeEnd() >= time) {
@@ -74,7 +86,7 @@ void SubtitlesOutput::binarySearch(qint64 time)
         if (current_subtitles.at(middle).timeStart() <= time
                 && current_subtitles.at(middle).timeEnd() >= time) {
             last_index = middle;
-            break;
+            return ;
         }
         if (current_subtitles.at(middle).timeEnd() < time) {
             start = middle + 1;
@@ -82,6 +94,18 @@ void SubtitlesOutput::binarySearch(qint64 time)
             end = middle;
         }
     }
+    if (current_subtitles.front().timeStart() <= time &&
+            current_subtitles.front().timeEnd() >= time) {
+        last_index = 0;
+        return ;
+    }
+    if (current_subtitles.back().timeStart() <= time &&
+            current_subtitles.back().timeEnd() >= time) {
+        last_index = current_subtitles.size() - 1;
+        return ;
+    }
+    empty();
+    last_index = 0;
 }
 
 /*
