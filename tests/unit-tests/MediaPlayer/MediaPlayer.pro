@@ -1,9 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2018-04-10T18:52:03
-#
-#-------------------------------------------------
-
 QT += testlib multimedia
 
 QT -= gui
@@ -31,5 +25,3 @@ HEADERS += \
         ../../../src/subtitleparser.h \
         ../../../src/subtitlesoutput.h \
         ../../../src/mediaplayer.h
-
-DEFINES += SRCDIR=\\\"$$PWD/\\\"

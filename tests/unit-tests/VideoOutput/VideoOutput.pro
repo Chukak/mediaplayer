@@ -1,9 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2018-04-10T18:48:04
-#
-#-------------------------------------------------
-
 QT += testlib quick multimedia
 
 QT -= gui
@@ -34,4 +28,3 @@ HEADERS += \
         ../../../src/videooutput.h \
         ../../../src/mediaplayer.h
 
-DEFINES += SRCDIR=\\\"$$PWD/\\\"
