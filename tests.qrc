@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>tests/resources/test1.avi</file>
-        <file>tests/resources/test2.avi</file>
-    </qresource>
-</RCC>
