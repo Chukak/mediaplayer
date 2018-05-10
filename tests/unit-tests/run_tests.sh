@@ -1,9 +1,9 @@
 #! /bin/bash
 
 PATH_TESTING=$(pwd)
-TEST_DIRS=(MediaPlayer VideoOutput SubtitlesOutput)
+TEST_DIRS=(MediaPlayer VideoOutput SubtitlesOutput SubtitleParser)
 declare -A TEST_FILES
-TEST_FILES=([MediaPlayer]=tst_mediaplayertest [VideoOutput]=tst_videooutputtest [SubtitlesOutput]=tst_subtitlesoutputtest)
+TEST_FILES=([MediaPlayer]=tst_mediaplayertest [VideoOutput]=tst_videooutputtest [SubtitlesOutput]=tst_subtitlesoutputtest [SubtitleParser]=tst_subtitleparsertest)
 
 for test_dir in ${TEST_DIRS[@]}; do
     if [[ -d $PATH_TESTING/$test_dir ]]; then
