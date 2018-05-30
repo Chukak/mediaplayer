@@ -1,5 +1,5 @@
-## Running tests
-To running the tests, run the following commands:
+## Run tests
+To run the tests, run the following commands:
 
 1. Create a directory, which will be used for testing. For example, in Linux:
 ```bash
