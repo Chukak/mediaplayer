@@ -9,6 +9,8 @@
  * @param data - a pointer toe the start of the frame data duffer.
  * @param width - width of a video frame.
  * @param height - height of a video frame.
+ *
+ * Note: at some resolutions, sometimes the image will be incorrent.
  */
 QImage convertYUV420pToRGB32(const uchar *data, int width, int height)
 {
