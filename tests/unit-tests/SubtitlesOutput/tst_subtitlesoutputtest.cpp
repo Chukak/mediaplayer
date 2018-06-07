@@ -52,6 +52,8 @@ void SubtitlesOutputTest::testSettingSubtitles()
     QCOMPARE(true, spy_added.isValid());
     QSignalSpy spy_error(&subs, &SubtitlesOutput::subtitlesNotFoundError);
     QCOMPARE(true, spy_error.isValid());
+    QSignalSpy spy_text(&subs, &SubtitlesOutput::textChanged);
+    QCOMPARE(true, spy_text.isValid());
 
     QUrl subtitle_url = QUrl::fromLocalFile(test_file.absoluteFilePath());
     subs.addSubtitles(subtitle_url);
@@ -59,6 +61,7 @@ void SubtitlesOutputTest::testSettingSubtitles()
     QCOMPARE(subs.listSubtitles().count(), 1);
     QCOMPARE(1, spy_added.count());
     subs.setSubtitles(1);
+    QCOMPARE(0, spy_text.count());
     QCOMPARE(0, spy_error.count());
     QCOMPARE(true, subs.selected());
 
@@ -67,8 +70,6 @@ void SubtitlesOutputTest::testSettingSubtitles()
     QCOMPARE(2, spy.count());
     QCOMPARE(subs.listSubtitles().at(1), QString("url"));
     QCOMPARE(2, spy_added.count());
-    QSignalSpy spy_text(&subs, &SubtitlesOutput::textChanged);
-    QCOMPARE(true, spy_text.isValid());
     subs.setSubtitles(2);
     QCOMPARE(false, subs.selected());
     QCOMPARE(1, spy_error.count());
@@ -80,6 +81,7 @@ void SubtitlesOutputTest::testSettingSubtitles()
     QCOMPARE(subs.listSubtitles().count(), 3);
     QCOMPARE(3, spy_added.count());
     subs.setSubtitles(3);
+    QCOMPARE(1, spy_text.count());
     QCOMPARE(1, spy_error.count());
     QCOMPARE(true, subs.selected());
 
