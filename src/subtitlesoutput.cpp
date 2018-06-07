@@ -41,6 +41,7 @@ void SubtitlesOutput::setSubtitles(qint32 key)
     } else {
         empty(); // Clear.
         _selected = false;
+        return ;
     }
 
     if (error > 0) {
