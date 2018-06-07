@@ -195,14 +195,6 @@ public slots:
      */
     void seek(qint64 position);
 
-private slots:
-
-    /*
-     * Sets the metadata from the video.
-     * Called when the video is available.
-     */
-    void setMetaData();
-
 private:
 
     /*

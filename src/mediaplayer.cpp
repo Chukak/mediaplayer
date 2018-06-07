@@ -27,19 +27,13 @@ void MediaPlayer::setPlayer(const QObject *player)
     QVariant variant = player->property("mediaObject"); // Get a media object.
     if (variant.canConvert<QMediaPlayer *>()) {
         m_player = variant.value<QMediaPlayer *>(); // Convert QObject to QMediaObject.
-        connect(m_player, &QMediaPlayer::metaDataAvailableChanged, this, &MediaPlayer::setMetaData);
+        connect(m_player, &QMediaPlayer::metaDataAvailableChanged, this, [this]() {
+            setMediaTitle(m_player->metaData(QMediaMetaData::Title).toString());
+        });//&MediaPlayer::setMetaData);
         connect(m_player, &QMediaPlayer::positionChanged, this, &MediaPlayer::updatePosition);
         connect(m_player, &QMediaPlayer::durationChanged, this, &MediaPlayer::updateDuration);
         emit playerChanged();
     }
-}
-
-/*
- * Save the metadata from the video.
- */
-void MediaPlayer::setMetaData()
-{
-    setMediaTitle(m_player->metaData(QMediaMetaData::Title).toString());
 }
 
 /*
