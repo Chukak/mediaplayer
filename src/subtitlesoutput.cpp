@@ -22,7 +22,7 @@ void SubtitlesOutput::addSubtitles(const QUrl &url)
 void SubtitlesOutput::setSubtitles(qint32 key)
 {
     QUrl url("");
-    uint error = 0;
+    uint error = 1;
     if (urls.size()) {
         url = urls[key]; // Get url from the list by key.
     }
@@ -34,14 +34,9 @@ void SubtitlesOutput::setSubtitles(qint32 key)
                 current_subtitles = SubtitleParser::parseFile(&file); // Analyze an open file.
                 if (current_subtitles.size() > 0) {
                     _selected = true;
-                } else {
-                    error++;
+                    error = 0;
                 }
-            } else {
-                error++;
             }
-        } else {
-            error++;
         }
     } else {
         empty(); // Clear.
