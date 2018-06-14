@@ -15,7 +15,7 @@ Or you can run `build.sh` with specials paths. For example:
 chmod +x build.sh
 ./build.sh -qmake=/path/to/qmake -g++=/path/to/g++/version
 ```
-To get more imformation:
+To get more information:
 ```bash
 ./build.sh --help
 ```
