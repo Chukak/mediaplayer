@@ -2,7 +2,7 @@
 #define SUBTITLEPARSER_H
 
 #include <QObject>
-#include <vector>
+#include <QVector>
 #include <QRegularExpression>
 #include "subtitleitem.h"
 
@@ -19,7 +19,7 @@ public:
      * Analysis static function. Returns a list of subtitle objects.
      * @param file - file in `.srt` format.
      */
-    static std::vector<SubtitleItem> parseFile(QFile *file);
+    static QVector<SubtitleItem> parseFile(QFile *file);
 
 private:
     /*

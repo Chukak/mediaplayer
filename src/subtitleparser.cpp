@@ -9,9 +9,9 @@ SubtitleParser::SubtitleParser()
 /*
  * Analysis function. Returns a list of subtitle objects.
  */
-std::vector<SubtitleItem> SubtitleParser::parseFile(QFile *file)
+QVector<SubtitleItem> SubtitleParser::parseFile(QFile *file)
 {
-    std::vector<SubtitleItem> subtitles;
+    QVector<SubtitleItem> subtitles;
     QTextStream stream(file);
     stream.setCodec("UTF-8"); // Set UTF-8.
     QString content = stream.readAll();
