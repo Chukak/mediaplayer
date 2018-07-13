@@ -31,8 +31,8 @@ void SubtitleParserTest::testParser()
     QCOMPARE(file.exists(), true);
     file.open(QIODevice::ReadOnly);
     QCOMPARE(file.isReadable(), true);
-    std::vector<SubtitleItem> list = SubtitleParser::parseFile(&file);
-    unsigned long size = 3;
+    QVector<SubtitleItem> list = SubtitleParser::parseFile(&file);
+    int size = 3;
     QCOMPARE(list.size(), size);
     QCOMPARE(list.at(0).timeStart(), 1123);
     QCOMPARE(list.at(0).timeEnd(), 2456);
