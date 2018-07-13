@@ -19,22 +19,27 @@ ApplicationWindow {
 
     }
 
+    // Set error message.
     Components.ErrorMessage {
         id: errorMessage
     }
 
+    // Set the dialog to select media files.
     Components.FileDialog {
         id: fileDialog
     }
 
+    // Set the dialog to select subtitles.
     Components.SubtitlesFileDialog {
         id: subtitlesDialog
     }
 
+    // Set menubar.
     menuBar: Components.MenuBar {
         id: menuBar
     }
 
+    // Set toolbar.
     toolBar: Components.ToolBar {
         id: toolBar
     }
@@ -48,6 +53,7 @@ ApplicationWindow {
         width: parent.width
     }
 
+    // Fullscreen.
     Window {
         id: fullScreenWindow
         y: 0
@@ -98,6 +104,7 @@ ApplicationWindow {
         }
     }
 
+    // Mediaplayer.
     Components.MediaPlayer {
         id: mediaplayer
     }
@@ -118,6 +125,7 @@ ApplicationWindow {
         }
     }
 
+    // Control buttons
     Item {
         id: playerButtonsParent
         anchors.left: parent.left
@@ -179,6 +187,7 @@ ApplicationWindow {
         status: videoOutputHandler.status
     }
 
+    // This function sets the fullscreen mode.
     function setFullscreen(fullscreen) {
         if (!fullscreen) {
             videoOutput.parent = mediaArea
@@ -191,6 +200,7 @@ ApplicationWindow {
         }
     }
 
+    // This function hides control buttons.
     function setAnchorsPlayerButtons(name) {
         if (name === "fullscreen") {
             playerButtons.parent = fullScreenMediaArea
