@@ -1,14 +1,19 @@
 #include "subtitlesoutput.h"
 
 SubtitlesOutput::SubtitlesOutput(QObject *parent) :
-    QObject(parent)
+    //QObject(parent),
+    urls({QUrl("")}),
+    _selected(false),
+    current_text(""),
+    last_index(0)
 {
+    setParent(parent);
 }
 
 /*
  * Adds a new file from url.
  */
-void SubtitlesOutput::addSubtitles(const QUrl &url)
+void SubtitlesOutput::addSubtitles(const QUrl& url)
 {
     urls.push_back(url); // The list of urls.
     names.push_back(url.fileName()); // The list of file names.
@@ -123,7 +128,7 @@ void SubtitlesOutput::updateSubtitlesText(qint64 time, bool seekable)
 /*
  * Display subtitles.
  */
-void SubtitlesOutput::setSelected(bool display)
+void SubtitlesOutput::setSelected(bool display) noexcept
 {
     _selected = display;
 }
@@ -131,7 +136,7 @@ void SubtitlesOutput::setSelected(bool display)
 /*
  * Clears the current text of the subtitles.
  */
-void SubtitlesOutput::empty()
+void SubtitlesOutput::empty() noexcept
 {
     current_text.clear();
     emit textChanged();

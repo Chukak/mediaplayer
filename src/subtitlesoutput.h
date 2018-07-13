@@ -42,23 +42,23 @@ public:
      * Emits `listSubtitlesChanged` signal.
      * @param url - path to the file.
      */
-    Q_INVOKABLE void addSubtitles(const QUrl &url);
+    Q_INVOKABLE void addSubtitles(const QUrl& url);
 
     /*
      * Returns the current text of the subtitles.
      */
-    QString text() const { return current_text; }
+    QString text() const noexcept { return current_text; }
 
     /*
      * Clears the current text of the subtitles.
      * Emits `textChanged` signal.
      */
-    void empty();
+    void empty() noexcept;
 
     /*
      * Returns the list of subtitle names.
      */
-    QStringList listSubtitles() const { return names; }
+    QStringList listSubtitles() const noexcept { return names; }
 
     /*
      * Sets the current subtitles from the list of an available subtitles by key.
@@ -89,7 +89,7 @@ public:
     /*
      * Display subtitles or not.
      */
-    void setSelected(bool display);
+    void setSelected(bool display) noexcept;
 
 public slots:
 
@@ -136,11 +136,11 @@ signals:
 private:
 
     QStringList names;
-    QList<QUrl> urls = {QUrl("")};
-    bool _selected = false;
-    std::vector<SubtitleItem> current_subtitles;
-    QString current_text = "";
-    qint32 last_index = 0;
+    QList<QUrl> urls;
+    bool _selected;
+    QVector<SubtitleItem> current_subtitles;
+    QString current_text;
+    qint32 last_index;
 
 };
 
