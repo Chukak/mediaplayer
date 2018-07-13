@@ -652,11 +652,13 @@ Rectangle {
                 mediaplayer.volume = value
             }
             onValueChanged: {
-                if (value == 0 && soundButton.soundValue > 0.0) {
+                if (value === 0 && soundButton.soundValue > 0.0) {
                     soundButton.mutedSound()
+                    mediaplayer.volume = 0.0
                 } else {
                     soundButton.unmutedSound()
                     soundButton.soundValue = value
+                    mediaplayer.volume = value
                 }
             }
         }
