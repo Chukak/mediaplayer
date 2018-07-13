@@ -3,20 +3,29 @@
 #include <QTime>
 
 /*
+ * Constructor.
+ */
+MediaPlayer::MediaPlayer(QObject *parent) :
+    m_player(nullptr),
+    media_url(""),
+    media_title(""),
+    media_duration(0),
+    m_current_position(0),
+    duration_info("00:00:00"),
+    total_duration("00:00:00"),
+    subtitles_output(nullptr)
+{
+    setParent(parent);
+}
+
+/*
  * Returns the information about the duration of the video in the format "hh:mm:ss" or "mm:ss",
  * "hh" - hours, "mm" - minutes, "ss" - seconds.
  */
-QString getFormatDuration(const qint64 duration)
+QString getFormatDuration(qint64 duration) noexcept
 {
     QString format = duration > 3600 ? "hh:mm:ss" : "mm:ss";
     return format;
-}
-
-
-
-MediaPlayer::MediaPlayer(QObject *parent)
-{
-    setParent(parent);
 }
 
 /*
@@ -39,7 +48,7 @@ void MediaPlayer::setPlayer(const QObject *player)
 /*
  * Open a media content from the url.
  */
-void MediaPlayer::setMediaUrl(const QUrl &url)
+void MediaPlayer::setMediaUrl(const QUrl& url)
 {
     if (media_url != url) {
         QMediaContent content(url); // Set content.
@@ -54,7 +63,7 @@ void MediaPlayer::setMediaUrl(const QUrl &url)
 /*
  * Sets the title of the video.
  */
-void MediaPlayer::setMediaTitle(const QString &title)
+void MediaPlayer::setMediaTitle(const QString& title)
 {
     QString new_title;
     if (!title.isEmpty()) {
@@ -150,7 +159,7 @@ void MediaPlayer::setSubtitlesOutput(SubtitlesOutput *subs_out)
 {
     subtitles_output = subs_out;
     subtitles_output->setParent(this);
-    connect(m_player, &QMediaPlayer::positionChanged, this, [=](qint64 position) {
+    connect(m_player, &QMediaPlayer::positionChanged, this, [this](qint64 position) {
         if (subtitles_output->selected()) {
             subtitles_output->updateSubtitlesText(position, false);
         }

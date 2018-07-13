@@ -58,14 +58,14 @@ class MediaPlayer : public QObject
 public:
 
     /*
-     * A construstor.
+     * Construstor.
      */
-    explicit MediaPlayer(QObject *parent = 0);
+    explicit MediaPlayer(QObject *parent = nullptr);
 
     /*
      * Returns `QMediaObject` as the `QObject` type in qml.
      */
-    QObject *player() const { return m_player; }
+    QObject *player() const noexcept { return m_player; }
 
     /*
      * Gets the `QMediaObject` object as the `QObject` type from qml.
@@ -77,7 +77,7 @@ public:
     /*
      * Returns the media url in qml.
      */
-    QUrl mediaUrl() const { return media_url; }
+    QUrl mediaUrl() const noexcept { return media_url; }
 
     /*
      * Gets the url from qml.
@@ -89,7 +89,7 @@ public:
     /*
      * Returns the titles of the media.
      */
-    QString mediaTitle() const { return media_title; }
+    QString mediaTitle() const noexcept { return media_title; }
 
     /*
      * Gets the media title from qml.
@@ -101,27 +101,27 @@ public:
     /*
      * Returns the total duration of the video in seconds.
      */
-    qint64 duration() const { return media_duration / 1000; }
+    qint64 duration() const noexcept { return media_duration / 1000; }
 
     /*
      * Returns the current position of the video in seconds.
      */
-    qint64 position() const { return m_current_position / 1000; }
+    qint64 position() const noexcept { return m_current_position / 1000; }
 
     /*
      * Returns the information about the current position of the video in milliseconds.
      */
-    QString durationInfo() const{ return duration_info; }
+    QString durationInfo() const noexcept { return duration_info; }
 
     /*
      * Returns the information about the total duration of the video in milliseconds.
      */
-    QString totalDuration() const { return total_duration; }
+    QString totalDuration() const noexcept { return total_duration; }
 
     /*
      * Returns the `SubtitlesOutput` object.
      */
-    SubtitlesOutput *subtitlesOutput() const { return subtitles_output; }
+    SubtitlesOutput *subtitlesOutput() const noexcept { return subtitles_output; }
 
     /*
      * Gets the `Subtitlesoutput` object.
@@ -224,14 +224,14 @@ private:
      */
     void updateDuration(qint64 duration);
 
-    QMediaPlayer *m_player = nullptr;
-    QUrl media_url = QString("");
-    QString media_title = "";
-    qint64  media_duration = 0;
-    qint64 m_current_position = 0;
-    QString duration_info = "00:00:00";
-    QString total_duration = "00:00:00";
-    SubtitlesOutput *subtitles_output = nullptr;
+    QMediaPlayer *m_player;
+    QUrl media_url;
+    QString media_title;
+    qint64  media_duration;
+    qint64 m_current_position;
+    QString duration_info;
+    QString total_duration;
+    SubtitlesOutput *subtitles_output;
 };
 
 #endif // MEDIAPLAYER_H
