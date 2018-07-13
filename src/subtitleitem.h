@@ -11,13 +11,20 @@
 class  SubtitleItem {
 public:
     /*
+     * Default constructor.
+     */
+    SubtitleItem()
+    {
+    }
+
+    /*
      * A constructor.
      * Gets four parameters.
      * @param number - section number
      * @param start, end - start time and end time, when subtitles must be displayed
      * @parant string - subtitles text
      */
-    SubtitleItem(qint32 number, qint64 start, qint64 end, QString string) :
+    explicit SubtitleItem(qint32 number, qint64 start, qint64 end, const QString& string) :
         number_section(number),
         time_start(start),
         time_end(end),
@@ -28,22 +35,22 @@ public:
     /*
      * Constant function, returns the section number.
      */
-    qint32 section() const { return number_section; }
+    qint32 section() const noexcept { return number_section; }
 
     /*
      * Constant function, returns the start time.
      */
-    qint64 timeStart() const { return time_start; }
+    qint64 timeStart() const noexcept { return time_start; }
 
     /*
      * Constant function, returns the end time.
      */
-    qint64 timeEnd() const { return time_end; }
+    qint64 timeEnd() const noexcept { return time_end; }
 
     /*
      * Constant function, returns the subtitles text.
      */
-    QString text() const { return _text; }
+    QString text() const noexcept { return _text; }
 
 private:
     qint32 number_section;
