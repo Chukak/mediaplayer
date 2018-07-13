@@ -35,24 +35,24 @@ public:
     /*
      * A constructor.
      */
-    explicit VideoOutput(QObject *parent = 0);
+    explicit VideoOutput(QObject *parent = nullptr);
 
     /*
      * Returns the `VideoOutput` object in qml.
      */
-    QQuickItem *targetOutput() const { return m_output; }
+    QQuickItem *targetOutput() const noexcept { return m_output; }
 
     /*
      * Gets the `VideoOutput` object from qml and save this object.
      * Emits `targetOutputChanged` signal.
      * @param output - a pointer to the object from qml.
      */
-    void setTargetOutput(QQuickItem *output);
+    void setTargetOutput(QQuickItem *output) noexcept;
 
     /*
      * Returns the `MediaPlayer` object in qml.
      */
-    MediaPlayer *mediaPlayer() const { return m_player; }
+    MediaPlayer *mediaPlayer() const noexcept { return m_player; }
 
     /*
      * Gets the `MediaPlayer` object from qml and save this object.
@@ -64,7 +64,7 @@ public:
     /*
      * Returns the current status of the media.
      */
-    QString status() const { return m_status; }
+    QString status() const noexcept { return m_status; }
 
     /*
      * Creates a screenshot from the video frame.
@@ -107,30 +107,23 @@ signals:
 public slots:
 
     /*
-     * Save the current video frame.
-     * Called when a video frame is updated.
-     * @param frame - a video frame
-     */
-    void updateCurrentFrame(const QVideoFrame& frame);
-
-    /*
      * Changes the current state of the media player.
      * @param state - a state of the media player.
      */
-    void updateState(const QMediaPlayer::State& state);
+    void updateState(const QMediaPlayer::State& state) noexcept;
 
     /*
      * Changes the current status of the media player.
      * @param state - a status of the media player.
      */
-    void updateStatus(const QMediaPlayer::MediaStatus& status);
+    void updateStatus(const QMediaPlayer::MediaStatus& status) noexcept;
 
 private:
-    QQuickItem *m_output = nullptr;
-    MediaPlayer *m_player = nullptr;
-    QAbstractVideoSurface *surface = nullptr;
-    QString m_status = "No media";
-    QVideoProbe *probe = nullptr;
+    QQuickItem *m_output;
+    MediaPlayer *m_player;
+    QAbstractVideoSurface *surface;
+    QString m_status;
+    QVideoProbe *probe;
     QVideoFrame current_frame;
 };
 

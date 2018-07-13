@@ -46,23 +46,27 @@ QString getUniqueName(const QString& path)
 {
     QTemporaryFile file(path +  QDir::separator() + "screenshot_XXXXXX");
     if (!file.open()) {
-        return QString("");
+        return "";
     }
     file.close();
-    return QString(file.fileName());
+    return file.fileName();
 }
 
 
 VideoOutput::VideoOutput(QObject *parent) :
-    QObject(parent)
+    m_output(nullptr),
+    m_player(nullptr),
+    surface(nullptr),
+    m_status("No media"),
+    probe(nullptr)
 {
-
+    setParent(parent);
 }
 
 /*
  * Save the `VideoOutput` object from qml.
  */
-void VideoOutput::setTargetOutput(QQuickItem *output)
+void VideoOutput::setTargetOutput(QQuickItem *output) noexcept
 {
     m_output = output;
     emit targetOutputChanged();
@@ -82,23 +86,17 @@ void VideoOutput::setMediaPlayer(MediaPlayer *player)
     // Object for update the current video frame.
     probe = new QVideoProbe();
     probe->setSource(p_player);
-    connect(probe, &QVideoProbe::videoFrameProbed, this, &VideoOutput::updateCurrentFrame);
+    connect(probe, &QVideoProbe::videoFrameProbed, this, [this](const QVideoFrame &frame){
+        current_frame = frame;
+    });
     emit mediaPlayerChanged();
     emit invalidMedia();
 }
 
 /*
- * Save the current video frame
- */
-void VideoOutput::updateCurrentFrame(const QVideoFrame &frame)
-{
-    current_frame = frame;
-}
-
-/*
  * Changes the state of the media.
  */
-void VideoOutput::updateState(const QMediaPlayer::State& state)
+void VideoOutput::updateState(const QMediaPlayer::State& state) noexcept
 {
     switch (state) {
     case QMediaPlayer::PlayingState:
@@ -117,7 +115,7 @@ void VideoOutput::updateState(const QMediaPlayer::State& state)
 /*
  * Changes the status of the media.
  */
-void VideoOutput::updateStatus(const QMediaPlayer::MediaStatus& status)
+void VideoOutput::updateStatus(const QMediaPlayer::MediaStatus& status) noexcept
 {
     switch (status) {
     case QMediaPlayer::NoMedia:
