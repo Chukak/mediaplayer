@@ -1,7 +1,6 @@
 #include "subtitlesoutput.h"
 
 SubtitlesOutput::SubtitlesOutput(QObject *parent) :
-    //QObject(parent),
     urls({QUrl("")}),
     _selected(false),
     current_text(""),
