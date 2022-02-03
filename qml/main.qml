@@ -25,7 +25,7 @@ ApplicationWindow {
     }
 
     // Set the dialog to select media files.
-    Components.FileDialog {
+    Components.FileDialogVideo {
         id: fileDialog
     }
 
@@ -35,7 +35,7 @@ ApplicationWindow {
     }
 
     // Set menubar.
-    menuBar: Components.MenuBar {
+    menuBar: Components.MenuBarWidget {
         id: menuBar
     }
 
@@ -105,7 +105,7 @@ ApplicationWindow {
     }
 
     // Mediaplayer.
-    Components.MediaPlayer {
+    Components.MediaPlayerWidget {
         id: mediaplayer
     }
 

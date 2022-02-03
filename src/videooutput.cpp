@@ -57,7 +57,7 @@ VideoOutput::VideoOutput(QObject *parent) :
     m_output(nullptr),
     m_player(nullptr),
     surface(nullptr),
-    m_status("No media"),
+    m_status(tr("No media")),
     probe(nullptr)
 {
     setParent(parent);
@@ -100,13 +100,13 @@ void VideoOutput::updateState(const QMediaPlayer::State& state) noexcept
 {
     switch (state) {
     case QMediaPlayer::PlayingState:
-        m_status = "Playing";
+        m_status = tr("Playing");
         break;
     case QMediaPlayer::PausedState:
-        m_status = "Paused";
+        m_status = tr("Paused");
         break;
     case QMediaPlayer::StoppedState:
-        m_status = "Stopped";
+        m_status = tr("Stopped");
         break;
     }
     emit statusChanged();
@@ -119,21 +119,21 @@ void VideoOutput::updateStatus(const QMediaPlayer::MediaStatus& status) noexcept
 {
     switch (status) {
     case QMediaPlayer::NoMedia:
-        m_status = "No media";
+        m_status = tr("No media");
         emit invalidMedia();
         break;
     case QMediaPlayer::LoadingMedia:
-        m_status = "Loading media";
+        m_status = tr("Loading media");
         break;
     case QMediaPlayer::LoadedMedia:
-        m_status = "Media loaded";
+        m_status = tr("Media loaded");
         emit loadedMedia();
         break;
     case QMediaPlayer::BufferingMedia:
-        m_status = "Buffering";
+        m_status = tr("Buffering");
         break;
     case QMediaPlayer::InvalidMedia:
-        m_status = "Invalid media";
+        m_status = tr("Invalid media");
         emit invalidMedia();
         break;
     default:
@@ -151,7 +151,7 @@ void VideoOutput::snapshot()
     QVideoFrame frame(current_frame);
     // Map the content of a video frame to system memory.
     if (!frame.map(QAbstractVideoBuffer::ReadOnly)) {
-        emit snapshotError("Impossible load the content of video frame into the system memory.");
+        emit snapshotError(tr("Impossible load the content of video frame into the system memory."));
         return ;
     }
     // Convert the video frame to the image.
@@ -159,7 +159,7 @@ void VideoOutput::snapshot()
     // Release memory.
     frame.unmap();
     if (image.isNull()) {
-        emit snapshotError("The image is empty.");
+        emit snapshotError(tr("The image is empty."));
         return ;
     }
     QPixmap screenshot = QPixmap::fromImage(image);
@@ -174,11 +174,11 @@ void VideoOutput::snapshot()
     QString filename = getUniqueName(directory.path());
     QFile file(filename + ".png");
     if (!file.open(QIODevice::WriteOnly)) {
-        emit snapshotError("Can not create image. Maybe you don`t have enough rights.");
+        emit snapshotError(tr("Can not create image. Maybe you don`t have enough rights."));
         return ;
     }
     if (!screenshot.save(&file, "png", 100)) {
-        emit snapshotError("The image can not be saved.");
+        emit snapshotError(tr("The image can not be saved."));
         return ;
     }
 }

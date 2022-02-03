@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick widgets multimedia
+QT += qml quick widgets multimedia core
 CONFIG += c++14
 QMAKE_CXXFLAGS += -Werror -Wall
 
@@ -31,3 +31,7 @@ DISTFILES += \
     build.sh \
     mediaplayer.png
 
+TRANSLATIONS += \
+    mediaplayer_ru_RU.ts
+
+DEFINES += TRANSLATIONS_DIR=\\\"$$PWD\\\"

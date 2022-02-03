@@ -84,7 +84,7 @@ MenuBar {
             MenuSeparator {}
 
             MenuItem {
-                text: qsTr("Half")
+                text: qsTr("0.5")
                 onTriggered: {
                     mediaPlayerHandler.setPlaybackRate(0.5)
                 }
@@ -93,7 +93,7 @@ MenuBar {
             MenuSeparator {}
 
             MenuItem {
-                text: qsTr("Double")
+                text: qsTr("2.0x")
                 onTriggered: {
                     mediaPlayerHandler.setPlaybackRate(2.0)
                 }
